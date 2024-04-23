@@ -6,7 +6,7 @@
 #    By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 09:26:08 by pborrull          #+#    #+#              #
-#    Updated: 2024/03/20 09:43:33 by pborrull         ###   ########.fr        #
+#    Updated: 2024/04/23 14:46:51 by pborrull         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ ORIGINAL = \033[0m
 
 CFLAGS := -Wall -Werror -Wextra -MMD  -g
 
-SOURCE := main.c signals.c get_tok.c utils.c blt_echo.c blt_env.c blt_pwd.c blt_exit.c expansor.c
+SOURCE := main.c signals.c get_tok.c utils.c blt_echo.c blt_env.c blt_pwd.c blt_exit.c blt_unset.c blt_export.c expansor.c
 
 LIBFT := libft/
 

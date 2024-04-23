@@ -1,37 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   blt_env.c                                          :+:      :+:    :+:   */
+/*   blt_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/14 12:37:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/23 14:40:20 by pborrull         ###   ########.fr       */
+/*   Created: 2024/04/17 15:05:35 by pborrull          #+#    #+#             */
+/*   Updated: 2024/04/18 14:50:54 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env(t_token	**env)
+void	ft_unset(t_token	**export, char *wrd)
 {
-	int		i;
 	t_token	*temp;
+	t_token	*prev;
+	int		i;
 
-	temp = *env;
 	i = 0;
-	while (temp->next)
+	temp = *export;
+	while (temp)
 	{
-		printf("%s\n", temp->wrd);
+		while (temp->wrd[i] && wrd[i] && temp->wrd[i] == wrd[i])
+			i++;
+		if (!wrd[i] && (temp->wrd[i] == '=' || !temp->wrd[i]))
+		{
+			prev->next = temp->next;
+			return ;
+		}
+		prev = temp;
 		temp = temp->next;
+		i = 0;
 	}
-	return (0);
 }
-/*int	ft_env(char	**env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-		printf("%s\n", env[i++]);
-	return (0);
-}*/
