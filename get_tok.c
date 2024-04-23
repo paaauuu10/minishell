@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/03/20 12:14:32 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/04/23 15:21:31 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_token	*new_token(char *s)
 	newtok = (t_token *)malloc(sizeof(t_token));
 	if (!newtok)
 		perror("newtok");
-	newtok->wrd = s;
+	newtok->wrd = ft_strdup(s);
 	newtok->tok = type_tok(s);
 	newtok->next = NULL;
 	return (newtok);

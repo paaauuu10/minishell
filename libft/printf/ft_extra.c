@@ -6,12 +6,12 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 11:47:14 by pborrull          #+#    #+#             */
-/*   Updated: 2023/11/30 11:35:56 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/04/23 15:16:44 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
+/*
 char	*ft_strdup(const char *s1)
 {
 	char	*s2;
@@ -30,7 +30,7 @@ char	*ft_strdup(const char *s1)
 	}
 	s2[i] = '\0';
 	return (&s2[0]);
-}
+}*/
 
 int	ft_while(const char *s, int i, int t, va_list list)
 {

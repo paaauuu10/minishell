@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:23:42 by pborrull          #+#    #+#             */
-/*   Updated: 2024/03/20 09:38:27 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/04/23 15:09:49 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_strcmp(char	*s1, char *s2)
 		return (0);
 	return (1);
 }
-
+/*
 char	*ft_str_matrix(char **s1, char *s2)
 {
 	int	i;
@@ -42,7 +42,26 @@ char	*ft_str_matrix(char **s1, char *s2)
 		i = 0;
 	}
 	return (NULL);
+}*/
+char	*ft_str_list(t_token *temp, char *s2)
+{
+	int		i;
+
+	i = 0;
+	while (temp && temp->next)
+	{
+		while (s2[i + 1] && (temp->wrd[i] == s2[i + 1]))
+		{
+			i++;
+			if (!s2[i + 1] && (temp->wrd[i] == '='))
+				return (&temp->wrd[i]);
+		}
+		i = 0;
+		temp = temp->next;
+	}
+	return (NULL);
 }
+
 int	ft_quote(const char	*s)
 {
 	int	i;
