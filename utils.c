@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:23:42 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/23 15:09:49 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:46:00 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int	ft_quote(const char	*s)
 	{
 		if (s[i] == '\'')
 		{
-			while (s[i + 1] && s[++i] != '\'')
+			i += 1;
+			while (s[i] && s[i] != '\'')
 				i++;
 			if (!s[i])
 			{
@@ -81,7 +82,8 @@ int	ft_quote(const char	*s)
 		}
 		if (s[i] == '"')
 		{
-			while (s[i + 1] && s[++i] != '"')
+			i += 1;
+			while (s[i] && s[i] != '"')
 				i++;
 			if (!s[i])
 			{
@@ -93,4 +95,3 @@ int	ft_quote(const char	*s)
 	}
 	return (0);
 }
-
