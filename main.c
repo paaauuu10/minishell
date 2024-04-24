@@ -17,7 +17,7 @@ void	builtins(t_token **tokens, char **envp)
 	t_token	**temp;
 
 	temp = tokens;
-	while((*temp))
+	while ((*temp))
 	{
 		if (ft_strcmp((*temp)->wrd, "env"))
 			ft_env(envp);
@@ -32,7 +32,7 @@ void	builtins(t_token **tokens, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	const char	*s;
-	t_token	**tokens;
+	t_token		**tokens;
 	
 	tokens = (t_token **)malloc(sizeof(t_token *));
 	argv = NULL;
