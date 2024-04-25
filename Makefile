@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: pbotargu <pbotargu@student.42barcel>       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/04/25 13:50:18 by pbotargu          #+#    #+#              #
+#    Updated: 2024/04/25 13:56:13 by pbotargu         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = minishell
 
 GREEN = \033[1;32m
@@ -12,6 +24,7 @@ CFLAGS = -Wall -Werror -Wextra #-g -fsanitize=address
 
 INCS = -I./include/ -I./include/Libft -I$(HOME)/.brew/opt/readline/include
 LIBFTA = -L./include/Libft -lft
+LIBFT = include/libft	
 READLINE = -L$(HOME)/.brew/opt/readline/lib -lreadline
 SRCDIR = src/
 OBJDIR = obj/
@@ -21,9 +34,9 @@ SRC_L = blt_echo.c blt_env.c blt_exit.c blt_export.c blt_pwd.c blt_unset.c expan
 SRC = $(addprefix $(SRCDIR), $(SRC_L))
 OBJECTS = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 
-#OLD_MAKE = /usr/bin/make3.81 #make
-
-all: $(NAME)
+all:
+	@make -C $(LIBFT) > /dev/null
+	@make $(NAME)
 
 $(OBJDIR)%.o: %.c
 			
@@ -38,10 +51,12 @@ $(NAME): $(OBJECTS) Makefile include/minishell.h
 
 fclean: clean
 		@rm -rf $(NAME)
+		@make fclean -C $(LIBFT) > /dev/null
 		@echo  "$(RED)[OK]       $(MAGENTA)All Very Clean$(ORIGINAL)"
 
 clean:
 		@rm -rf $(OBJDIR)
+		@make clean -C $(LIBFT) > /dev/null
 		@echo "$(RED)[OK]       $(BLUE)All Clean$(ORIGINAL)"
 
 re: fclean all
