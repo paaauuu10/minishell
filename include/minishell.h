@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/23 15:10:19 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:08:42 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ int		ft_pwd(void);
 void	ft_exit(t_token **tokens);
 t_token **ft_export(t_token **tokens, t_token **export, t_token **env);
 void	ft_unset(t_token	**export, char *wrd);
+char	*ft_strcat(char *temp_wrd, char *exp, int i);
 
 #endif

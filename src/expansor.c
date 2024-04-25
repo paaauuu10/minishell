@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:50:06 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/23 15:40:33 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:17:07 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ char	*ft_expansor(t_token **env, t_token **tokens)
 		{
 			while (temp2)
 			{
-				r = ft_str_list(temp2, temp->wrd);
+				r = ft_str_list(temp2, &temp->wrd[i]);
 				if (r)
 				{
 					if ((*r) != '_' && !ft_isalnum(*r++))
 					{
-						temp->wrd = ft_strdup(r);
-						//temp2->wrd = r;
-					//	printf("Es:%s\n", temp2->wrd);
+						i += ft_strlen(r);
+						//temp->wrd = ft_strdup(r);
+						temp->wrd = ft_strcat(temp->wrd, r, i);
 						return (temp->wrd);
 					}
 				}

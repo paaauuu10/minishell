@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:23:42 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/24 14:46:00 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:43:11 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ char	*ft_str_list(t_token *temp, char *s2)
 	i = 0;
 	while (temp && temp->next)
 	{
-		while (s2[i + 1] && (temp->wrd[i] == s2[i + 1]))
+		while (s2[i] && (temp->wrd[i] == s2[i]))
 		{
 			i++;
-			if (!s2[i + 1] && (temp->wrd[i] == '='))
-				return (&temp->wrd[i]);
+			if (!s2[i] && (temp->wrd[i] == '='))
+				return (&temp->wrd[i + 1]);
 		}
 		i = 0;
 		temp = temp->next;
@@ -94,4 +94,30 @@ int	ft_quote(const char	*s)
 		i++;
 	}
 	return (0);
+}
+
+char	*ft_strcat(char *temp_wrd, char *exp, int i)
+{
+	char	*s;
+	int		j;
+	int		k;
+
+	k = 0;
+	j = 0;
+	s = (char *)malloc((i + 1) * sizeof(char));
+	if (!s)
+		exit(1);
+	while (temp_wrd[j] && temp_wrd[j] != '$')
+	{
+		s[j] = temp_wrd[j];
+		j++;
+	}
+	if (temp_wrd[j])
+	{
+		while (exp[k])
+			s[j++] = exp[k++];
+	}
+	s[j] = '\0';
+	free(temp_wrd);
+	return (s);
 }
