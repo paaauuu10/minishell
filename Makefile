@@ -1,4 +1,13 @@
 NAME = minishell
+
+GREEN = \033[1;32m
+YELLOW = \033[1;33m
+CYAN = \033[1;36m
+RED = \033[1;31m
+MAGENTA = \033[1;35m
+BLUE = \033[38;5;75m
+ORIGINAL = \033[0m
+
 CFLAGS = -Wall -Werror -Wextra #-g -fsanitize=address
 
 INCS = -I./include/ -I./include/Libft -I$(HOME)/.brew/opt/readline/include
@@ -17,20 +26,23 @@ OBJECTS = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 all: $(NAME)
 
 $(OBJDIR)%.o: %.c
-			@printf "Compiling objects\n"
+			
 			@mkdir -p $(@D)
 			@gcc $(CFLAGS) $(INCS) -c $< -o $@
+			@echo "$(GREEN)[OK]       $(CYAN)Compiled$(ORIGINAL)"
 
 $(NAME): $(OBJECTS) Makefile include/minishell.h 
 			@mkdir -p $(@D)
 			@gcc $(CFLAGS) -o $@ $(OBJECTS) $(LIBFTA) $(READLINE)
-			@printf "\nCompiled successfully!\n"
+			@echo  "$(GREEN)[OK]       $(YELLOW)All Compiled$(ORIGINAL)"
 
 fclean: clean
 		@rm -rf $(NAME)
+		@echo  "$(RED)[OK]       $(MAGENTA)All Very Clean$(ORIGINAL)"
 
 clean:
 		@rm -rf $(OBJDIR)
+		@echo "$(RED)[OK]       $(BLUE)All Clean$(ORIGINAL)"
 
 re: fclean all
 
