@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:23:42 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/26 13:14:56 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:17:09 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,31 @@ int	ft_strcmp(char	*s1, char *s2)
 	return (1);
 }
 
-char	*ft_str_list(t_token *temp, char *s2)
+char	*ft_str_list(t_token **env, char *s2)
 {
 	int		i;
+	t_token	*temp2;
 
+	temp2 = *env;
 	i = 0;
-	while (temp && temp->next)
+	while (temp2)
 	{
-		while (s2[i] && (temp->wrd[i] == s2[i]))
+		while (s2[i] && temp2->wrd[i] && (temp2->wrd[i] == s2[i]))
 		{
 			i++;
-			if ((!s2[i] || s2[i] == '$') && (temp->wrd[i] == '='))
+			if ((!s2[i] || s2[i] == '$') && (temp2->wrd[i] == '='))
 			{	
 				if (s2[i] == '$')
-					return(ft_strcat(&temp->wrd[i + 1], ft_str_list(temp, &s2[i + 1]), 100));
-				return (&temp->wrd[i + 1]);
+				{
+					temp2 = *env;
+					return(ft_strcat(&temp2->wrd[i + 1], ft_str_list(&temp2, &s2[i + 1]), 100));
+				}
+				return (&temp2->wrd[i + 1]);
 			}
 		}
 		i = 0;
-		temp = temp->next;
+		if (temp2->next)
+			temp2 = temp2->next;
 	}
 	return (NULL);
 }

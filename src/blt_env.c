@@ -6,22 +6,22 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/23 14:40:20 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/03 09:39:45 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env(t_token	**env)
+int	ft_env(t_list	**env)
 {
 	int		i;
-	t_token	*temp;
+	t_list	*temp;
 
 	temp = *env;
 	i = 0;
 	while (temp->next)
 	{
-		printf("%s\n", temp->wrd);
+		printf("%s=%s\n", temp->title, temp->def);
 		temp = temp->next;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/25 15:08:42 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/03 11:55:42 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@
 # define CYAN    "\x1b[36m"
 # define WHITE   "\x1b[0m"
 
+typedef struct s_list
+{
+	char			*title;
+	char			*def;
+	struct s_list	*next;
+}	t_list;
+
 typedef struct s_token
 {
 	char			*wrd;
@@ -44,19 +51,27 @@ int		main(int argc, char **argv, char **envp);
 t_token	**get_tok(t_token **tokens, char *s);
 void	add_token(t_token **tokens, t_token	*node);
 t_token	*new_token(char *s);
+int	change_tok(t_token **export, char *new_wrd);
 void	signals(void);
 int		ft_strcmp(char *s1, char *s2);
-char	*ft_str_list(t_token *temp, char *s2);
+char	*ft_str_list(t_token **temp, char *s2);
 //char	*ft_str_matrix(char **s1, char *s2);
-int		ft_env(t_token **env);
+int		ft_env(t_list **env);
 int		ft_echo(t_token **s);
 int		ft_quote(const char	*s);
 //char	*ft_expansor(char **envp, char *s);//t_token **tokens);
 char	*ft_expansor(t_token **env, t_token **tokens);
 int		ft_pwd(void);
+//int		ft_cd(t_token	**tokens, t_token **export, t_token	**env);
+int		ft_cd(t_token	**tokens, t_list **export, t_list	**env);
 void	ft_exit(t_token **tokens);
-t_token **ft_export(t_token **tokens, t_token **export, t_token **env);
-void	ft_unset(t_token	**export, char *wrd);
+//t_token **ft_export(t_token **tokens, t_list **export, t_list **env);
+t_list	**ft_export(t_token **tokens, t_list **export, t_list **env);
+void	ft_unset(t_list **export, char *wrd);
 char	*ft_strcat(char *temp_wrd, char *exp, int i);
+t_list	*new_node(char *s);
+void	add_node(t_list **env, t_list *node);
+char	*ft_title(char *s);
+char	*ft_def(char *s);
 
 #endif

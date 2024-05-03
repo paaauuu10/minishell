@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:50:06 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/26 12:41:40 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:37:23 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,9 @@ char	*ft_expansor(t_token **env, t_token **tokens)
 	int		j;
 	int		k;
 	t_token	*temp;
-	t_token	*temp2;
 	t_token	*prev;
 
 	temp = *tokens;
-	temp2 = *env;
 	prev = temp;
 	i = 0;
 	j = 0;
@@ -59,15 +57,14 @@ char	*ft_expansor(t_token **env, t_token **tokens)
 			i++;
 		if (temp->wrd[i] && temp->wrd[i++] == '$')
 		{
-			while (temp->wrd[j])
-			{
-				if (temp->wrd[j] == '$')
-					k++;
-				j++;
-			}
-			while (k-- > 0)
-			{
-				r = ft_str_list(temp2, &temp->wrd[i]);
+//			while (temp->wrd[j])
+//			{
+//				if (temp->wrd[j++] == '$')
+//					k++;
+//			}
+//			while (k-- > 0)
+//			{
+				r = ft_str_list(env, &temp->wrd[i]);
 				if (r)
 				{
 					if ((*r) != '_' && !ft_isalnum(*r++))
@@ -78,7 +75,7 @@ char	*ft_expansor(t_token **env, t_token **tokens)
 				}
 				else
 					prev = temp->next;
-			}
+//			}
 		}
 		i = 0;
 		prev = temp;
