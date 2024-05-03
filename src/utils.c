@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:23:42 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/30 15:17:09 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:08:44 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ char	*ft_str_list(t_token **env, char *s2)
 		{
 			i++;
 			if ((!s2[i] || s2[i] == '$') && (temp2->wrd[i] == '='))
-			{	
+			{
 				if (s2[i] == '$')
 				{
 					temp2 = *env;
-					return(ft_strcat(&temp2->wrd[i + 1], ft_str_list(&temp2, &s2[i + 1]), 100));
+					return (ft_strcat(&temp2->wrd[i + 1],
+							ft_str_list(&temp2, &s2[i + 1]), 100));
 				}
 				return (&temp2->wrd[i + 1]);
 			}
@@ -53,7 +54,7 @@ char	*ft_str_list(t_token **env, char *s2)
 	return (NULL);
 }
 
-int	ft_quote(const char	*s)
+int	ft_quote_error(const char *s)
 {
 	int	i;
 
@@ -92,7 +93,6 @@ char	*ft_strcat(char *temp_wrd, char *exp, int i)
 	char	*s;
 	int		j;
 	int		k;
-//	int		l;
 
 	k = 0;
 	j = 0;
@@ -105,16 +105,8 @@ char	*ft_strcat(char *temp_wrd, char *exp, int i)
 	{
 		s[j] = temp_wrd[j];
 		j++;
-	}/*
-	l = j;
-	if (temp_wrd[j])
-	{*/
+	}
 	while (exp[k])
 		s[j++] = exp[k++];
-/*	if (!temp_wrd[l])
-	{
-		s[j] = '\0';
-	free(temp_wrd);
-	}*/
 	return (s);
 }

@@ -6,11 +6,11 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/03 11:55:42 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:44:56 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	MINISHELL_H
+#ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include <stdio.h>
@@ -51,14 +51,15 @@ int		main(int argc, char **argv, char **envp);
 t_token	**get_tok(t_token **tokens, char *s);
 void	add_token(t_token **tokens, t_token	*node);
 t_token	*new_token(char *s);
-int	change_tok(t_token **export, char *new_wrd);
+int		change_tok(t_token **export, char *new_wrd);
 void	signals(void);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_str_list(t_token **temp, char *s2);
 //char	*ft_str_matrix(char **s1, char *s2);
 int		ft_env(t_list **env);
 int		ft_echo(t_token **s);
-int		ft_quote(const char	*s);
+char	**ft_quotes(const char *s);
+int		ft_quote_error(const char *s);
 //char	*ft_expansor(char **envp, char *s);//t_token **tokens);
 char	*ft_expansor(t_token **env, t_token **tokens);
 int		ft_pwd(void);

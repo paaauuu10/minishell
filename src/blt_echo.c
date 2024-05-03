@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/18 15:39:47 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:10:19 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	ft_echo(t_token	**s)
 {
 	if ((*s)->next->wrd[0] == '\0')
 		return (ft_printf("\n"));
-	if ((*s)->next->wrd[0] == '-' && (*s)->next->wrd[1] == 'n' && !(*s)->next->wrd[2])
+	if ((*s)->next->wrd[0] == '-' && (*s)->next->wrd[1] == 'n'
+		&& !(*s)->next->wrd[2])
 	{
 		ft_print_tokens(s, 1);
 		return (printf("\n"));
@@ -42,7 +43,6 @@ int	ft_echo(t_token	**s)
 	{
 		ft_print_tokens(s, 0);
 		printf("\n");
-	//	return (ft_print_tokens(s, 0));
 		return (0);
 	}
 }

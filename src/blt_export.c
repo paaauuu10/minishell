@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/03 11:08:46 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:13:05 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	put_env(t_list **env, char *wrd)
 
 int	change_node(t_list **export, char *new_wrd)
 {
-	int	i;
+	int		i;
 	t_list	*temp;
 
 	i = 0;
@@ -72,10 +72,9 @@ t_list	**ft_export(t_token **tokens, t_list **export, t_list **env)
 	{
 		while (temp2)
 		{
-		//	printf("\nEl Def no se que es:%s\n", temp2->def);
 			if (!temp2->def)
 				printf("declare -x %s\n", temp2->title);
-			else	
+			else
 				printf("declare -x %s=\"%s\"\n", temp2->title, temp2->def);
 			temp2 = temp2->next;
 		}

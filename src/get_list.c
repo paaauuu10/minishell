@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:09:51 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/03 10:50:45 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:13:45 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ char	*ft_def(char	*s)
 	r[i] = '\0';
 	return (r);
 }
-
 
 t_list	*new_node(char *s)
 {

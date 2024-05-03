@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:33:55 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/03 11:57:34 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:09:47 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_change_env(char *oldpwd, char *newpwd, t_list **env)
 {
 	t_list	*temp;
-	int	i;
+	int		i;
 
 	temp = *env;
 	while (temp)

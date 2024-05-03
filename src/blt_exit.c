@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:11:00 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/05 10:21:30 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:11:13 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_exit(t_token **tokens)
 		exit(0);
 	}
 	if ((*tokens)->next && (*tokens)->next->wrd)
-		n = ft_atoi((const char *)(*tokens)->next->wrd);	
+		n = ft_atoi((const char *)(*tokens)->next->wrd);
 	if ((*tokens)->next && (*tokens)->next->next && n != 255)
 	{
 		ft_printf("Minishell> exit: too many arguments\n");
@@ -31,7 +31,8 @@ void	ft_exit(t_token **tokens)
 	}
 	else if (((*tokens)->next && (*tokens)->next->next) || n == 255)
 	{
-		ft_printf("exit\nMinishell> exit: %s: numeric argument required\n", (*tokens)->next->wrd);
+		ft_printf("exit\nMinishell> exit: %s: numeric argument required\n",
+			(*tokens)->next->wrd);
 		exit(255);
 	}
 /*	else if ((*tokens)->next && n != 255)

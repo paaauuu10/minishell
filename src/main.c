@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/03 11:54:59 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:16:01 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_list	**env_list(char **envp)
 	i = 0;
 	env = (t_list **)malloc(sizeof(t_list *));
 	if (!env)
-		return(NULL);
+		return (NULL);
 	while (envp[i])
 		add_node(env, new_node(envp[i++]));
 /*	while ((*env))
@@ -32,12 +32,11 @@ t_list	**env_list(char **envp)
 	return (env);
 }
 
-void	builtins(t_token **tokens,t_list **export, t_list **env)
+void	builtins(t_token **tokens, t_list **export, t_list **env)
 {
 	t_token	**temp;
 
 	temp = tokens;
-	(void)export;
 	while ((*temp))
 	{
 		if (ft_strcmp((*temp)->wrd, "echo"))
@@ -63,6 +62,7 @@ void	builtins(t_token **tokens,t_list **export, t_list **env)
 		(*temp) = (*temp)->next;
 	}
 }
+
 void	free_tokens(t_token **tokens)
 {
 	t_token	*temp;
@@ -76,13 +76,14 @@ void	free_tokens(t_token **tokens)
 	}
 	*tokens = NULL;
 }
+
 int	main(int argc, char **argv, char **envp)
 {
 	const char	*s;
 	t_token		**tokens;
 	t_list		**env;
 	t_list		**export;
-	
+
 	tokens = (t_token **)malloc(sizeof(t_token *));
 	argv = NULL;
 	if (argc != 1)
@@ -101,7 +102,7 @@ int	main(int argc, char **argv, char **envp)
 			printf("exit\n");
 			exit(1);
 		}
-		ft_quote(s);
+		ft_quote_error(s);
 		tokens = get_tok(tokens, (char *)s);
 		//ft_expansor(env, tokens);
 		builtins(tokens, export, env);
