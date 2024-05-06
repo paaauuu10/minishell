@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/02 12:47:50 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/06 13:44:17 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@ typedef struct s_token
 	int				tok;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_executor
+{
+	int	pid;
+	char *cmd;
+	char **path;
+	int	total_pipes;
+}	t_executor;
+
 
 //int		main(int argc, char **argv, char **envp);
 t_token	**get_tok(t_token **tokens, char *s);

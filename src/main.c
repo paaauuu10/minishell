@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/30 14:45:13 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/06 13:36:57 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ int	main(int argc, char **argv, char **envp)
 		ft_quote(s);
 		tokens = get_tok(tokens, (char *)s);
 		ft_expansor(env, tokens);
-		builtins(tokens, export, env);
+		ft_executor(tokens, env, export);
+		//builtins(tokens, export, env);
 		add_history(s);
 		free_tokens(tokens);
 	}
