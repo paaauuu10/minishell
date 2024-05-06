@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/06 16:33:02 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:53:41 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int    ft_exec(char *argv, char **envp)
         printf("Error\n");
         return (1);
     }
+    if (execve(path, cmd, envp) == -1)
     {
         printf("Error 2\n");
         return (2);
