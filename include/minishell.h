@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/06 13:44:17 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:15:01 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ typedef struct s_token
 typedef struct s_executor
 {
 	int	pid;
-	char *cmd;
-	char **path;
 	int	total_pipes;
 }	t_executor;
 
@@ -66,5 +64,13 @@ int		ft_pwd(void);
 void	ft_exit(t_token **tokens);
 t_token **ft_export(t_token **tokens, t_token **export, t_token **env);
 void	ft_unset(t_token	**export, char *wrd);
+void	builtins(t_token **tokens,t_token **export, t_token **env);
+
+
+
+//ULTIMS CANVIS BOTA
+int    ft_executor(t_token **tokens, t_token **env, t_token **export);
+int ft_is_builtin(t_token **tokens);
+
 
 #endif

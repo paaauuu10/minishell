@@ -6,12 +6,25 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/06 13:48:23 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:51:08 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+void ft_count_pipes(t_executor *t_exec, t_token **tokens)
+{
+    t_token *temp;
+
+    temp = *tokens;
+    t_exec->total_pipes = 0;
+    while (temp)
+    {
+        if (ft_strcmp(temp->wrd, "|"))
+            t_exec->total_pipes++;
+        temp = temp->next;
+    }
+}
 void ft_child_process(t_executor *t_exec, t_token **tokens)
 {
     char **argv;
@@ -25,19 +38,26 @@ void ft_child_process(t_executor *t_exec, t_token **tokens)
     exit(1);
 }
 
-void    executor(t_token **tokens, t_token **env, t_token **export)
+int    ft_executor(t_token **tokens, t_token **env, t_token **export)
 {
     int status;
     t_executor  *t_exec;
     //int pipfd[2]
+    t_exec = malloc(sizeof(t_executor));
     if (!tokens || !*tokens)
-        return (1/*decidir que s'ha de retornar*/);
-    ft_count_pipes(); /*s'ha de fer*/
-    if (ft_is_builtin(tokens) && t_exec->total_pipes == 0)
-        return(builtins(tokens, export, env));
-    t_exec->pid = fork();
-    if (t_exec->pid < 0)
+    {
+        free(t_exec);
         return (0);
+    }
+    ft_count_pipes(t_exec, tokens); /*s'ha de fer*/
+    if (ft_is_builtin(tokens) == 1 && t_exec->total_pipes == 0)
+    {
+        builtins(tokens, export, env);
+        return (1);/*revisar*/
+    }
+   /* t_exec->pid = fork();
+    if (t_exec->pid < 0)
+        return (1);
     if (t_exec->pid == 0)
         ft_child_process(t_exec, tokens);
     wait(&status);
@@ -45,5 +65,6 @@ void    executor(t_token **tokens, t_token **env, t_token **export)
         //dup2(pipefd[0], 0);
         //close(pipefd[1]);
         //close(pipefd[0]);
-    free(t_exec);   
+    free(t_exec);*/
+    return (0);
 }
