@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/06 14:51:08 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:30:09 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void ft_child_process(t_executor *t_exec, t_token **tokens)
     exit(1);
 }
 
-int    ft_executor(t_token **tokens, t_token **env, t_token **export)
+int    ft_executor(t_token **tokens, t_token **env, t_token **export, char **envp)
 {
     int status;
     t_executor  *t_exec;
@@ -50,12 +50,26 @@ int    ft_executor(t_token **tokens, t_token **env, t_token **export)
         return (0);
     }
     ft_count_pipes(t_exec, tokens); /*s'ha de fer*/
+    if (t_exec->total_pipes == 0)
+    {
+        t_exec->pid = fork();
+        if (t_exec->pid < 0)
+        {
+            printf("pid < 0");
+            return (0);
+        }
+        if (t_exec->pid == 0)
+            ft_exec((*tokens)->wrd, envp);
+        else
+            usleep(4000);
+        
+    }
     if (ft_is_builtin(tokens) == 1 && t_exec->total_pipes == 0)
     {
         builtins(tokens, export, env);
         return (1);/*revisar*/
     }
-   /* t_exec->pid = fork();
+    /* t_exec->pid = fork();
     if (t_exec->pid < 0)
         return (1);
     if (t_exec->pid == 0)

@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/06 14:15:01 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:08:39 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,10 @@ void	builtins(t_token **tokens,t_token **export, t_token **env);
 
 
 //ULTIMS CANVIS BOTA
-int    ft_executor(t_token **tokens, t_token **env, t_token **export);
+int    ft_executor(t_token **tokens, t_token **env, t_token **export, char **envp);
 int ft_is_builtin(t_token **tokens);
+int    ft_exec(char *argv, char **envp);
+
 
 
 #endif
