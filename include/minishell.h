@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/03 13:44:56 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/07 14:36:48 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_executor
+{
+	int	pid;
+	int	total_pipes;
+	int	exit_status;
+}	t_executor;
+
+
 int		main(int argc, char **argv, char **envp);
 t_token	**get_tok(t_token **tokens, char *s);
 void	add_token(t_token **tokens, t_token	*node);
@@ -75,4 +83,10 @@ void	add_node(t_list **env, t_list *node);
 char	*ft_title(char *s);
 char	*ft_def(char *s);
 
+int	builtins(t_token **tokens, t_list **export, t_list **env);
+
+
+int    ft_executor(t_token **tokens, t_list **env, t_list **export, char **envp);
+int ft_is_builtin(t_token **tokens);
+int    ft_exec(char *argv, char **envp);
 #endif
