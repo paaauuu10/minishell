@@ -1,1 +1,0 @@
-gcc test/main.c include/libft/ft_split.c include/libft/ft_substr.c include/libft/ft_strdup.c include/libft/get_next_line_utils.c include/libft/get_next_line.c include/libft/ft_strnstr.c

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   blt_pwd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:10:23 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/30 14:45:25 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/03/19 14:56:02 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 int	ft_pwd(void)
 {

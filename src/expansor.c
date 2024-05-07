@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:50:06 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/30 14:45:21 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:37:23 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 /*
 char	*ft_expansor(char **envp, char *s)
 {
@@ -41,36 +41,41 @@ char	*ft_expansor(t_token **env, t_token **tokens)
 {
 	int		i;
 	char	*r;
+	int		j;
+	int		k;
 	t_token	*temp;
-	t_token	*temp2;
 	t_token	*prev;
 
 	temp = *tokens;
-	temp2 = *env;
 	prev = temp;
 	i = 0;
+	j = 0;
+	k = 0;
 	while (temp)
 	{
 		while (temp->wrd[i] && temp->wrd[i] != '$')
 			i++;
 		if (temp->wrd[i] && temp->wrd[i++] == '$')
 		{
-			while (temp2)
-			{
-				r = ft_str_list(temp2, temp->wrd);
+//			while (temp->wrd[j])
+//			{
+//				if (temp->wrd[j++] == '$')
+//					k++;
+//			}
+//			while (k-- > 0)
+//			{
+				r = ft_str_list(env, &temp->wrd[i]);
 				if (r)
 				{
 					if ((*r) != '_' && !ft_isalnum(*r++))
 					{
-						temp->wrd = ft_strdup(r);
-						//temp2->wrd = r;
-					//	printf("Es:%s\n", temp2->wrd);
-						return (temp->wrd);
+						i += ft_strlen(r);
+						temp->wrd = ft_strcat(temp->wrd, r, i);
 					}
 				}
 				else
 					prev = temp->next;
-			}
+//			}
 		}
 		i = 0;
 		prev = temp;

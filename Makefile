@@ -6,7 +6,7 @@
 #    By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/25 13:50:18 by pbotargu          #+#    #+#              #
-#    Updated: 2024/05/07 13:57:27 by pbotargu         ###   ########.fr        #
+#    Updated: 2024/05/07 15:30:45 by pbotargu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,16 +20,16 @@ MAGENTA = \033[1;35m
 BLUE = \033[38;5;75m
 ORIGINAL = \033[0m
 
-CFLAGS = -Wall -Werror -Wextra  -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 
-INCS = -I./include/ -I./include/Libft -I$(HOME)/.brew/opt/readline/include #42
+INCS = -I./include/ -I./include/Libft -I$(HOME)/.brew/opt/readline/include
 LIBFTA = -L./include/Libft -lft
 LIBFT = include/libft	
 READLINE = -L$(HOME)/.brew/opt/readline/lib -lreadline
 SRCDIR = src/
 OBJDIR = obj/
 
-SRC_L = blt_echo.c blt_env.c blt_exit.c blt_export.c blt_pwd.c blt_unset.c expansor.c get_tok.c main.c signals.c utils.c executor/executor.c executor/executor_utils.c  builtins/builtins_utils.c
+SRC_L = blt_cd.c blt_echo.c blt_env.c blt_exit.c blt_export.c blt_pwd.c blt_unset.c expansor.c get_tok.c main.c signals.c utils.c get_list.c quotes.c executor/executor.c executor/executor_utils.c builtins/builtins_utils.c
 
 SRC = $(addprefix $(SRCDIR), $(SRC_L))
 OBJECTS = $(addprefix $(OBJDIR), $(SRC:.c=.o))
@@ -44,7 +44,7 @@ $(OBJDIR)%.o: %.c
 			@gcc $(CFLAGS) $(INCS) -c $< -o $@
 			@echo "$(GREEN)[OK]       $(CYAN)Compiled$(ORIGINAL)"
 
-$(NAME): $(OBJECTS) Makefile include/minishell.h 
+$(NAME): $(OBJECTS) Makefile 
 			@mkdir -p $(@D)
 			@gcc $(CFLAGS) -o $@ $(OBJECTS) $(LIBFTA) $(READLINE)
 			@echo  "$(GREEN)[OK]       $(YELLOW)All Compiled$(ORIGINAL)"

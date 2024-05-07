@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   blt_echo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/30 14:45:34 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:10:19 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 int	ft_print_tokens(t_token **s, int i)
 {
@@ -33,7 +33,8 @@ int	ft_echo(t_token	**s)
 {
 	if ((*s)->next->wrd[0] == '\0')
 		return (ft_printf("\n"));
-	if ((*s)->next->wrd[0] == '-' && (*s)->next->wrd[1] == 'n' && !(*s)->next->wrd[2])
+	if ((*s)->next->wrd[0] == '-' && (*s)->next->wrd[1] == 'n'
+		&& !(*s)->next->wrd[2])
 	{
 		ft_print_tokens(s, 1);
 		return (printf("\n"));
@@ -42,7 +43,6 @@ int	ft_echo(t_token	**s)
 	{
 		ft_print_tokens(s, 0);
 		printf("\n");
-	//	return (ft_print_tokens(s, 0));
 		return (0);
 	}
 }

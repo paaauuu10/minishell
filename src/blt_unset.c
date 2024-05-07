@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   blt_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/30 14:45:23 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/03 11:54:43 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
-void	ft_unset(t_token	**export, char *wrd)
+void	ft_unset(t_list **export, char *wrd)
 {
-	t_token	*temp;
-	t_token	*prev;
+	t_list	*temp;
+	t_list	*prev;
 	int		i;
 
 	i = 0;
 	temp = *export;
 	while (temp)
 	{
-		while (temp->wrd[i] && wrd[i] && temp->wrd[i] == wrd[i])
+		while (temp->title[i] && wrd[i] && temp->title[i] == wrd[i])
 			i++;
-		if (!wrd[i] && (temp->wrd[i] == '=' || !temp->wrd[i]))
+		if (!wrd[i] && !temp->title[i])
 		{
 			prev->next = temp->next;
 			return ;

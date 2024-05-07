@@ -3,55 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/06 16:22:59 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/07 14:38:06 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
-t_token	**env_list(char **envp)
+t_list	**env_list(char **envp)
 {
-	t_token	**env;
+	t_list	**env;
 	int		i;
 
 	i = 0;
-	env = (t_token **)malloc(sizeof(t_token *));
+	env = (t_list **)malloc(sizeof(t_list *));
+	if (!env)
+		return (NULL);
 	while (envp[i])
-		add_token(env, new_token(envp[i++]));
+		add_node(env, new_node(envp[i++]));
+/*	while ((*env))
+	{
+		printf("Title is: %s ", (*env)->title);
+		printf("Def is:%s\n", (*env)->def);
+		(*env) = (*env)->next;
+	}*/
 	return (env);
 }
 
-void	builtins(t_token **tokens,t_token **export, t_token **env)
+int	builtins(t_token **tokens, t_list **export, t_list **env)
 {
-	t_token	*temp;
+	t_token	**temp;
+	int		i;
 
-	temp = *tokens;
-	while (temp)
+	i = 0;
+	temp = tokens;
+	while ((*temp))
 	{
-		if (ft_strcmp(temp->wrd, "echo"))
+		if (ft_strcmp((*temp)->wrd, "echo"))
 		{
-			ft_echo(tokens);
-			return ;
+			i = ft_echo(tokens);
+			return (i);
 		}
-		if (ft_strcmp(temp->wrd, "env"))
-			ft_env(env);
-		if (ft_strcmp(temp->wrd, "pwd"))
-			ft_pwd();
-		if (ft_strcmp(temp->wrd, "exit"))
+		if (ft_strcmp((*temp)->wrd, "env"))
+			i = ft_env(env);
+		if (ft_strcmp((*temp)->wrd, "pwd"))
+			i = ft_pwd();
+		if (ft_strcmp((*temp)->wrd, "exit"))
 			ft_exit(tokens);
-		if (ft_strcmp(temp->wrd, "export"))
+		if (ft_strcmp((*temp)->wrd, "export"))
 			ft_export(tokens, export, env);
-		if (ft_strcmp(temp->wrd, "unset"))
+		if (ft_strcmp((*temp)->wrd, "cd"))
+			i = ft_cd(tokens, export, env);
+		if (ft_strcmp((*temp)->wrd, "unset"))
 		{
-			ft_unset(export, temp->next->wrd);
-			ft_unset(env, temp->next->wrd);
+			ft_unset(export, (*temp)->next->wrd);
+			ft_unset(env, (*temp)->next->wrd);
 		}
-		temp = temp->next;
+		(*temp) = (*temp)->next;
 	}
+	return (i);
 }
+
 void	free_tokens(t_token **tokens)
 {
 	t_token	*temp;
@@ -65,13 +79,14 @@ void	free_tokens(t_token **tokens)
 	}
 	*tokens = NULL;
 }
+
 int	main(int argc, char **argv, char **envp)
 {
 	const char	*s;
 	t_token		**tokens;
-	t_token		**env;
-	t_token		**export;
-	
+	t_list		**env;
+	t_list		**export;
+
 	tokens = (t_token **)malloc(sizeof(t_token *));
 	argv = NULL;
 	if (argc != 1)
@@ -90,9 +105,9 @@ int	main(int argc, char **argv, char **envp)
 			printf("exit\n");
 			exit(1);
 		}
-		ft_quote(s);
+		ft_quote_error(s);
 		tokens = get_tok(tokens, (char *)s);
-		ft_expansor(env, tokens);
+		//ft_expansor(env, tokens);
 		ft_executor(tokens, env, export, envp);
 		//builtins(tokens, export, env);
 		add_history(s);

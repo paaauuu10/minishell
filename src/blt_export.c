@@ -1,55 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   blt_export.c                                       :+:      :+:    :+:   */
+/*   blt.export.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/30 14:45:27 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:13:05 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
-void	put_exp(t_token **export, char *wrd)
+void	put_exp(t_list **export, char *wrd)
 {
-	t_token	*last;
+	t_list	*last;
 
 	last = *export;
-	while (last && last->next)
-			last = last->next;
-	last->wrd = wrd;
+	while (last && (last->next))
+		last = last->next;
+	last->title = ft_title(wrd);
+	last->def = ft_def(wrd);
 	last->next = NULL;
 }
 
-void	put_env(t_token **env, char *wrd)
+void	put_env(t_list **env, char *wrd)
 {
-	t_token	*last;
+	t_list	*last;
 
 	last = *env;
 	while (last && (last->next))
 		last = last->next;
-	last->wrd = wrd;
+	last->title = ft_title(wrd);
+	last->def = ft_def(wrd);
 	last->next = NULL;
 }
 
-int	change_tok(t_token **export, char *new_wrd)
+int	change_node(t_list **export, char *new_wrd)
 {
-	int	i;
-	t_token	*temp;
+	int		i;
+	t_list	*temp;
 
 	i = 0;
 	temp = *export;
 	while (temp)
 	{
-		while (temp->wrd[i] && new_wrd[i] && temp->wrd[i] == new_wrd[i]
+		while (temp->title[i] && new_wrd[i] && temp->title[i] == new_wrd[i]
 			&& new_wrd[i] != '=')
 			i++;
-		if ((new_wrd[i] && new_wrd[i] == '=' && temp->wrd[i] == new_wrd[i])
-			|| !temp->wrd[i])
+		if (new_wrd[i] && new_wrd[i] == '=' && !temp->title[i])
 		{
-			temp->wrd = new_wrd;
+			temp->def = ft_def(new_wrd);
 			return (0);
 		}
 		temp = temp->next;
@@ -58,10 +59,10 @@ int	change_tok(t_token **export, char *new_wrd)
 	return (1);
 }
 
-t_token	**ft_export(t_token **tokens, t_token **export, t_token **env)
+t_list	**ft_export(t_token **tokens, t_list **export, t_list **env)
 {
 	t_token	*temp;
-	t_token	*temp2;
+	t_list	*temp2;
 	int		i;
 
 	i = 0;
@@ -71,7 +72,10 @@ t_token	**ft_export(t_token **tokens, t_token **export, t_token **env)
 	{
 		while (temp2)
 		{
-			printf("declare -x %s\n", temp2->wrd);
+			if (!temp2->def)
+				printf("declare -x %s\n", temp2->title);
+			else
+				printf("declare -x %s=\"%s\"\n", temp2->title, temp2->def);
 			temp2 = temp2->next;
 		}
 	}
@@ -82,17 +86,17 @@ t_token	**ft_export(t_token **tokens, t_token **export, t_token **env)
 			i++;
 		if ((temp->wrd[i] && temp->wrd[i] != '=') || !temp->wrd[i])
 		{
-			if (change_tok(export, temp->wrd))
-				add_token(export, new_token(temp->wrd));
+			if (change_node(export, temp->wrd))
+				add_node(export, new_node(temp->wrd));
 		}
 		else
 		{
-			if (change_tok(export, temp->wrd))
-				add_token(export, new_token(temp->wrd));
-			if (change_tok(env, temp->wrd))
+			if (change_node(export, temp->wrd))
+				add_node(export, new_node(temp->wrd));
+			if (change_node(env, temp->wrd))
 			{
 				put_env(env, temp->wrd);
-				add_token(env, new_token(temp->wrd));
+				add_node(env, new_node(temp->wrd));
 			}
 		}
 	}

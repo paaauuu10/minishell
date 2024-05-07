@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/07 13:58:27 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:57:08 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void ft_count_pipes(t_executor *t_exec, t_token **tokens)
     exit(1);
 }*/
 
-int    ft_executor(t_token **tokens, t_token **env, t_token **export, char **envp)
+int    ft_executor(t_token **tokens, t_list **env, t_list **export, char **envp)
 {
     //int status;
     t_executor  *t_exec;
@@ -52,22 +52,21 @@ int    ft_executor(t_token **tokens, t_token **env, t_token **export, char **env
     ft_count_pipes(t_exec, tokens);
     if (ft_is_builtin(tokens) == 1 && t_exec->total_pipes == 0)
     {
-        builtins(tokens, export, env);
+        t_exec->exit_status = builtins(tokens, export, env);
         return (1);/*revisar*/
     }
-    else if (t_exec->total_pipes == 0)
+    else if (t_exec->total_pipes == 0) /*revisar condicions */
     {
         t_exec->pid = fork();
         if (t_exec->pid < 0)
         {
             printf("pid < 0");
-            return (0);
+            return (0);/*revisar*/
         }
         if (t_exec->pid == 0)
-            ft_exec((*tokens)->wrd, envp);
+            ft_exec((*tokens)->wrd, envp);/*s'ha de modificar*/
         else
-            usleep(4000);
-        
+            waitpid(t_exec->pid, 0, 0);  /*aixo sha de revisar*/   
     }
     
    

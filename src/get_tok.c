@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_tok.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/30 14:45:16 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:48:09 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 int	type_tok(char *s)
 {
@@ -68,7 +68,8 @@ t_token	**get_tok(t_token **tokens, char *s)
 	int		i;
 
 	i = 0;
-	matrix = ft_split(s, ' ');
+	matrix = ft_quotes(s);
+//	matrix = ft_split(s, ' ');
 	if (!tokens)
 		exit(2);
 	while (matrix[i])
