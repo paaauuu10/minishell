@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/06 16:58:50 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/07 13:58:27 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void ft_count_pipes(t_executor *t_exec, t_token **tokens)
         temp = temp->next;
     }
 }
-void ft_child_process(t_executor *t_exec, t_token **tokens)
+/*void ft_child_process(t_executor *t_exec, t_token **tokens)
 {
     char **argv;
     argv[0] = "ls";
@@ -36,11 +36,11 @@ void ft_child_process(t_executor *t_exec, t_token **tokens)
         //close(pipefd[0]);
     execve("/bin/ls", argv, NULL);
     exit(1);
-}
+}*/
 
 int    ft_executor(t_token **tokens, t_token **env, t_token **export, char **envp)
 {
-    int status;
+    //int status;
     t_executor  *t_exec;
     //int pipfd[2]
     t_exec = malloc(sizeof(t_executor));
@@ -50,7 +50,12 @@ int    ft_executor(t_token **tokens, t_token **env, t_token **export, char **env
         return (0);
     }
     ft_count_pipes(t_exec, tokens);
-    /*if (t_exec->total_pipes == 0)
+    if (ft_is_builtin(tokens) == 1 && t_exec->total_pipes == 0)
+    {
+        builtins(tokens, export, env);
+        return (1);/*revisar*/
+    }
+    else if (t_exec->total_pipes == 0)
     {
         t_exec->pid = fork();
         if (t_exec->pid < 0)
@@ -63,12 +68,9 @@ int    ft_executor(t_token **tokens, t_token **env, t_token **export, char **env
         else
             usleep(4000);
         
-    }*/
-    if (ft_is_builtin(tokens) == 1 && t_exec->total_pipes == 0)
-    {
-        builtins(tokens, export, env);
-        return (1);/*revisar*/
     }
+    
+   
     /* t_exec->pid = fork();
     if (t_exec->pid < 0)
         return (1);
