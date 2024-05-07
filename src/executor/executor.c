@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/07 14:34:46 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:04:22 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int    ft_executor(t_token **tokens, t_list **env, t_list **export, char **envp)
         }
         if (t_exec->pid == 0)
             ft_exec((*tokens)->wrd, envp);
-        /*else
-            usleep(4000);*/
+        else
+            usleep(4000);
         
     }
     

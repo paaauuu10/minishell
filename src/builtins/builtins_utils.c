@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:47:47 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/07 14:20:00 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/07 14:56:25 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,3 +26,37 @@ int ft_is_builtin(t_token **tokens)
         return (1);
     return (0);
 }   
+
+int	builtins(t_token **tokens, t_list **export, t_list **env)
+{
+	t_token	**temp;
+	int		i;
+
+	i = 0;
+	temp = tokens;
+	while ((*temp))
+	{
+		if (ft_strcmp((*temp)->wrd, "echo"))
+		{
+			i = ft_echo(tokens);
+			return (i);
+		}
+		if (ft_strcmp((*temp)->wrd, "env"))
+			i = ft_env(env);
+		if (ft_strcmp((*temp)->wrd, "pwd"))
+			i = ft_pwd();
+		if (ft_strcmp((*temp)->wrd, "exit"))
+			ft_exit(tokens);
+		if (ft_strcmp((*temp)->wrd, "export"))
+			ft_export(tokens, export, env);
+		if (ft_strcmp((*temp)->wrd, "cd"))
+			i = ft_cd(tokens, export, env);
+		if (ft_strcmp((*temp)->wrd, "unset"))
+		{
+			ft_unset(export, (*temp)->next->wrd);
+			ft_unset(env, (*temp)->next->wrd);
+		}
+		(*temp) = (*temp)->next;
+	}
+	return (i);
+}

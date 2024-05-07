@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:09:51 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/03 12:13:45 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:42:47 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*ft_title(char	*s)
 	while (s[i] && s[i] != '=')
 		i++;
 	r = (char *)malloc(sizeof(char) * (i + 1));
+	if (!r)
+		exit(1);
 	i = 0;
 	while (s[i] && s[i] != '=')
 	{
@@ -46,6 +48,8 @@ char	*ft_def(char	*s)
 	while (s[i++])
 		j++;
 	r = (char *)malloc(sizeof(char) * (j));
+	if (!r)
+		exit(1);
 	i = 0;
 	j = 0;
 	while (s[i] && s[i] != '=')
@@ -53,7 +57,7 @@ char	*ft_def(char	*s)
 	i++;
 	while (s[i])
 		r[j++] = s[i++];
-	r[i] = '\0';
+	r[j] = '\0';
 	return (r);
 }
 
@@ -72,7 +76,7 @@ t_list	*new_node(char *s)
 
 t_list	**last_node(t_list **tokens)
 {
-	while (*tokens && (*tokens)->next != NULL)
+	while (*tokens && (*tokens)->next)
 		tokens = &((*tokens)->next);
 	return (tokens);
 }
