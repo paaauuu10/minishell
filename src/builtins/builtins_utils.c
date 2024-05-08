@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:47:47 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/07 14:20:00 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/08 12:43:07 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int ft_is_builtin(t_token **tokens)
     ft_strcmp((*tokens)->wrd, "env") || \
 	ft_strcmp((*tokens)->wrd, "pwd") || \
 	ft_strcmp((*tokens)->wrd, "exit") || \
+    ft_strcmp((*tokens)->wrd, "cd") || \
     ft_strcmp((*tokens)->wrd, "export") || \
 	ft_strcmp((*tokens)->wrd, "unset"))
         return (1);

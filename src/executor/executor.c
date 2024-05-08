@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/07 15:57:08 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:31:58 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void ft_count_pipes(t_executor *t_exec, t_token **tokens)
     exit(1);
 }*/
 
-int    ft_executor(t_token **tokens, t_list **env, t_list **export, char **envp)
+int    ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
     //int status;
     t_executor  *t_exec;
@@ -63,12 +63,11 @@ int    ft_executor(t_token **tokens, t_list **env, t_list **export, char **envp)
             printf("pid < 0");
             return (0);/*revisar*/
         }
-        if (t_exec->pid == 0)
-            ft_exec((*tokens)->wrd, envp);/*s'ha de modificar*/
+        if (t_exec->pid == 0) 
+            ft_exec(tokens, env, t_exec);/*s'ha de modificar*/
         else
             waitpid(t_exec->pid, 0, 0);  /*aixo sha de revisar*/   
-    }
-    
+    }   
    
     /* t_exec->pid = fork();
     if (t_exec->pid < 0)

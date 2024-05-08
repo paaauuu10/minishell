@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
+/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/07 14:36:48 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:24:07 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ typedef struct s_executor
 	int	pid;
 	int	total_pipes;
 	int	exit_status;
+	char	*absolute_path;
+	char	**path;
+	char	**new_envp;
+	char	*cmd;
+	char	**cmd_argv;
 }	t_executor;
 
 
@@ -86,7 +91,10 @@ char	*ft_def(char *s);
 int	builtins(t_token **tokens, t_list **export, t_list **env);
 
 
-int    ft_executor(t_token **tokens, t_list **env, t_list **export, char **envp);
+int    ft_executor(t_token **tokens, t_list **env, t_list **export);
 int ft_is_builtin(t_token **tokens);
-int    ft_exec(char *argv, char **envp);
+int    ft_exec(t_token **tokens, t_list **env, t_executor *t_exec);
+int    ft_path(t_token **tokens, t_list **env, t_executor **t_exec);
+
+
 #endif
