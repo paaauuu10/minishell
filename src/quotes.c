@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/09 15:36:26 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:41:46 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static int	ft_count(const char *s)
 {
 	int		i;
 	int		count;
+	char	quote;
 
 	i = 0;
 	count = 0;
@@ -23,18 +24,14 @@ static int	ft_count(const char *s)
 	{
 		while (s[i] && (s[i] == ' ' || s[i] == '"' || s[i] == '\''))
 		{
+			quote = s[i++];
 			count++;
-			i++;
 		}
 		if (!s[i])
 			break ;
 		count++;
 		while (s[i] && s[i] != ' ' && s[i] != '"' && s[i] != '\'')
-		{
-			if (s[i] == '\\' && s[i + 1] == '"')
-				i++;
 			i++;
-		}
 	}
 	return (count);
 }
