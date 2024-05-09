@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/09 15:21:19 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:36:26 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	ft_count(const char *s)
 		count++;
 		while (s[i] && s[i] != ' ' && s[i] != '"' && s[i] != '\'')
 		{
-			if (s[i] == '\\' && s[i + 1] == '"') 
+			if (s[i] == '\\' && s[i + 1] == '"')
 				i++;
 			i++;
 		}
@@ -56,39 +56,22 @@ char	**ft_quotes(const char *s)
 	while (s[i])
 	{
 		if (s[i] == '"' || s[i] == '\'')
-		{
 			quote = s[i++];
-			len = 0;
-			while (s[i + len] && s[i + len] != quote)
-				len++;
-			r[k] = (char *)malloc(sizeof(char) * (len + 1));
-			if (!r[k])
-				return (NULL);
-			j = 0;
-			while (s[i] && s[i] != quote)
-				r[k][j++] = s[i++];
-			r[k][j] = '\0';
-			k++;
-			if (s[i] == quote)
-				i++;
-		}
-		else if (s[i] == ' ')
-			i++;
 		else
-		{
-			len = 0;
-			while (s[i + len] && s[i + len] != ' ' && s[i + len] != '"'
-				&& s[i + len] != '\'')
-				len++;
-			r[k] = (char *)malloc(sizeof(char) * (len + 1));
-			if (!r[k])
-				return (NULL);
-			j = 0;
-			while (s[i] && s[i] != ' ' && s[i] != '"' && s[i] != '\'')
-				r[k][j++] = s[i++];
-			r[k][j] = '\0';
-			k++;
-		}
+			quote = ' ';
+		len = 0;
+		while (s[i + len] && s[i + len] != quote)
+			len++;
+		r[k] = (char *)malloc(sizeof(char) * (len + 1));
+		if (!r[k])
+			return (NULL);
+		j = 0;
+		while (s[i] && s[i] != quote)
+			r[k][j++] = s[i++];
+		r[k][j] = '\0';
+		k++;
+		if (s[i] == quote)
+			i++;
 	}
 	r[k] = NULL;
 	return (r);
