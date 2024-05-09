@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:47:47 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/08 09:20:30 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/09 13:36:50 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,12 @@ int	builtins(t_token **tokens, t_list **export, t_list **env)
 			i = ft_cd(tokens, export, env);
 		if (ft_strcmp((*temp)->wrd, "unset"))
 		{
-			ft_unset(export, (*temp)->next->wrd);
-			ft_unset(env, (*temp)->next->wrd);
+			while ((*temp)->next)
+			{
+				ft_unset(export, (*temp)->next->wrd);
+				ft_unset(env, (*temp)->next->wrd);
+				*temp = (*temp)->next;
+			}
 		}
 		(*temp) = (*temp)->next;
 	}

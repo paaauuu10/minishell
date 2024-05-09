@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/03 12:13:05 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/09 09:15:43 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,8 @@ int	change_node(t_list **export, char *new_wrd)
 	return (1);
 }
 
-t_list	**ft_export(t_token **tokens, t_list **export, t_list **env)
+static t_list	**ft_nxt(t_token *temp, int i, t_list **export, t_list **env)
 {
-	t_token	*temp;
-	t_list	*temp2;
-	int		i;
-
-	i = 0;
-	temp2 = *export;
-	temp = *tokens;
-	if (!(temp->next))
-	{
-		while (temp2)
-		{
-			if (!temp2->def)
-				printf("declare -x %s\n", temp2->title);
-			else
-				printf("declare -x %s=\"%s\"\n", temp2->title, temp2->def);
-			temp2 = temp2->next;
-		}
-	}
 	while (temp->next)
 	{
 		temp = temp->next;
@@ -100,5 +82,50 @@ t_list	**ft_export(t_token **tokens, t_list **export, t_list **env)
 			}
 		}
 	}
+	return (export);
+}
+
+t_list	**ft_export(t_token **tokens, t_list **export, t_list **env)
+{
+	t_token	*temp;
+	t_list	*temp2;
+	int		i;
+
+	i = 0;
+	temp2 = *export;
+	temp = *tokens;
+	if (!(temp->next))
+	{
+		while (temp2)
+		{
+			if (!temp2->def)
+				printf("declare -x %s\n", temp2->title);
+			else
+				printf("declare -x %s=\"%s\"\n", temp2->title, temp2->def);
+			temp2 = temp2->next;
+		}
+	}
+	export = ft_nxt(temp, i, export, env);
+/*	while (temp->next)
+	{
+		temp = temp->next;
+		while (temp->wrd[i] && temp->wrd[i] != '=')
+			i++;
+		if ((temp->wrd[i] && temp->wrd[i] != '=') || !temp->wrd[i])
+		{
+			if (change_node(export, temp->wrd))
+				add_node(export, new_node(temp->wrd));
+		}
+		else
+		{
+			if (change_node(export, temp->wrd))
+				add_node(export, new_node(temp->wrd));
+			if (change_node(env, temp->wrd))
+			{
+				put_env(env, temp->wrd);
+				add_node(env, new_node(temp->wrd));
+			}
+		}
+	}*/
 	return (export);
 }

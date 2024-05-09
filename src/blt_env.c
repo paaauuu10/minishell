@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/07 15:06:48 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/09 09:08:42 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,6 @@ t_list	**env_list(char **envp)
 		return (NULL);
 	while (envp[i])
 		add_node(env, new_node(envp[i++]));
-/*	while ((*env))
-	{
-		printf("Title is: %s ", (*env)->title);
-		printf("Def is:%s\n", (*env)->def);
-		(*env) = (*env)->next;
-	}*/
 	return (env);
 }
 
@@ -46,12 +40,3 @@ int	ft_env(t_list	**env)
 	}
 	return (0);
 }
-/*int	ft_env(char	**env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-		printf("%s\n", env[i++]);
-	return (0);
-}*/
