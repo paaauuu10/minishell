@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/08 14:13:10 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:00:10 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,19 @@ int	main(int argc, char **argv, char **envp)
 	t_list		**env;
 	t_list		**export;
 
+	if (!*envp)
+	{
+		printf("Minishell need the envp to work.\n");
+		exit(1);
+	}
+	if (argc != 1)
+	{
+		printf("Minishell only need minishell, no more.\n");
+		exit(1);
+	}
 	tokens = (t_token **)malloc(sizeof(t_token *));
+	if (!tokens)
+		exit(1);
 	argv = NULL;
 	if (argc != 1)
 	{
