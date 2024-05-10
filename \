@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:23:42 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/10 13:39:41 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/10 12:55:30 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_str_list(t_list **env, char *s2)
 				if (s2[i] == '$')
 				{
 					j = ft_strlen(temp2->def) + ft_strlen(s2) - i;
-					return (ft_strcat(temp2->def, &s2[i], j));
+					return (ft_strcat(temp2->def, &s2[i], i));
 				}
 				return (temp2->def);
 			}
@@ -112,7 +112,7 @@ char	*ft_strcat(char *temp_wrd, char *exp, int i)
 		s[j] = temp_wrd[j];
 		j++;
 	}
-	while (exp[k])// && j <= i)
+	while (exp[k] && j < i)
 		s[j++] = exp[k++];
 	s[j] = '\0';
 	return (s);

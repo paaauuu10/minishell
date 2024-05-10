@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/07 15:27:51 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/10 09:16:14 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_token	**get_tok(t_token **tokens, char *s);
 void	add_token(t_token **tokens, t_token	*node);
 t_token	*new_token(char *s);
 int		change_tok(t_token **export, char *new_wrd);
-char	*ft_str_list(t_token **temp, char *s2);
+char	*ft_str_list(t_list **temp, char *s2);
 t_list	*new_node(char *s);
 t_list	**env_list(char **envp);
 char	*ft_title(char *s);
@@ -85,7 +85,7 @@ void	signals(void);
 int		ft_strcmp(char *s1, char *s2);
 char	**ft_quotes(const char *s);
 int		ft_quote_error(const char *s);
-char	*ft_expansor(t_token **env, t_token **tokens);
+char	*ft_expansor(t_list **env, t_token **tokens);
 char	*ft_strcat(char *temp_wrd, char *exp, int i);
 
 /*----------------------- EXECUTOR ----------------------------*/
