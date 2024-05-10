@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/08 15:46:46 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/10 13:24:19 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,14 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 	execve("/bin/ls", argv, NULL);
 	exit(1);
 }*/
-
+void ft_init_data(t_executor *t_exec)
+{
+	t_exec->absolute_path = NULL;
+	t_exec->path = NULL;
+	t_exec->new_envp = NULL;
+	t_exec->cmd = NULL;
+	t_exec->cmd_argv = NULL;
+}
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
@@ -49,6 +56,7 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 		free(t_exec);
 		return (0);
 	}
+	ft_init_data(t_exec);
 	ft_count_pipes(t_exec, tokens);
 	if (ft_is_builtin(tokens) == 1 && t_exec->total_pipes == 0)
 	{
