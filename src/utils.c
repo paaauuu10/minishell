@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:23:42 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/10 13:39:41 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:43:54 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	ft_strcmp(char	*s1, char *s2)
 char	*ft_str_list(t_list **env, char *s2)
 {
 	int		i;
-	int		j;
 	t_list	*temp2;
 
 	temp2 = *env;
@@ -39,54 +38,48 @@ char	*ft_str_list(t_list **env, char *s2)
 			i++;
 			if ((!s2[i] || s2[i] == '$') && !temp2->title[i])
 			{
-			/*	if (s2[i] == '$')
-				{
-					temp2 = *env;
-					return (ft_strcat(temp2->def,
-							ft_str_list(&temp2, &s2[i + 1]), 100));
-				}*/
 				if (s2[i] == '$')
-				{
-					j = ft_strlen(temp2->def) + ft_strlen(s2) - i;
-					return (ft_strcat(temp2->def, &s2[i], j));
-				}
+					return (ft_strcat(temp2->def, &s2[i],
+							(ft_strlen(temp2->def) + ft_strlen(s2) - i)));
 				return (temp2->def);
 			}
 		}
 		i = 0;
 		if (temp2->next)
 			temp2 = temp2->next;
+		else 
+		{
+			while (s2[i] && s2[i] != '$')
+				i++;
+			if (s2[i])
+				return (ft_strcat(temp2->def, &s2[i],
+						(ft_strlen(temp2->def) + ft_strlen(s2) - i)));
+		}
 	}
 	return (NULL);
 }
 
 int	ft_quote_error(const char *s)
 {
-	int	i;
+	int		i;
+	char	quote;
 
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == '\'')
+		if (s[i] == '\'' || s[i] == '"')
 		{
+			quote = s[i];
 			i += 1;
-			while (s[i] && s[i] != '\'')
+			while (s[i] && s[i] != quote)
 				i++;
 			if (!s[i])
 			{
-				perror("Single quote");
-				exit(23);
-			}
-		}
-		if (s[i] == '"')
-		{
-			i += 1;
-			while (s[i] && s[i] != '"')
-				i++;
-			if (!s[i])
-			{
-				perror("Doble quote");
-				exit(24);
+				if (quote == '\'')
+					perror("Single quote unfinished");
+				else
+					perror("Double quote unfinished");
+				exit(1);
 			}
 		}
 		i++;
@@ -112,7 +105,7 @@ char	*ft_strcat(char *temp_wrd, char *exp, int i)
 		s[j] = temp_wrd[j];
 		j++;
 	}
-	while (exp[k])// && j <= i)
+	while (exp[k])
 		s[j++] = exp[k++];
 	s[j] = '\0';
 	return (s);

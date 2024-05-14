@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/09 09:15:43 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:50:00 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ static t_list	**ft_nxt(t_token *temp, int i, t_list **export, t_list **env)
 	while (temp->next)
 	{
 		temp = temp->next;
-		while (temp->wrd[i] && temp->wrd[i] != '=')
+		while (temp->wrd[i] && (temp->wrd[i] != '=' || (temp->wrd[i + 1]
+				&& temp->wrd[i] != '+' && temp->wrd[i + 1] != '=')
 			i++;
 		if ((temp->wrd[i] && temp->wrd[i] != '=') || !temp->wrd[i])
 		{
@@ -106,26 +107,5 @@ t_list	**ft_export(t_token **tokens, t_list **export, t_list **env)
 		}
 	}
 	export = ft_nxt(temp, i, export, env);
-/*	while (temp->next)
-	{
-		temp = temp->next;
-		while (temp->wrd[i] && temp->wrd[i] != '=')
-			i++;
-		if ((temp->wrd[i] && temp->wrd[i] != '=') || !temp->wrd[i])
-		{
-			if (change_node(export, temp->wrd))
-				add_node(export, new_node(temp->wrd));
-		}
-		else
-		{
-			if (change_node(export, temp->wrd))
-				add_node(export, new_node(temp->wrd));
-			if (change_node(env, temp->wrd))
-			{
-				put_env(env, temp->wrd);
-				add_node(env, new_node(temp->wrd));
-			}
-		}
-	}*/
 	return (export);
 }

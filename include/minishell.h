@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/10 09:16:14 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/14 09:13:14 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ char	*ft_strcat(char *temp_wrd, char *exp, int i);
 
 /*----------------------- EXECUTOR ----------------------------*/
 
-int    ft_executor(t_token **tokens, t_list **env, t_list **export, char **envp);
-int    ft_exec(char *argv, char **envp);
+int		ft_executor(t_token **tokens, t_list **env,
+			t_list **export, char **envp);
+int		ft_exec(char *argv, char **envp);
 
 #endif
