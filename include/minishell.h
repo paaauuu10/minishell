@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/10 11:07:41 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/15 11:14:37 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,12 @@ char	*ft_def(char *s);
 int	builtins(t_token **tokens, t_list **export, t_list **env);
 
 
-int    ft_executor(t_token **tokens, t_list **env, t_list **export);
-int ft_is_builtin(t_token **tokens);
-int    ft_exec(t_token **tokens, t_list **env, t_executor *t_exec);
-int    ft_path(t_token **tokens, t_list **env, t_executor **t_exec);
+int		ft_executor(t_token **tokens, t_list **env, t_list **export);
+int		ft_is_builtin(t_token **tokens);
+int		ft_exec(t_token **tokens, t_list **env, t_executor *t_exec);
+int		ft_path(t_token **tokens, t_list **env, t_executor **t_exec);
+int		ft_is_redirection(t_token **tokens);
+
 
 
 #endif

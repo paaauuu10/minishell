@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/10 13:24:19 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/15 11:51:05 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 		temp = temp->next;
 	}
 }
+
+
 /*void ft_child_process(t_executor *t_exec, t_token **tokens)
 {
 	char **argv;
@@ -37,13 +39,26 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 	execve("/bin/ls", argv, NULL);
 	exit(1);
 }*/
-void ft_init_data(t_executor *t_exec)
+
+
+int	ft_commands(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
-	t_exec->absolute_path = NULL;
-	t_exec->path = NULL;
-	t_exec->new_envp = NULL;
-	t_exec->cmd = NULL;
-	t_exec->cmd_argv = NULL;
+	if (t_exec->total_pipes == 0)
+	{
+		if (ft_is_redirection(tokens))
+		{
+			printf("is redirection");
+			return (1);
+		}
+		else if (ft_is_builtin(tokens) == 1)
+		{
+			t_exec->exit_status = builtins(tokens, export, env);
+			return (1); 
+		}
+		else
+			printf("COMMAND not found\n");
+	}
+	return (0);
 }
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
@@ -56,26 +71,36 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 		free(t_exec);
 		return (0);
 	}
-	ft_init_data(t_exec);
+	ft_memset(t_exec, 0, sizeof(t_executor));
 	ft_count_pipes(t_exec, tokens);
-	if (ft_is_builtin(tokens) == 1 && t_exec->total_pipes == 0)
-	{
-		t_exec->exit_status = builtins(tokens, export, env);
-		return (1);/*revisar*/
-	}
-	else if (t_exec->total_pipes == 0) /*revisar condicions */
-	{
-		t_exec->pid = fork();
-		if (t_exec->pid < 0)
-		{
-			printf("pid < 0");
-			return (0);/*revisar*/
-		}
-		if (t_exec->pid == 0)
-			ft_exec(tokens, env, t_exec);/*s'ha de modificar*/
-		else
-			waitpid(t_exec->pid, 0, 0);/*aixo sha de revisar*/
-	}
+	ft_commands(tokens, env, export, t_exec);
+
+	/****************************************************/
+
+	
+	//if (ft_is_builtin(tokens) == 1 && t_exec->total_pipes == 0)
+	//{
+	//	t_exec->exit_status = builtins(tokens, export, env);
+	//	return (1);/*revisar*/
+	//}
+	//else if (t_exec->total_pipes == 0) /*revisar condicions */
+	//{
+	//	t_exec->pid = fork();
+	//	if (t_exec->pid < 0)
+	//	{
+	//		printf("pid < 0");
+	//		return (0);/*revisar*/
+	//	}
+	//	if (t_exec->pid == 0)
+	//		ft_exec(tokens, env, t_exec);/*s'ha de modificar*/
+	//	else
+	//		waitpid(t_exec->pid, 0, 0);/*aixo sha de revisar*/
+	//}
+
+
+	/***********************************************/
+
+	
 	/* t_exec->pid = fork();
 	if (t_exec->pid < 0)
 		return (1);
