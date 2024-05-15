@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:04:03 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/15 11:49:59 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/15 11:55:00 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int ft_is_redirection(t_token **tokens)
         ft_strcmp((temp)->wrd, "<") || \
         ft_strcmp((temp)->wrd, "<<") || \
         ft_strcmp((temp)->wrd, ">>"))
-        {
-            printf("FOUNND ft_is\n");
             return (1);
-        }
         temp = temp->next;
     }
     return (0);

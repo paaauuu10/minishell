@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/15 11:51:05 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/15 12:24:32 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_commands(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 	{
 		if (ft_is_redirection(tokens))
 		{
-			printf("is redirection");
+			/*que hem de fer*/
 			return (1);
 		}
 		else if (ft_is_builtin(tokens) == 1)
@@ -55,8 +55,12 @@ int	ft_commands(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 			t_exec->exit_status = builtins(tokens, export, env);
 			return (1); 
 		}
-		else
-			printf("COMMAND not found\n");
+		else if (ft_exec(tokens, env, t_exec))
+		{
+			if (t_exec->execve_exec == 1)
+				return (0);
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -73,7 +77,11 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	}
 	ft_memset(t_exec, 0, sizeof(t_executor));
 	ft_count_pipes(t_exec, tokens);
-	ft_commands(tokens, env, export, t_exec);
+	if (ft_commands(tokens, env, export, t_exec) == 0)
+	{
+		printf("%s", (*tokens)->wrd);
+		printf(": command not found\n");
+	}
 
 	/****************************************************/
 

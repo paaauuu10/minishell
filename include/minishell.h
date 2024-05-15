@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/15 11:14:37 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/15 12:05:44 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_executor
 	int	pid;
 	int	total_pipes;
 	int	exit_status;
+	int	execve_exec;
 	char	*absolute_path;
 	char	**path;
 	char	**new_envp;
