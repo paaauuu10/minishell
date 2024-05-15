@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/15 12:24:32 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/15 12:31:41 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_commands(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 	{
 		if (ft_is_redirection(tokens))
 		{
-			/*que hem de fer*/
+			t_exec->exit_status = redirections(tokens, export, env, t_exec);
 			return (1);
 		}
 		else if (ft_is_builtin(tokens) == 1)
