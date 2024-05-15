@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/15 12:31:41 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/15 14:12:17 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,21 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 
 int	ft_commands(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
-	if (t_exec->total_pipes == 0)
+	if (ft_is_redirection(tokens))
 	{
-		if (ft_is_redirection(tokens))
-		{
-			t_exec->exit_status = redirections(tokens, export, env, t_exec);
-			return (1);
-		}
-		else if (ft_is_builtin(tokens) == 1)
-		{
-			t_exec->exit_status = builtins(tokens, export, env);
-			return (1); 
-		}
-		else if (ft_exec(tokens, env, t_exec))
-		{
-			if (t_exec->execve_exec == 1)
-				return (0);
-			return (1);
-		}
+		t_exec->exit_status = redirections(tokens, env, export, t_exec);
+		return (1);
+	}
+	else if (ft_is_builtin(tokens) == 1)
+	{
+		t_exec->exit_status = builtins(tokens, export, env);
+		return (1); 
+	}
+	else if (ft_exec(tokens, env, t_exec))
+	{
+		if (t_exec->execve_exec == 1)
+			return (0);
+		return (1);
 	}
 	return (0);
 }
@@ -77,10 +74,13 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	}
 	ft_memset(t_exec, 0, sizeof(t_executor));
 	ft_count_pipes(t_exec, tokens);
-	if (ft_commands(tokens, env, export, t_exec) == 0)
+	if (t_exec->total_pipes == 0)
 	{
-		printf("%s", (*tokens)->wrd);
-		printf(": command not found\n");
+		if (ft_commands(tokens, env, export, t_exec) == 0)
+		{
+			printf("%s", (*tokens)->wrd);
+			printf(": command not found\n");
+		}
 	}
 
 	/****************************************************/
