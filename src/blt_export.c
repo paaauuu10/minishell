@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/14 13:50:00 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:38:27 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,18 @@ int	change_node(t_list **export, char *new_wrd)
 	temp = *export;
 	while (temp)
 	{
-		while (temp->title[i] && new_wrd[i] && temp->title[i] == new_wrd[i]
-			&& new_wrd[i] != '=')
+		while (new_wrd[i] && (new_wrd[i] != '=' || (new_wrd[i + 1]
+				&& new_wrd[i] == '+' && new_wrd[i + 1] != '=')) && temp->title[i] == new_wrd[i])
 			i++;
 		if (new_wrd[i] && new_wrd[i] == '=' && !temp->title[i])
 		{
 			temp->def = ft_def(new_wrd);
+			return (0);
+		}
+		if (new_wrd[i] && new_wrd[i + 1] && new_wrd[i] == '+'
+			&& new_wrd[i + 1] == '=' && !temp->title[i])
+		{
+			temp->def = ft_strcat(temp->def, ft_def(new_wrd), ft_strlen(temp->def) + ft_strlen(new_wrd));
 			return (0);
 		}
 		temp = temp->next;
@@ -65,7 +71,7 @@ static t_list	**ft_nxt(t_token *temp, int i, t_list **export, t_list **env)
 	{
 		temp = temp->next;
 		while (temp->wrd[i] && (temp->wrd[i] != '=' || (temp->wrd[i + 1]
-				&& temp->wrd[i] != '+' && temp->wrd[i + 1] != '=')
+				&& (temp->wrd[i] == '+' && temp->wrd[i + 1] != '='))))
 			i++;
 		if ((temp->wrd[i] && temp->wrd[i] != '=') || !temp->wrd[i])
 		{
