@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/08 15:50:23 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/16 18:25:32 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,34 @@ int	ft_list_size(t_token *token)
 		i++;
 	}
 	return (i);
+}
+
+void	ft_wait(t_executor *exec, pid_t pid, int ret)
+{
+	int	status;
+	int	i;
+
+	i = 0;
+	while (exec->cmd_cont > i)
+	{
+		if (pid == wait(&status))
+		{
+			if (WIFEXITED(status))
+				ret = WEXITSTATUS(status);
+			if (WIFSIGNALED(status))
+			{
+				if (WTERMSIG(status) == SIGINT)
+					ret = 130;
+				else if (WTERMSIG(status) == SIGQUIT)
+				{
+					printf("Quit: 3\n");
+					ret = 131;
+				}
+			}
+		}
+		i++;
+	}
+	exec->ret_val = ret;
 }
 
 int	ft_path(t_token **tokens, t_list **env, t_executor **t_exec)

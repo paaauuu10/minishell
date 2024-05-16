@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/16 12:41:09 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/16 18:35:16 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,14 @@ typedef struct s_executor
 	char	**new_envp;
 	char	*cmd;
 	char	**cmd_argv;
+	int		pipe_fd[2];
+	int		prev_pipe[2];
+	int		fd_init[2];
+	int					redirection[2];
+	int					fd_output;
+	int					err_flag;
+	int					ret_val;
+	int					cmd_cont;
 	t_list	*env;
 	t_list	*exp;
 }	t_executor;
@@ -93,10 +101,15 @@ char	*ft_def(char *s);
 int	builtins(t_token **tokens, t_list **export, t_list **env);
 
 
+# define IN 0
+# define OUT 1
+
 int		ft_executor(t_token **tokens, t_list **env, t_list **export);
 int		ft_is_builtin(t_token **tokens);
 int		ft_exec(t_token **tokens, t_list **env, t_executor *t_exec);
 int		ft_path(t_token **tokens, t_list **env, t_executor **t_exec);
+void	ft_wait(t_executor *exec, pid_t pid, int ret);
+int	ft_exec_cmd(t_executor **t_exec);
 
 
 #endif
