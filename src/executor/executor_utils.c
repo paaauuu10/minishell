@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/15 12:23:49 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:50:23 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,31 +122,21 @@ int	ft_exec(t_token **tokens, t_list **env, t_executor *t_exec)
 	int	i;
 
 	i = 0;
-	t_exec->pid = fork();
-	if (t_exec->pid < 0)
-		return (1); /*revisar*/
-	if (t_exec->pid == 0)
+	if (ft_path(tokens, env, &t_exec) != 0)
+		return (1);
+	t_exec->cmd_argv = (char **)malloc(sizeof(char *) * (ft_list_size(*tokens) + 1));
+	if (!t_exec->cmd_argv)
+		return (1); /*revisar com tractem l'error, aixi segur que no*/
+	t_exec->cmd_argv[ft_list_size(*tokens)] = NULL;
+	while (*tokens)
 	{
-		if (ft_path(tokens, env, &t_exec) != 0)
-			return (1);
-		t_exec->cmd_argv = (char **)malloc(sizeof(char *) * (ft_list_size(*tokens) + 1));
-		if (!t_exec->cmd_argv)
+		t_exec->cmd_argv[i] = ft_strdup((*tokens)->wrd);
+		if (!t_exec->cmd[i])
 			return (1); /*revisar com tractem l'error, aixi segur que no*/
-		t_exec->cmd_argv[ft_list_size(*tokens)] = NULL;
-		while (*tokens)
-		{
-			t_exec->cmd_argv[i] = ft_strdup((*tokens)->wrd);
-			if (!t_exec->cmd[i])
-				return (1); /*revisar com tractem l'error, aixi segur que no*/
-			*tokens = (*tokens)->next;
-			i++;
-		}
-		if (ft_exec_cmd(&t_exec))
-			execve(t_exec->absolute_path, t_exec->cmd_argv, t_exec->new_envp);
-		else
-			t_exec->execve_exec = 1;
+		*tokens = (*tokens)->next;
+		i++;
 	}
-	/*maybe flag per saber que no existeix*/
-	waitpid(t_exec->pid, 0, 0);/*aixo sha de revisar*/
+	if (ft_exec_cmd(&t_exec))
+		execve(t_exec->absolute_path, t_exec->cmd_argv, t_exec->new_envp);
 	return (0); /*127 indica que un comando no se encuentra o no se puede ejecutar*/
 }

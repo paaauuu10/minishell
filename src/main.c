@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/08 15:33:03 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:37:16 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	signals();
 	env = env_list(envp);
-	export = env_list(envp);
+	export = env_list(envp);	
 	while (1)
 	{
 		s = readline(GREEN "Minishell> " WHITE);
