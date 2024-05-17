@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_tok.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
+/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/03 13:48:09 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:44:22 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	type_tok(char *s)
 t_token	*new_token(char *s)
 {
 	t_token	*newtok;
-
 	newtok = (t_token *)malloc(sizeof(t_token));
 	if (!newtok)
 		perror("newtok");
@@ -74,6 +73,7 @@ t_token	**get_tok(t_token **tokens, char *s)
 		exit(2);
 	while (matrix[i])
 		add_token(tokens, new_token(matrix[i++]));
+
 /*	while ((*tokens))
 	{
 		printf("%s\n", (*tokens)->wrd);

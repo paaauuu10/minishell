@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 09:41:04 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/08 15:28:15 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:45:04 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	*ft_strchr(const char *s, int d)
 size_t	ft_strlen(const char *str)
 {
 	size_t	count;
-
 	count = 0;
 	if (!str)
 		return (count);
