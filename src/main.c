@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/16 12:37:16 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:28:16 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,12 @@ int	main(int argc, char **argv, char **envp)
 		if (s == NULL)
 		{
 			printf("exit\n");
-			exit(1);
+			exit(EXIT_SUCCESS);
 		}
 		ft_quote_error(s);
 		tokens = get_tok(tokens, (char *)s);
+		if (is_redirection(tokens))
+			printf("is\n");
 		//ft_expansor(env, tokens);
 		ft_executor(tokens, env, export);
 		//builtins(tokens, export, env);

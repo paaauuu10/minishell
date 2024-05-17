@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/16 12:41:09 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:26:23 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ typedef struct s_executor
 }	t_executor;
 
 
+
+
 //int		main(int argc, char **argv, char **envp);
 t_token	**get_tok(t_token **tokens, char *s);
 void	add_token(t_token **tokens, t_token	*node);
@@ -97,6 +99,8 @@ int		ft_executor(t_token **tokens, t_list **env, t_list **export);
 int		ft_is_builtin(t_token **tokens);
 int		ft_exec(t_token **tokens, t_list **env, t_executor *t_exec);
 int		ft_path(t_token **tokens, t_list **env, t_executor **t_exec);
+int     is_redirection(t_token **tokens);
+
 
 
 #endif
