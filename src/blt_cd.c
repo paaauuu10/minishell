@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   blt_cd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
+/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:33:55 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/03 12:09:47 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:03:50 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_change_env(char *oldpwd, char *newpwd, t_list **env)
 		if (ft_strcmp(temp->title, "PWD"))
 		{
 			i = ft_strlen(newpwd) + 4;
-			temp->def = newpwd;
+			temp->def = getcwd(NULL, 0);
 		}
 		temp = temp->next;
 	}
