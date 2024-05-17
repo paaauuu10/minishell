@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/16 13:05:27 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:26:48 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,45 +50,32 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 		free(t_exec);
 		return (0);
 	}
-	t_exec->pid = fork();
-	if (t_exec->pid < 0)
-		return (0); /*revisar com tractem l'error */
-	ft_child(t_exec, tokens, env);
-	free(t_exec);
-
-
-
-
-
-
-
-
-
-
-	/*********************************************************************************
-	 
-	
 	ft_count_pipes(t_exec, tokens);
-	if (ft_is_builtin(tokens) == 1 && t_exec->total_pipes == 0)
+	
+	if (t_exec->total_pipes == 0) //revisar condicions 
 	{
-		t_exec->exit_status = builtins(tokens, export, env);
-		return (1);revisar
-	}
-	else if (t_exec->total_pipes == 0) revisar condicions 
-	{
+		if (ft_is_builtin(tokens) == 1 && t_exec->total_pipes == 0)
+		{
+			t_exec->exit_status = builtins(tokens, export, env);
+			return (1); //revisar
+		}
 		t_exec->pid = fork();
 		if (t_exec->pid < 0)
 		{
 			printf("pid < 0");
-			return (0);revisar
+			return (0);   //revisar
 		}
 		if (t_exec->pid == 0)
-			ft_exec(tokens, env, t_exec);s'ha de modificar
+		{
+			ft_exec(tokens, env, t_exec); //s'ha de modificar
+			/*perror("Comand not found");
+			if (kill(t_exec->pid, SIGTERM) == -1)
+				perror("KILL");*/	
+		}
 		else
-			waitpid(t_exec->pid, 0, 0);aixo sha de revisar
+			waitpid(t_exec->pid, 0, 0); //aixo sha de revisar
 	}
 
-	****************************************************************************************/
 
 
 

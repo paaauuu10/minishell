@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/08 15:50:23 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:45:52 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ int    ft_exec(char *argv, char **envp)
 	}
 	return (0);
 }*/
+
+// This function counts and returns the number of nodes in a linked list of type t_token.
+// It iterates through the list until it reaches the end (when token is NULL or token->wrd is NULL).
+// For each node, it increments the counter i.
+
 int	ft_list_size(t_token *token)
 {
 	int	i;
@@ -77,6 +82,11 @@ int	ft_list_size(t_token *token)
 	}
 	return (i);
 }
+
+// This function searches the env list for the PATH environment variable.
+// Once found, it splits the PATH variable into an array of strings using ':' as a delimiter.
+// It also constructs the command string by prepending '/' to the token's word.
+// Returns 127 if PATH is not found, and 1 in case of errors in splitting or string concatenation.
 
 int	ft_path(t_token **tokens, t_list **env, t_executor **t_exec)
 {
@@ -98,6 +108,10 @@ int	ft_path(t_token **tokens, t_list **env, t_executor **t_exec)
 	return (0);
 }
 
+// This function attempts to construct absolute paths for the command and checks if they are executable.
+// It iterates over the array of PATH directories, concatenates each with the command, and uses access() to check executability.
+// If an executable command is found, it returns 1; otherwise, it returns 0.
+
 int	ft_exec_cmd(t_executor **t_exec)
 {
 	int	i;
@@ -116,6 +130,15 @@ int	ft_exec_cmd(t_executor **t_exec)
 	/*hem de tractar si surt dek bucle, vol dir que no ha trobat*/
 	return (0);
 }
+
+// This function coordinates the execution of a command.
+// Steps:
+// 1. Calls ft_path to obtain command paths and construct the command string.
+// 2. Allocates memory for cmd_argv, an array of strings for command arguments.
+// 3. Fills cmd_argv with the token words.
+// 4. Calls ft_exec_cmd to find and validate an executable path.
+// 5. If an executable path is found, calls execve to execute the command.
+// Returns 1 on error and 0 if the command cannot be found or executed.
 
 int	ft_exec(t_token **tokens, t_list **env, t_executor *t_exec)
 {
