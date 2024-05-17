@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/17 11:45:52 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:00:56 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,3 +163,50 @@ int	ft_exec(t_token **tokens, t_list **env, t_executor *t_exec)
 		execve(t_exec->absolute_path, t_exec->cmd_argv, t_exec->new_envp);
 	return (0); /*127 indica que un comando no se encuentra o no se puede ejecutar*/
 }
+
+// int ft_exec(t_token **tokens, t_list **env, t_executor *t_exec)
+// {
+//     int i = 0;
+//     if (ft_path(tokens, env, &t_exec) != 0)
+//         return (1);
+    
+//     // Asignación de memoria para cmd_argv
+//     t_exec->cmd_argv = (char **)malloc(sizeof(char *) * (ft_list_size(*tokens) + 1));
+//     if (!t_exec->cmd_argv) {
+//         // Liberar memoria de t_exec->path si se asignó
+//         if (t_exec->path)
+//             free(t_exec->path);
+//         return (1);
+//     }
+//     t_exec->cmd_argv[ft_list_size(*tokens)] = NULL;
+
+//     // Utilizar un puntero temporal para no modificar la lista original de tokens
+//     t_token *temp_token = *tokens;
+//     while (temp_token)
+//     {
+//         t_exec->cmd_argv[i] = ft_strdup(temp_token->wrd);
+//         if (!t_exec->cmd_argv[i]) {
+//             // Liberar memoria de cmd_argv si la asignación de strdup falló
+//             free(t_exec->cmd_argv);
+//             // Liberar memoria de t_exec->path si se asignó
+//             if (t_exec->path)
+//                 free(t_exec->path);
+//             return (1);
+//         }
+//         temp_token = temp_token->next;
+//         i++;
+//     }
+    
+//     if (ft_exec_cmd(&t_exec))
+//         execve(t_exec->absolute_path, t_exec->cmd_argv, t_exec->new_envp);
+    
+//     // Liberar memoria de t_exec->path si se asignó
+//     if (t_exec->path)
+//         free(t_exec->path);
+    
+//     // Liberar memoria de cmd_argv
+//     free(t_exec->cmd_argv);
+    
+//     return (0);
+// }
+
