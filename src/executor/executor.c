@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/21 10:51:04 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:31:15 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ int	only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
 	if (t_exec->pid == 0)
 	{
 		ft_exec(tokens, env, t_exec); //s'ha de modificar
-		/*perror("Comand not found");
-		if (kill(t_exec->pid, SIGTERM) == -1)
-			perror("KILL");*/	
+		//perror("Comand not found");
+		//if (kill(t_exec->pid, SIGTERM) == -1)
+		//	perror("KILL");
 	}
 	else
 		waitpid(t_exec->pid, 0, 0); //aixo sha de revisar
@@ -80,6 +80,7 @@ int	ft_save_fd(t_executor *t_exec)
 		perror("dup");
 		return (1);
 	}
+	return (0);
 }
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
@@ -87,7 +88,14 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	//int status;
 	//int pipfd[2]
 	t_exec = malloc(sizeof(t_executor));
-	ft_memset(t_exec, 0, sizeof(t_executor));
+	if (!t_exec)
+		exit(1); /*revisar*/
+	t_exec->d_pipe = malloc(sizeof(t_pipe));
+	if (!t_exec->d_pipe)
+		exit(1); /*revisar*/
+	t_exec->d_pipe->flag = INACTIVE;
+
+	//ft_memset(t_exec, 0, sizeof(t_executor)); /*segfault*/
 	if (!tokens || !*tokens)
 	{
 		free(t_exec);
