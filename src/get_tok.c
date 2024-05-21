@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/17 13:44:22 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/21 10:07:02 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 int	type_tok(char *s)
 {
 	if (s[0] == '>' && s[1] == '>' && s[2] == '\0')
-		return (5);
+		return (APPEND);
 	if (s[0] == '>' && s[1] == '\0')
-		return (4);
+		return (OUTP);
 	if (s[0] == '<' && s[1] == '\0')
-		return (3);
+		return (INP);
 	if (s[0] == '<' && s[1] == '<' && s[2] == '\0')
-		return (6);
+		return (HEREDOC);
 	if (s[0] == '|' && s[1] == '\0')
-		return (2);
+		return (PIPE);
 	if (ft_strcmp(s, "echo") || ft_strcmp(s, "cd") || ft_strcmp(s, "pwd")
 		||ft_strcmp(s, "export") || ft_strcmp(s, "unset") || ft_strcmp(s, "env")
 		|| ft_strcmp(s, "exit"))
-		return (1);
-	return (0);
+		return (BUILTIN);
+	return (NONE);
 }
 
 t_token	*new_token(char *s)
@@ -74,7 +74,7 @@ t_token	**get_tok(t_token **tokens, char *s)
 	while (matrix[i])
 		add_token(tokens, new_token(matrix[i++]));
 
-/*	while ((*tokens))
+	/*while ((*tokens))
 	{
 		printf("%s\n", (*tokens)->wrd);
 		(*tokens) = (*tokens)->next;

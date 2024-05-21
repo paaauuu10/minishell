@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/17 12:26:23 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/21 10:40:15 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,15 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_pipe
+{
+	int	pipefd[2];
+	int	pipecounter;
+	int	flag;
+	int	original_stdin;
+	int	original_stdout;
+}	t_pipe;
+
 typedef struct s_executor
 {
 	int	pid;
@@ -59,7 +68,10 @@ typedef struct s_executor
 	char	**cmd_argv;
 	t_list	*env;
 	t_list	*exp;
+	t_pipe	*d_pipe;
 }	t_executor;
+
+
 
 
 
@@ -93,6 +105,25 @@ char	*ft_title(char *s);
 char	*ft_def(char *s);
 
 int	builtins(t_token **tokens, t_list **export, t_list **env);
+
+
+
+# define NONE 0
+# define INP 1
+# define OUTP 2
+# define PIPE 3
+# define HEREDOC 4
+# define APPEND 5
+# define BUILTIN 6
+
+/*# define INPIPE 6
+# define OUTPIPE 7
+# define HEREDOC_PIPE 8
+# define APPEND_PIPE 9
+# define FD 10
+# define OUTP_FD 11
+# define APPEND_FD 12
+# define INP_FD 13*/
 
 
 int		ft_executor(t_token **tokens, t_list **env, t_list **export);
