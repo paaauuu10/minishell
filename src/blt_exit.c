@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   blt_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
+/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:11:00 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/03 12:11:13 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/21 12:02:49 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 #include "minishell.h"
 
@@ -35,11 +37,6 @@ void	ft_exit(t_token **tokens)
 			(*tokens)->next->wrd);
 		exit(255);
 	}
-/*	else if ((*tokens)->next && n != 255)
-	{
-		ft_printf("exit\n");
-		exit(n);
-	}*/
 	else if ((*tokens) && !(*tokens)->next)
 		ft_printf("exit\n");
 	exit(n);

@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/21 11:39:53 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:58:43 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,23 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 		perror ("pid"); /*revisar*/
 		exit (1); /*revisar*/
 	}
-	if (t_exec->d_pipe->flag == ACTIVE)
+	if (t_exec->pid == 0)
 	{
-		ft_dub2(t_exec->d_pipe->pipefd[1], 1);
-		ft_close2(t_exec->d_pipe->pipefd[1], t_exec->d_pipe->pipefd[0]);
+		/*if (t_exec->d_pipe->flag == ACTIVE)
+		{
+			ft_dub2(t_exec->d_pipe->pipefd[1], 1);
+			ft_close2(t_exec->d_pipe->pipefd[1], t_exec->d_pipe->pipefd[0]);
+		}*/
+		if (!tokens || !*tokens)
+			exit (0); /*revisar*/
+		if (ft_is_builtin(tokens))
+			exit(builtins(tokens, export, env));
+		else
+			ft_exec(tokens, env, t_exec);
 	}
+	else
+		waitpid(t_exec->pid, 0, 0); //aixo sha de revisar
+	
 }
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
@@ -109,7 +121,6 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	if (!t_exec->d_pipe)
 		exit(1); /*revisar*/
 	t_exec->d_pipe->flag = INACTIVE;
-
 	//ft_memset(t_exec, 0, sizeof(t_executor)); /*segfault*/
 	if (!tokens || !*tokens)
 	{
@@ -120,7 +131,8 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	ft_save_fd(t_exec);
 	if (!is_redirection(tokens) && t_exec->total_pipes == 0)
 		ft_only_cmd(tokens, env, export, t_exec);
-	ft_more_cmd(tokens, env, export, t_exec);
+	else
+		ft_more_cmd(tokens, env, export, t_exec);
 	free(t_exec->d_pipe);
 	free(t_exec);
 	return (0);

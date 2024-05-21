@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/17 13:00:56 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/21 12:08:45 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,14 @@ int	ft_exec_cmd(t_executor **t_exec)
 	{
 		(*t_exec)->absolute_path = ft_strjoin((*t_exec)->path[i], (*t_exec)->cmd);
 		if (!(*t_exec)->cmd)
-			return (0); /*REVISAR COM FEM EXIT I QUIN VALOR */
+			exit (1); /*REVISAR COM FEM EXIT I QUIN VALOR */
 		if (access((*t_exec)->absolute_path, X_OK) == 0)
 			return (1);
 		free((*t_exec)->absolute_path);
 		i++;
 	}
 	/*hem de tractar si surt dek bucle, vol dir que no ha trobat*/
+	//ft_error_cmd((*t_exec)->cmd_argv[0], 1); /*exemple de com fer-ho*/
 	return (0);
 }
 
