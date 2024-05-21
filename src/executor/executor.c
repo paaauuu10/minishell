@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/17 13:43:40 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/21 10:46:48 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,17 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 
 	temp = *tokens;
 	t_exec->total_pipes = 0;
+	t_exec->d_pipe->flag = INACTIVE;
 	while (temp)
 	{
 		if (ft_strcmp(temp->wrd, "|"))
+		{
 			t_exec->total_pipes++;
+			t_exec->d_pipe->flag = ACTIVE;
+		}
 		temp = temp->next;
 	}
+	t_exec->d_pipe->pipecounter = t_exec->total_pipes;
 }
 /*void ft_child_process(t_executor *t_exec, t_token **tokens)
 {

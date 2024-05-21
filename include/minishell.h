@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/21 10:40:15 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/21 10:45:31 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ int	builtins(t_token **tokens, t_list **export, t_list **env);
 # define HEREDOC 4
 # define APPEND 5
 # define BUILTIN 6
-
+# define ACTIVE 8
+# define INACTIVE 9
 /*# define INPIPE 6
 # define OUTPIPE 7
 # define HEREDOC_PIPE 8
