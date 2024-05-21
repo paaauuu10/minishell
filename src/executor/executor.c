@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/21 10:46:48 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/21 10:51:04 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,21 @@ int	only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
 		waitpid(t_exec->pid, 0, 0); //aixo sha de revisar
 	return (0); /*revisar*/
 }
+int	ft_save_fd(t_executor *t_exec)
+{
+	t_exec->d_pipe->original_stdin = dup(STDIN_FILENO);
+	if (t_exec->d_pipe->original_stdin == -1)
+	{
+		perror("dup");
+		return (1);
+	}
+	t_exec->d_pipe->original_stdin = dup(STDOUT_FILENO);
+	if (t_exec->d_pipe->original_stdout == -1)
+	{
+		perror("dup");
+		return (1);
+	}
+}
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
@@ -79,6 +94,7 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 		return (0);
 	}
 	ft_count_pipes(t_exec, tokens);
+	ft_save_fd(t_exec);
 	if (!is_redirection(tokens) && t_exec->total_pipes == 0)
 		only_cmd(tokens, env, export, t_exec);
 	//more_cmd(tokens, env, export, t_exec);
