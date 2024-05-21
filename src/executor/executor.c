@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/21 11:32:19 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:39:53 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 	execve("/bin/ls", argv, NULL);
 	exit(1);
 }*/
-int	only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
+int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
 	if (ft_is_builtin(tokens))
 	{
@@ -82,6 +82,21 @@ int	ft_save_fd(t_executor *t_exec)
 	}
 	return (0);
 }
+
+void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
+{
+	t_exec->pid = fork();
+	if (t_exec->pid < 0)
+	{
+		perror ("pid"); /*revisar*/
+		exit (1); /*revisar*/
+	}
+	if (t_exec->d_pipe->flag == ACTIVE)
+	{
+		ft_dub2(t_exec->d_pipe->pipefd[1], 1);
+		ft_close2(t_exec->d_pipe->pipefd[1], t_exec->d_pipe->pipefd[0]);
+	}
+}
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
@@ -104,8 +119,8 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	ft_count_pipes(t_exec, tokens);
 	ft_save_fd(t_exec);
 	if (!is_redirection(tokens) && t_exec->total_pipes == 0)
-		only_cmd(tokens, env, export, t_exec);
-	//more_cmd(tokens, env, export, t_exec);
+		ft_only_cmd(tokens, env, export, t_exec);
+	ft_more_cmd(tokens, env, export, t_exec);
 	free(t_exec->d_pipe);
 	free(t_exec);
 	return (0);
