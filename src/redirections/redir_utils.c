@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:15:28 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/22 14:35:44 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:49:54 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,22 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
         temp = temp->next;
     }
     temp->next = NULL;
+    while (aux_head)
+    {
+        printf("TEST: %s\n", aux_head->wrd);
+        aux_head = aux_head->next;
+    }
     dup2(fd, STDOUT_FILENO);
-    if (aux_head)
-        ft_only_cmd(&temp, env, export, t_exec);
+    /*if (aux_head)
+        ft_only_cmd(&temp, env, export, t_exec);*/
     usleep(40000);/*change*/
     dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO);
+    free(env);
+    free(export);
     close(fd);
     return (0);
 }
+
 
 void free_list(t_token *head) {
     t_token *current = head;
