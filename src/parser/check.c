@@ -6,10 +6,11 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 10:24:16 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/22 10:36:07 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/22 10:55:56 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../include/minishell.h"
 
 void    ft_check_redirections_errors(char *str, int i, int *error)
 {

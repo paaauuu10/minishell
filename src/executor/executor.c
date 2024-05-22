@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/21 12:26:16 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/22 12:09:29 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ int	ft_save_fd(t_executor *t_exec)
 
 void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
+	if (is_redirection && t_exec->total_pipes == 0)
+		ft_redirect(tokens, env, export, t_exec);
+	
 	t_exec->pid = fork();
 	if (t_exec->pid < 0)
 	{
@@ -104,6 +107,8 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 			exit(builtins(tokens, export, env));
 		else
 			ft_exec(tokens, env, t_exec);
+		if (t_exec->pid == 0)
+			kill(t_exec->pid, SIGTERM);
 	}
 	else
 		waitpid(t_exec->pid, 0, 0); //aixo sha de revisar

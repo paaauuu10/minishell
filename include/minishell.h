@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/22 10:34:37 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/22 10:56:18 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ int check_string(char *str);
 ********************************************************/
 int     is_redirection(t_token **tokens);
 int	ft_is_redirection(char *str, int i);
+int	check_rd(char *str, int i);
 
 
 #endif

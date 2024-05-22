@@ -6,7 +6,7 @@
 #    By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/25 13:50:18 by pbotargu          #+#    #+#              #
-#    Updated: 2024/05/22 10:34:27 by pbotargu         ###   ########.fr        #
+#    Updated: 2024/05/22 10:41:59 by pbotargu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ READLINE = -L$(HOME)/.brew/opt/readline/lib -lreadline
 SRCDIR = src/
 OBJDIR = obj/
 
-SRC_L = blt_cd.c blt_echo.c blt_env.c blt_exit.c blt_export.c blt_pwd.c blt_unset.c expansor.c get_tok.c main.c signals.c utils.c get_list.c quotes.c executor/executor.c executor/executor_utils.c builtins/builtins_utils.c redirections/redirections.c parser/parser.c parser/check.c
+SRC_L = blt_cd.c blt_echo.c blt_env.c blt_exit.c blt_export.c blt_pwd.c blt_unset.c expansor.c get_tok.c main.c signals.c utils.c get_list.c quotes.c executor/executor.c executor/executor_utils.c builtins/builtins_utils.c redirections/check_redir.c parser/parser.c parser/check.c
 
 SRC = $(addprefix $(SRCDIR), $(SRC_L))
 OBJECTS = $(addprefix $(OBJDIR), $(SRC:.c=.o))
