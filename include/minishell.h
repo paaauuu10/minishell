@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/22 10:03:18 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/22 10:34:37 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,19 @@ int		ft_exec(t_token **tokens, t_list **env, t_executor *t_exec);
 int		ft_path(t_token **tokens, t_list **env, t_executor **t_exec);
 int     is_redirection(t_token **tokens);
 
+
+/*******************************************************
+						PARSER
+********************************************************/
+
+int parser(t_token **tokens, char *str, char **envp);
+int check_string(char *str);
+
+/*******************************************************
+						REDIRECTION
+********************************************************/
+int     is_redirection(t_token **tokens);
+int	ft_is_redirection(char *str, int i);
 
 
 #endif
