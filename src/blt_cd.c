@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:33:55 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/09 09:07:13 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:01:06 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	ft_cd(t_token	**tokens, t_list **export, t_list	**env)
 		if (!newpwd)
 		{
 			write(2, "Minishell: cd: HOME not set\n", 28);
+			ft_exit_status(1, 1);
 			return (1);
 		}
 	}
@@ -77,6 +78,7 @@ int	ft_cd(t_token	**tokens, t_list **export, t_list	**env)
 	{
 		write(2, "Minishell: ", 11);
 		perror(newpwd);
+		ft_exit_status(1, 1);
 		return (1);
 	}
 	ft_change_env(oldpwd, newpwd, env);

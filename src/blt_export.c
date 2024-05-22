@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/16 14:07:05 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:30:22 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,32 +36,30 @@ void	put_env(t_list **env, char *wrd)
 	last->next = NULL;
 }
 
-int	change_node(t_list **export, char *new_wrd)
+int	change_node(t_list **export, char *new)
 {
 	int		i;
-	t_list	*temp;
+	t_list	*t;
 
 	i = 0;
-	temp = *export;
-	while (temp)
+	t = *export;
+	while (t)
 	{
-		while (new_wrd[i] && (new_wrd[i] != '=' || (new_wrd[i + 1]
-					&& new_wrd[i] == '+'
-					&& new_wrd[i + 1] != '=')) && temp->title[i] == new_wrd[i])
+		while (new[i] && (new[i] != '=' || (new[i + 1] && new[i] == '+'
+					&& new[i + 1] != '=')) && t->title[i] == new[i])
 			i++;
-		if (new_wrd[i] && new_wrd[i] == '=' && !temp->title[i])
+		if (new[i] && new[i] == '=' && !t->title[i])
 		{
-			temp->def = ft_def(new_wrd);
+			t->def = ft_def(new);
 			return (0);
 		}
-		if (new_wrd[i] && new_wrd[i + 1] && new_wrd[i] == '+'
-			&& new_wrd[i + 1] == '=' && !temp->title[i])
+		if (new[i] && new[i + 1] && new[i] == '+'
+			&& new[i + 1] == '=' && !t->title[i])
 		{
-			temp->def = ft_strcat(temp->def, ft_def(new_wrd),
-					ft_strlen(temp->def) + ft_strlen(new_wrd));
+			t->def = ft_strcat(t->def, ft_def(new), ft_strlen(t->def) + ft_strlen(new));
 			return (0);
 		}
-		temp = temp->next;
+		t = t->next;
 		i = 0;
 	}
 	return (1);
@@ -114,6 +112,16 @@ t_list	**ft_export(t_token **tokens, t_list **export, t_list **env)
 			temp2 = temp2->next;
 		}
 	}
+	while (temp->next && temp->next->wrd[i] && (ft_isalnum(temp->next->wrd[i]) || temp->next->wrd[i] == '='))
+			i++;
+	if (temp->next && (temp->next->wrd[i] || ft_strcmp(temp->next->wrd, "=") || !ft_isalpha(temp->next->wrd[0]))
+			&& temp->next->wrd[0] != '_')
+	{
+		write(2," not a valid identifier\n", 24);
+		ft_exit_status(1, 1);
+		return (export);
+	}
+	i = 0;
 	export = ft_nxt(temp, i, export, env);
 	return (export);
 }

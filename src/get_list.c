@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:09:51 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/16 15:21:16 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:40:33 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,14 @@ char	*ft_title(char	*s)
 	char	*r;
 
 	i = 0;
-	while (s[i] && (s[i] != '='))// || (s[i] == '+' && s[i + 1] && s[i + 1] != '=')))
+	while (s[i] && (s[i] != '='))
+		// || (s[i] == '+' && s[i + 1] && s[i + 1] != '=')))
 		i++;
+	if (i == 0)
+	{
+		perror("Is not a valid identifier");
+		return (NULL);
+	}
 	if (s[i - 1] && s[i - 1] == '+')
 		i--;
 	r = (char *)malloc(sizeof(char) * (i + 1));
@@ -28,7 +34,6 @@ char	*ft_title(char	*s)
 		exit(1);
 	j = i;
 	i = 0;
-//	while (s[i] && (s[i] != '=' && (s[i] != '+' && s[i + 1] && s[i + 1] != '=')))
 	while (i < j)
 	{
 		r[i] = s[i];
@@ -72,9 +77,14 @@ t_list	*new_node(char *s)
 
 	newtok = (t_list *)malloc(sizeof(t_list));
 	if (!newtok)
+	{
 		perror("newtok");
+		return(NULL);
+	}
 	newtok->title = ft_title(s);
 	newtok->def = ft_def(s);
+	if (!newtok->title)
+		return (NULL);
 	newtok->next = NULL;
 	return (newtok);
 }

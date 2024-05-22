@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/10 09:14:46 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:31:23 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,8 @@ void	free_tokens(t_token **tokens)
 	*tokens = NULL;
 }
 
-int	main(int argc, char **argv, char **envp)
+static void	error_checker(int argc, char **argv, char **envp)
 {
-	const char	*s;
-	t_token		**tokens;
-	t_list		**env;
-	t_list		**export;
-
 	if (!*envp)
 	{
 		printf("Minishell need the envp to work.\n");
@@ -42,17 +37,23 @@ int	main(int argc, char **argv, char **envp)
 	{
 		printf("Minishell only need minishell, no more.\n");
 		exit(1);
-	}
+	}	
+	argv = NULL;
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	const char	*s;
+	t_token		**tokens;
+	t_list		**env;
+	t_list		**export;
+
+	error_checker(argc, argv, envp);
 	tokens = (t_token **)malloc(sizeof(t_token *));
 	if (!tokens)
 		exit(1);
-	argv = NULL;
-	if (argc != 1)
-	{
-		perror("Bad args\n");
-		exit(0);
-	}
 	signals();
+	ft_exit_status(0, 1);
 	env = env_list(envp);
 	export = env_list(envp);
 	while (1)
