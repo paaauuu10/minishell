@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/22 12:09:29 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/22 12:19:25 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	ft_save_fd(t_executor *t_exec)
 
 void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
-	if (is_redirection && t_exec->total_pipes == 0)
+	if (&is_redirection && t_exec->total_pipes == 0)
 		ft_redirect(tokens, env, export, t_exec);
 	
 	t_exec->pid = fork();
