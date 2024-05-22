@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 11:49:46 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/22 10:37:14 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/22 10:38:17 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ int     is_redirection(t_token **tokens)
         temp = temp->next;
     }
     return (0);
+}
+int	check_rd(char *str, int i)
+{
+	if (i <= 0)
+		return (1);
+	if (!str[i + 1])
+		return (1);
+	if (str[i - 1] == '<' || str[i - 1] == '>')
+		return (1);
+	return (0);
 }
 
 int	ft_is_redirection(char *str, int i)
