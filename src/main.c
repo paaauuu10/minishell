@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/21 13:14:03 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/22 10:16:34 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,9 @@ int	main(int argc, char **argv, char **envp)
 	t_token		**tokens;
 	t_list		**env;
 	t_list		**export;
-	int			exit_status;
 
 	tokens = (t_token **)malloc(sizeof(t_token *));
 	argv = NULL;
-	exit_status = 0;
 	if (argc != 1)
 	{
 		perror("Bad args\n");
@@ -110,7 +108,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_quote_error(s);
 		tokens = get_tok(tokens, (char *)s);
 		//ft_expansor(env, tokens);
-		ft_parser(&tokens, env, &exit_status);
+		ft_parser(&tokens, s, envp);
 		ft_executor(tokens, env, export);
 		//builtins(tokens, export, env);
 		add_history(s);

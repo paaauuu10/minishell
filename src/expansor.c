@@ -3,80 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
+/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:50:06 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/30 15:37:23 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/22 10:02:04 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-char	*ft_expansor(char **envp, char *s)
+
+static void	ft_expansor_while(t_token *temp, t_token *prev, int i, t_list **env)
 {
-	int		i;
+	int		j;
 	char	*r;
 
-	i = 0;
-	while (s[i] && s[i] != '$')
-		i++;
-	if (s[i] && s[i++] == '$')
+	j = 0;
+	while (temp->wrd[i])
 	{
-		if (envp[0])
+		while (temp->wrd[i] && temp->wrd[i] != '$')
+			i++;
+		if (temp->wrd[i] && temp->wrd[i++] == '$')
 		{
-			r = ft_str_matrix(envp, s);
+			r = ft_str_list(env, &temp->wrd[i]);
 			if (r)
 			{
-				if ((*r) != '_' && !ft_isalnum(*r++))
+				if ((*r) != '_') //&& !ft_isalnum(*r))
 				{
-					ft_printf("%s\n", r);
-					return (r);
+					j = i + ft_strlen(r);
+					temp->wrd = ft_strcat(temp->wrd, r, j);
 				}
+				i++;
 			}
+			else
+				prev = temp->next;
 		}
 	}
-	return (NULL);
-}*/
-char	*ft_expansor(t_token **env, t_token **tokens)
+}
+
+char	*ft_expansor(t_list **env, t_token **tokens)
 {
 	int		i;
-	char	*r;
-	int		j;
-	int		k;
 	t_token	*temp;
 	t_token	*prev;
 
 	temp = *tokens;
 	prev = temp;
 	i = 0;
-	j = 0;
-	k = 0;
 	while (temp)
 	{
-		while (temp->wrd[i] && temp->wrd[i] != '$')
-			i++;
-		if (temp->wrd[i] && temp->wrd[i++] == '$')
-		{
-//			while (temp->wrd[j])
-//			{
-//				if (temp->wrd[j++] == '$')
-//					k++;
-//			}
-//			while (k-- > 0)
-//			{
-				r = ft_str_list(env, &temp->wrd[i]);
-				if (r)
-				{
-					if ((*r) != '_' && !ft_isalnum(*r++))
-					{
-						i += ft_strlen(r);
-						temp->wrd = ft_strcat(temp->wrd, r, i);
-					}
-				}
-				else
-					prev = temp->next;
-//			}
-		}
+		ft_expansor_while(temp, prev, i, env);
 		i = 0;
 		prev = temp;
 		temp = temp->next;
