@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/22 13:30:22 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/23 21:27:19 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	change_node(t_list **export, char *new)
 		if (new[i] && new[i + 1] && new[i] == '+'
 			&& new[i + 1] == '=' && !t->title[i])
 		{
-			t->def = ft_strcat(t->def, ft_def(new), ft_strlen(t->def) + ft_strlen(new));
+			t->def = ft_strcat(t->def, ft_def(new),
+					ft_strlen(t->def) + ft_strlen(new));
 			return (0);
 		}
 		t = t->next;
@@ -112,12 +113,13 @@ t_list	**ft_export(t_token **tokens, t_list **export, t_list **env)
 			temp2 = temp2->next;
 		}
 	}
-	while (temp->next && temp->next->wrd[i] && (ft_isalnum(temp->next->wrd[i]) || temp->next->wrd[i] == '='))
-			i++;
-	if (temp->next && (temp->next->wrd[i] || ft_strcmp(temp->next->wrd, "=") || !ft_isalpha(temp->next->wrd[0]))
-			&& temp->next->wrd[0] != '_')
+	while (temp->next && temp->next->wrd[i] && (ft_isalnum(temp->next->wrd[i])
+			|| temp->next->wrd[i] == '='))
+		i++;
+	if (temp->next && (temp->next->wrd[i] || ft_strcmp(temp->next->wrd, "=")
+			|| !ft_isalpha(temp->next->wrd[0])) && temp->next->wrd[0] != '_')
 	{
-		write(2," not a valid identifier\n", 24);
+		write(2, " not a valid identifier\n", 24);
 		ft_exit_status(1, 1);
 		return (export);
 	}

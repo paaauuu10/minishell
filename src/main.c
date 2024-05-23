@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/21 14:31:23 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:16:13 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,18 @@ int	main(int argc, char **argv, char **envp)
 	t_list		**export;
 
 	error_checker(argc, argv, envp);
-	tokens = (t_token **)malloc(sizeof(t_token *));
-	if (!tokens)
-		exit(1);
+	//tokens = (t_token **)malloc(sizeof(t_token *));
+	//if (!tokens)
+	//	exit(1);
 	signals();
 	ft_exit_status(0, 1);
 	env = env_list(envp);
 	export = env_list(envp);
 	while (1)
 	{
+		tokens = (t_token **)malloc(sizeof(t_token *));
+		if (!tokens)
+			exit(1);
 		s = readline(GREEN "Minishell> " WHITE);
 		if (s == NULL)
 		{
@@ -69,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_expansor(env, tokens);
 		ft_executor(tokens, env, export, envp);
 		add_history(s);
-		free_tokens(tokens);
+	//	free_tokens(tokens);
 	}
 	return (0);
 }

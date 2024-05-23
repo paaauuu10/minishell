@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:23:42 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/22 09:11:12 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:32:02 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,17 @@ char	*ft_str_list(t_list **env, char *s2)
 	i = 0;
 	while (temp2)
 	{
+		if (s2[i] && s2[i + 1] && s2[i + 2] && s2[i] == '$' && s2[i + 1] == '?')
+		{
+			s2 = ft_strcat(ft_exit_status(0, 0), &s2[i + 2],
+							(ft_strlen(ft_exit_status(0, 0)) + ft_strlen(&s2[i + 2]) - i));
+			return (s2);
+		}
 		while (s2[i + 1] && temp2->title[i] && (temp2->title[i] == s2[i + 1]))
 		{
 			i++;
 			if ((!s2[i + 1] || s2[i + 1] == '$') && !temp2->title[i])
-			{
-				if (s2[i + 1] == '$')
-					return (ft_strcat(temp2->def, &s2[i + 1],
-							(ft_strlen(temp2->def) + ft_strlen(s2) - i)));
 				return (temp2->def);
-			}
 		}
 		i = 0;
 		if (temp2->next)

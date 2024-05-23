@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:50:06 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/21 14:50:40 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:33:52 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	ft_expansor_while(t_token *temp, t_token *prev, int i, t_list **env)
 			r = ft_str_list(env, &temp->wrd[--i]);
 			if (r)
 			{
-				if ((*r) != '_' && !ft_isalnum(*r))
+				if ((*r) != '_') //&& !ft_isalnum(*r))
 				{
 					j = i + ft_strlen(r);
 					temp->wrd = ft_strcat(temp->wrd, r, j);
