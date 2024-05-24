@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:15:28 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/24 13:05:56 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/24 13:22:03 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,22 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
     return (0);
 }
 
-
-
+// int ft_redir_in(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
+// {
+//     t_token *temp;
+    
+//     temp = *tokens;
+//     while (temp)
+//     {
+//         if (ft_strcmp(temp->wrd, ">") != 0)
+//             break ;
+//         temp = temp->next;
+//     }
+//     if (temp && temp->next)
+//     {
+//         temp = temp->next;
+            
+//     }   
+// } 
 
 
