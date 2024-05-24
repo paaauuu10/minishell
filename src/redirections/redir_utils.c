@@ -6,11 +6,27 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:15:28 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/24 12:35:55 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/24 12:51:44 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void free_token_list(t_token **head) 
+{
+    t_token *current = *head;
+    t_token *next;
+
+    while (current != NULL) 
+    {
+        next = current->next;
+        free(current->wrd); 
+        free(current);
+        current = next;
+    }
+
+    *head = NULL;
+}
 
 t_token	*ft_lstnew(char *word, int tokk)
 {
@@ -39,12 +55,15 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
             break ;
         temp = temp->next;
     }
-    temp = temp->next;
-    fd = open(temp->wrd, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-    if (fd == -1)
+    if (temp && temp->next)
     {
-        perror("open");
-        return (-1); /*revisar*/
+        temp = temp->next;
+        fd = open(temp->wrd, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+        if (fd == -1)
+        {
+            perror("open");
+            return (-1); /*revisar*/
+        }
     }
     temp = *tokens;
     /*TENIM FILENAME I OBERT*/ 
@@ -56,25 +75,16 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
         temp = temp->next;
     }
     dup2(fd, STDOUT_FILENO);
+    close(fd);
     if (aux_head)
         ft_only_cmd(&aux_head, env, export, t_exec);
-    close(fd);
+    free_token_list(&aux_head);
     dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO);
     close(t_exec->d_pipe->original_stdout);
     return (0);
 }
 
 
-void free_list(t_token *head) {
-    t_token *current = head;
-    t_token *next;
 
-    while (current != NULL) {
-        next = current->next;
-        free(current->wrd); // Liberamos la memoria del contenido del nodo
-        free(current);       // Liberamos la memoria del nodo
-        current = next;      // Avanzamos al siguiente nodo
-    }
-}
 
 
