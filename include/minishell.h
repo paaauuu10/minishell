@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/24 11:34:35 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/24 13:03:56 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ int		ft_exec(t_token **tokens, t_list **env, t_executor *t_exec);
 int		ft_path(t_token **tokens, t_list **env, t_executor **t_exec);
 int     is_redirection(t_token **tokens);
 int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec);
+void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec);
+
 
 
 
@@ -158,5 +160,9 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 ********************************************************/
 
 void	ft_wait_one_child_process(int *exit_status);
+
+
+
+
 
 #endif

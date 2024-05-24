@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/24 12:38:54 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/24 12:59:03 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,16 +122,9 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	ft_count_pipes(t_exec, tokens);
 	ft_save_fd(t_exec);
 	if (!is_redirection(tokens) && t_exec->total_pipes == 0)
-	{
-		printf("1\n");
 		ft_only_cmd(tokens, env, export, t_exec);
-	}
 	else
-	{
-		printf("2\n");
 		ft_more_cmd(tokens, env, export, t_exec);
-	}
-	printf("3\n");
 	free(t_exec->d_pipe);
 	free(t_exec);
 	return (0);
