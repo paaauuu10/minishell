@@ -6,11 +6,25 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:15:28 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/22 18:44:36 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/24 12:35:55 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+t_token	*ft_lstnew(char *word, int tokk)
+{
+	t_token	*new_node;
+
+	new_node = malloc(sizeof(t_token));
+	if (!new_node)
+		return (NULL);
+	new_node->wrd = word;
+    new_node->tok = tokk;
+	new_node->next = NULL;
+	return (new_node);
+}
+
 
 int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
@@ -18,7 +32,6 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
     t_token *aux_head;
     int fd;
     
-    aux_head = NULL;
     temp = *tokens;
     while (temp)
     {
@@ -34,47 +47,20 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
         return (-1); /*revisar*/
     }
     temp = *tokens;
-    while (temp && ft_strcmp(temp->next->wrd, ">") == 0)
-    {    
-        /*COMO CREAR UNA LISTA NUEVA AUXILIAR QUE VAYA COPIANDO LOS NODOS DE TEMP*/
-        t_token *new_node = malloc(sizeof(t_token));
-        if (!new_node)
-        {
-            perror("malloc");
-            // Manejar el error de asignación de memoria
-        }
-    
-         // Copiamos el contenido del nodo actual de 'temp' al nuevo nodo
-        new_node->wrd = strdup(temp->wrd);
-        new_node->next = NULL;
-    
-        // Agregamos el nuevo nodo a la lista auxiliar
-        if (!aux_head)
-            aux_head = new_node; // Si es el primer nodo, lo asignamos como cabeza de la lista auxiliar
-        else
-        {
-            // Si no es el primer nodo, lo agregamos al final de la lista auxiliar
-            t_token *aux_last = aux_head;
-            while (aux_last->next != NULL)
-                aux_last = aux_last->next;
-            aux_last->next = new_node;
-        }
+    /*TENIM FILENAME I OBERT*/ 
+    aux_head = ft_lstnew(temp->wrd, temp->tok);
+    temp = temp->next;  
+    while (temp && ft_strcmp(temp->next->wrd, ">") != 0)
+    {
+        add_token(&aux_head, new_token(temp->wrd));
         temp = temp->next;
     }
-    temp->next = NULL;
-    while (aux_head)
-    {
-        printf("TEST: %s\n", aux_head->wrd);
-        aux_head = aux_head->next;
-    }
     dup2(fd, STDOUT_FILENO);
-    /*if (aux_head)
-        ft_only_cmd(&temp, env, export, t_exec);*/
-    usleep(40000);/*change*/
-    dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO);
-    free(env);
-    free(export);
+    if (aux_head)
+        ft_only_cmd(&aux_head, env, export, t_exec);
     close(fd);
+    dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO);
+    close(t_exec->d_pipe->original_stdout);
     return (0);
 }
 

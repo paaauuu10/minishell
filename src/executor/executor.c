@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/22 12:19:25 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/24 12:38:54 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,7 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 	}
 	t_exec->d_pipe->pipecounter = t_exec->total_pipes;
 }
-/*void ft_child_process(t_executor *t_exec, t_token **tokens)
-{
-	char **argv;
-	argv[0] = "ls";
-	argv[1] = NULL;
-	//SI ES UNA PIPE 
-		//dup2(pipefd[1], 1);
-		//close(pipefd[1]);
-		//close(pipefd[0]);
-	execve("/bin/ls", argv, NULL);
-	exit(1);
-}*/
+
 int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
 	if (ft_is_builtin(tokens))
@@ -63,7 +52,7 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 		//	perror("KILL");
 	}
 	else
-		waitpid(t_exec->pid, 0, 0); //aixo sha de revisar
+		ft_wait_one_child_process(&t_exec->exit_status); //aixo sha de revisar
 	return (0); /*revisar*/
 }
 int	ft_save_fd(t_executor *t_exec)
@@ -87,38 +76,37 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 {
 	if (&is_redirection && t_exec->total_pipes == 0)
 		ft_redirect(tokens, env, export, t_exec);
-	
-	t_exec->pid = fork();
-	if (t_exec->pid < 0)
+	else
 	{
-		perror ("pid"); /*revisar*/
-		exit (1); /*revisar*/
-	}
-	if (t_exec->pid == 0)
-	{
+		t_exec->pid = fork();
+		if (t_exec->pid < 0)
+		{
+			perror ("pid"); /*revisar*/
+			exit (1); /*revisar*/
+		}
+		if (t_exec->pid == 0)
+		{
 		/*if (t_exec->d_pipe->flag == ACTIVE)
 		{
 			ft_dub2(t_exec->d_pipe->pipefd[1], 1);
 			ft_close2(t_exec->d_pipe->pipefd[1], t_exec->d_pipe->pipefd[0]);
 		}*/
-		if (!tokens || !*tokens)
-			exit (0); /*revisar*/
-		if (ft_is_builtin(tokens))
-			exit(builtins(tokens, export, env));
+			if (!tokens || !*tokens)
+				exit (0); /*revisar*/
+			if (ft_is_builtin(tokens))
+				exit(builtins(tokens, export, env));
+			else
+				ft_exec(tokens, env, t_exec);
+			if (t_exec->pid == 0)
+				kill(t_exec->pid, SIGTERM);
+		}
 		else
-			ft_exec(tokens, env, t_exec);
-		if (t_exec->pid == 0)
-			kill(t_exec->pid, SIGTERM);
+			ft_wait_one_child_process(&t_exec->exit_status);
 	}
-	else
-		waitpid(t_exec->pid, 0, 0); //aixo sha de revisar
-	
 }
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
-	//int status;
-	//int pipfd[2]
 	t_exec = malloc(sizeof(t_executor));
 	if (!t_exec)
 		exit(1); /*revisar*/
@@ -126,7 +114,6 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	if (!t_exec->d_pipe)
 		exit(1); /*revisar*/
 	t_exec->d_pipe->flag = INACTIVE;
-	//ft_memset(t_exec, 0, sizeof(t_executor)); /*segfault*/
 	if (!tokens || !*tokens)
 	{
 		free(t_exec);
@@ -135,21 +122,17 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	ft_count_pipes(t_exec, tokens);
 	ft_save_fd(t_exec);
 	if (!is_redirection(tokens) && t_exec->total_pipes == 0)
+	{
+		printf("1\n");
 		ft_only_cmd(tokens, env, export, t_exec);
+	}
 	else
+	{
+		printf("2\n");
 		ft_more_cmd(tokens, env, export, t_exec);
+	}
+	printf("3\n");
 	free(t_exec->d_pipe);
 	free(t_exec);
 	return (0);
 }
-	/* t_exec->pid = fork();
-	if (t_exec->pid < 0)
-		return (1);
-	if (t_exec->pid == 0)
-		ft_child_process(t_exec, tokens);
-	wait(&status);
-	//SI ES UNA PIPE 
-		//dup2(pipefd[0], 0);
-		//close(pipefd[1]);
-		//close(pipefd[0]);
-	free(t_exec);*/
