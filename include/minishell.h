@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/24 13:18:51 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:14:44 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,8 @@ int ft_redir_in(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 ********************************************************/
 
 void	ft_wait_one_child_process(int *exit_status);
+void	ft_wait_childs_process(int	*exit_status, int i, t_executor *t_exec);
+
 
 
 

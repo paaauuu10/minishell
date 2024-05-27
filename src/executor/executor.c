@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/27 14:56:43 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:46:50 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,19 @@ int	ft_save_fd(t_executor *t_exec)
 void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
 	int i;
+	//t_token *aux;
 	i = 0;
 	t_exec->d_pipe->pipecounter = 0;
 	while (*tokens)
 	{
+		printf("debug before pipe\n");
 		pipe(t_exec->d_pipe->pipefd);
+		printf("debug after pipe\n");
 		t_exec->d_pipe->pipecounter++; /*aixi sabem quantes pipes portem creades i podem saber si es l'ultima*/
-		printf("%d\n", t_exec->d_pipe->pipecounter);
-		printf("%d\n", t_exec->total_pipes);
+		// printf("%d\n", t_exec->d_pipe->pipecounter);
+		// printf("%d\n", t_exec->total_pipes);
 		
-		//revisar redireccio fins que trobi la primera pipe
+		//if (ft_is_redir_pipe(tokens)) //revisar redireccio fins que trobi la primera pipe
 		t_exec->pid = fork();
 		if (t_exec->pid < 0)
 		{
@@ -96,7 +99,7 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 		//prerara la llista fins a pipe  /*creo llista o matriu*/ 
 		if (t_exec->pid == 0) //fill
 		{
-			//si encara queda una pipe mes
+			if (t_exec->d_pipe->pipecounter != t_exec->total_pipes) //si encara queda una pipe mes
 			dup2(t_exec->d_pipe->pipefd[1], 1); //sortida del comando que s'executara a la std_out de la pipe
 			if (!tokens || !*tokens)
 				exit (0); /*revisar*/
@@ -110,9 +113,13 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 		if (t_exec->d_pipe->pipecounter == t_exec->total_pipes) //si es l'ulitm comando, no mes pipes
 			dup2(t_exec->d_pipe->pipefd[0], t_exec->d_pipe->original_stdout);
 		//iterar fins el seguent comando
+		while ((*tokens)->next && (*tokens)->tok != PIPE)
+			(*tokens) = (*tokens)->next;
+		(*tokens) = (*tokens)->next;
+		printf("%d\n", (*tokens)->tok);
 		i++;
 	}
-	//ft_wait_childs_process(&t_exec->exit_status, i);
+	ft_wait_childs_process(&t_exec->exit_status, i, t_exec);
 }
 
 
