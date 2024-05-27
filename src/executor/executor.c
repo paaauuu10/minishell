@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/27 14:36:12 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:56:43 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 			perror ("pid"); /*revisar*/
 			exit (1); /*revisar*/
 		}
-		//prerara la llista fins a pipe 
-		if (t_exec->pid == 0)//fill
+		//prerara la llista fins a pipe  /*creo llista o matriu*/ 
+		if (t_exec->pid == 0) //fill
 		{
 			//si encara queda una pipe mes
 			dup2(t_exec->d_pipe->pipefd[1], 1); //sortida del comando que s'executara a la std_out de la pipe
@@ -109,7 +109,7 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 			dup2(t_exec->d_pipe->pipefd[0], 0);
 		if (t_exec->d_pipe->pipecounter == t_exec->total_pipes) //si es l'ulitm comando, no mes pipes
 			dup2(t_exec->d_pipe->pipefd[0], t_exec->d_pipe->original_stdout);
-		//iterar fins el seguen comando
+		//iterar fins el seguent comando
 		i++;
 	}
 	//ft_wait_childs_process(&t_exec->exit_status, i);
@@ -132,7 +132,7 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	}
 	ft_count_pipes(t_exec, tokens);
 	ft_save_fd(t_exec);
-	if (!is_redirection(tokens) && t_exec->total_pipes == 0)
+	if (t_exec->total_pipes == 0)
 		ft_only_cmd(tokens, env, export, t_exec);
 	else
 		ft_more_cmd(tokens, env, export, t_exec);

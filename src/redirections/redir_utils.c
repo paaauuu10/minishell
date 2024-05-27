@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:15:28 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/24 13:22:03 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:12:55 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void free_token_list(t_token **head)
     while (current != NULL) 
     {
         next = current->next;
-        free(current->wrd); 
         free(current);
         current = next;
     }
