@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
+/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:09:51 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/03 12:13:45 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:08:55 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_def(char	*s)
 		return (NULL);
 	while (s[i++])
 		j++;
-	r = (char *)malloc(sizeof(char) * (j));
+	r = (char *)malloc(sizeof(char) * (1000));
 	i = 0;
 	j = 0;
 	while (s[i] && s[i] != '=')
@@ -53,7 +53,8 @@ char	*ft_def(char	*s)
 	i++;
 	while (s[i])
 		r[j++] = s[i++];
-	r[i] = '\0';
+	if (r[i])
+		r[i] = '\0';
 	return (r);
 }
 

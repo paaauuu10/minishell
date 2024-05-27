@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/22 11:03:02 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:16:16 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,5 @@ int	ft_exec(t_token **tokens, t_list **env, t_executor *t_exec)
 	}
 	if (ft_exec_cmd(&t_exec))
 		execve(t_exec->absolute_path, t_exec->cmd_argv, t_exec->new_envp);
-	return (0); /*127 indica que un comando no se encuentra o no se puede ejecutar*/
+	exit(127);
 }
