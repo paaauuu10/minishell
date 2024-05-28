@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/27 17:46:50 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/28 11:24:56 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,26 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 {
 	if (is_redirection(tokens))
 		ft_redirect(tokens, env, export, t_exec);/*testejar*/
-	if (ft_is_builtin(tokens))
+	else if (ft_is_builtin(tokens))
 	{
 		t_exec->exit_status = builtins(tokens, export, env);
 		return (1); //revisar
 	}
-	t_exec->pid = fork();
-	if (t_exec->pid < 0)
-	{
-		printf("pid < 0");
-		return (0);   //revisar
-	}
-	if (t_exec->pid == 0)
-	{
-		ft_exec(tokens, env, t_exec); //s'ha de modificar
-		//perror("Comand not found");
-		//if (kill(t_exec->pid, SIGTERM) == -1)
-		//	perror("KILL");
-	}
 	else
-		ft_wait_one_child_process(&t_exec->exit_status); //aixo sha de revisar
+	{
+		t_exec->pid = fork();
+		if (t_exec->pid < 0)
+		{
+			printf("pid < 0");
+			return (0);   //revisar
+		}
+		if (t_exec->pid == 0)
+		{
+			ft_exec(tokens, env, t_exec); //s'ha de modificar
+			//perror("Comand not found");
+		}
+	}
+	ft_wait_one_child_process(&t_exec->exit_status); //aixo sha de revisar
 	return (0); /*revisar*/
 }
 int	ft_save_fd(t_executor *t_exec)
@@ -73,18 +73,21 @@ int	ft_save_fd(t_executor *t_exec)
 	}
 	return (0);
 }
-
+// t_token ft_new_list_no_pipe(t_token **tokens)
+// {
+	
+// }
 void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
 	int i;
-	//t_token *aux;
+	//t_token **aux;
 	i = 0;
 	t_exec->d_pipe->pipecounter = 0;
 	while (*tokens)
 	{
-		printf("debug before pipe\n");
+		//printf("debug before pipe\n");
 		pipe(t_exec->d_pipe->pipefd);
-		printf("debug after pipe\n");
+		//printf("debug after pipe\n");
 		t_exec->d_pipe->pipecounter++; /*aixi sabem quantes pipes portem creades i podem saber si es l'ultima*/
 		// printf("%d\n", t_exec->d_pipe->pipecounter);
 		// printf("%d\n", t_exec->total_pipes);
@@ -96,7 +99,7 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 			perror ("pid"); /*revisar*/
 			exit (1); /*revisar*/
 		}
-		//prerara la llista fins a pipe  /*creo llista o matriu*/ 
+		//aux = ft_new_list_no_pipe(tokens);//prerara la llista fins a pipe  /*creo llista o matriu*/ 
 		if (t_exec->pid == 0) //fill
 		{
 			if (t_exec->d_pipe->pipecounter != t_exec->total_pipes) //si encara queda una pipe mes
@@ -106,17 +109,20 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 			if (ft_is_builtin(tokens))
 				exit(builtins(tokens, export, env));
 			else
-				ft_exec(tokens, env, t_exec);
+				exit(ft_exec(tokens, env, t_exec)); /*revisar si cal fer exit, ja que la funcion ja en te un (crec que si)*/
 		}
 		if (t_exec->d_pipe->pipecounter != t_exec->total_pipes) //si encara hi ha pipe
+		{	
 			dup2(t_exec->d_pipe->pipefd[0], 0);
+			while ((*tokens)->next && (*tokens)->tok != PIPE)
+				(*tokens) = (*tokens)->next;
+			(*tokens) = (*tokens)->next;
+			printf("%s\n", (*tokens)->wrd);
+		}
 		if (t_exec->d_pipe->pipecounter == t_exec->total_pipes) //si es l'ulitm comando, no mes pipes
 			dup2(t_exec->d_pipe->pipefd[0], t_exec->d_pipe->original_stdout);
 		//iterar fins el seguent comando
-		while ((*tokens)->next && (*tokens)->tok != PIPE)
-			(*tokens) = (*tokens)->next;
-		(*tokens) = (*tokens)->next;
-		printf("%d\n", (*tokens)->tok);
+		
 		i++;
 	}
 	ft_wait_childs_process(&t_exec->exit_status, i, t_exec);
