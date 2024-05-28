@@ -6,7 +6,11 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
+<<<<<<< HEAD:include/minishell.h
 /*   Updated: 2024/05/21 14:30:43 by pborrull         ###   ########.fr       */
+=======
+/*   Updated: 2024/04/23 15:10:19 by pborrull         ###   ########.fr       */
+>>>>>>> 8b73d5e7bf7b0d94a37c6b66c27535a9d5bbf752:minishell.h
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +75,7 @@ int		ft_is_builtin(t_token **tokens);
 t_token	**get_tok(t_token **tokens, char *s);
 void	add_token(t_token **tokens, t_token	*node);
 t_token	*new_token(char *s);
+<<<<<<< HEAD:include/minishell.h
 int		change_tok(t_token **export, char *new_wrd);
 char	*ft_str_list(t_list **temp, char *s2);
 t_list	*new_node(char *s);
@@ -94,5 +99,20 @@ char	*ft_exit_status(int i, int j);
 int		ft_executor(t_token **tokens, t_list **env,
 			t_list **export, char **envp);
 int		ft_exec(char *argv, char **envp);
+=======
+void	signals(void);
+int		ft_strcmp(char *s1, char *s2);
+char	*ft_str_list(t_token *temp, char *s2);
+//char	*ft_str_matrix(char **s1, char *s2);
+int		ft_env(t_token **env);
+int		ft_echo(t_token **s);
+int		ft_quote(const char	*s);
+//char	*ft_expansor(char **envp, char *s);//t_token **tokens);
+char	*ft_expansor(t_token **env, t_token **tokens);
+int		ft_pwd(void);
+void	ft_exit(t_token **tokens);
+t_token **ft_export(t_token **tokens, t_token **export, t_token **env);
+void	ft_unset(t_token	**export, char *wrd);
+>>>>>>> 8b73d5e7bf7b0d94a37c6b66c27535a9d5bbf752:minishell.h
 
 #endif
