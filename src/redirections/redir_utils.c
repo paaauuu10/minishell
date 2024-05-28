@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:15:28 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/28 11:21:57 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/28 12:12:18 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
     t_token *aux_head;
     int fd;
     
-    temp = *tokens;
+    temp = *tokens;  
     while (temp)
     {
         if (ft_strcmp(temp->wrd, ">") != 0)
@@ -64,10 +64,10 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
             return (-1); /*revisar*/
         }
     }
-    temp = *tokens;
+    temp = *tokens; 
     /*TENIM FILENAME I OBERT*/ 
     aux_head = ft_lstnew(temp->wrd, temp->tok);
-    temp = temp->next;  
+    temp = temp->next;
     while (temp && ft_strcmp(temp->next->wrd, ">") != 0)
     {
         add_token(&aux_head, new_token(temp->wrd));
