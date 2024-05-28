@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
+/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/21 14:30:43 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:05:40 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,40 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_pipe
+{
+	int	pipefd[2];
+	int	pipecounter;
+	int	flag;
+	int	original_stdin;
+	int	original_stdout;
+}	t_pipe;
+
 typedef struct s_executor
 {
 	int	pid;
 	int	total_pipes;
 	int	exit_status;
+	char	*absolute_path;
+	char	**path;
+	char	**new_envp;
+	char	*cmd;
+	char	**cmd_argv;
+	t_list	*env;
+	t_list	*exp;
+	t_pipe	*d_pipe;
 }	t_executor;
+
+# define NONE 0
+# define INP 1
+# define OUTP 2
+# define PIPE 3
+# define HEREDOC 4
+# define APPEND 5
+# define BUILTIN 6
+# define ACTIVE 8
+# define INACTIVE 9
+
 
 /*---------------------- BUILTINGS ----------------------------*/
 
@@ -91,8 +119,27 @@ char	*ft_exit_status(int i, int j);
 
 /*----------------------- EXECUTOR ----------------------------*/
 
-int		ft_executor(t_token **tokens, t_list **env,
-			t_list **export, char **envp);
-int		ft_exec(char *argv, char **envp);
+int	ft_executor(t_token **tokens, t_list **env, t_list **export);
+int	ft_exec(t_token **tokens, t_list **env, t_executor *t_exec);
+int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec);
+
+
+/*----------------------- REDIRECTIONS ------------------------*/
+
+int     is_redirection(t_token **tokens);
+int	ft_is_redirection(char *str, int i);
+int	check_rd(char *str, int i);
+int ft_redirect(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec);
+int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec);
+int ft_redir_in(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec);
+
+t_token	*ft_lstnew(char *word, int tokk);
+
+/*------------------------ WAIT --------------------------------*/
+
+
+void	ft_wait_one_child_process(int *exit_status);
+void	ft_wait_childs_process(int	*exit_status, int i, t_executor *t_exec);
+
 
 #endif

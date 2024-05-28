@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
+/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/22 14:16:13 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:00:54 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_quote_error(s);
 		tokens = get_tok(tokens, (char *)s);
 		ft_expansor(env, tokens);
-		ft_executor(tokens, env, export, envp);
+		ft_executor(tokens, env, export);
 		add_history(s);
 	//	free_tokens(tokens);
 	}
