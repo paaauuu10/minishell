@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/28 11:55:31 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/28 13:20:52 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,33 +84,31 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 	t_exec->d_pipe->pipecounter = 0;
 	while (*tokens)
 	{
-		//printf("debug before pipe\n");
-		pipe(t_exec->d_pipe->pipefd);
-		//printf("debug after pipe\n");
+		if (t_exec->d_pipe->pipecounter != t_exec->total_pipes)
+			pipe(t_exec->d_pipe->pipefd);
 		t_exec->d_pipe->pipecounter++; /*aixi sabem quantes pipes portem creades i podem saber si es l'ultima*/
-		// printf("%d\n", t_exec->d_pipe->pipecounter);
-		// printf("%d\n", t_exec->total_pipes);
 		//if (ft_is_redir_pipe(tokens)) //revisar redireccio fins que trobi la primera pipe
+		//prerara la llista fins a pipe  /*creo llista o matriu*/ 
+		aux = ft_lstnew(temp->wrd, temp->tok);
+    	temp = temp->next;  
+    	while (temp && ft_strcmp(temp->next->wrd, "|") == 1)
+    	{
+        	add_token(&aux, new_token(temp->wrd));
+        	temp = temp->next;
+   	 	}
+		printf("PRIMERA PARAULA COMANDO ENVIAT: %s\n", aux->wrd);
+		if (aux->next)
+			printf("SEGONA PARAULA COMANDO ENVIAT: %s\n", aux->next->wrd);
+		
+		/************************************
+	    ES POT REMPLAÇAR PER FT_CHILD_PROCESS
+		*************************************/
 		t_exec->pid = fork();
 		if (t_exec->pid < 0)
 		{
 			perror ("pid"); /*revisar*/
 			exit (1); /*revisar*/
 		}
-		//prerara la llista fins a pipe  /*creo llista o matriu*/ 
-		aux = ft_lstnew(temp->wrd, temp->tok);
-    	temp = temp->next;  
-    	while (temp && ft_strcmp(temp->next->wrd, ">") != 0)
-    	{
-        	add_token(&aux, new_token(temp->wrd));
-        	temp = temp->next;
-   	 	}
-		printf("PRIMERA PARAULA COMANDO ENVIAT: %s\n", aux->wrd);
-		
-		/************************************
-	    ES POT REPLAÇAR PER FT_CHILD_PROCESS
-		*************************************/
-		
 		if (t_exec->pid == 0) //fill
 		{
 			if (t_exec->d_pipe->pipecounter != t_exec->total_pipes) //si encara queda una pipe mes
@@ -122,15 +120,13 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 			else
 				exit(ft_exec(&aux, env, t_exec)); /*revisar si cal fer exit, ja que la funcion ja en te un (crec que si)*/
 		}
-		if (t_exec->d_pipe->pipecounter != t_exec->total_pipes) //si encara hi ha pipe
-		{	
-			dup2(t_exec->d_pipe->pipefd[0], 0);
-			while ((*tokens)->next && (*tokens)->tok != PIPE)
+		while ((*tokens)->next && (*tokens)->tok != PIPE) /*MIRO AVANÇAR FINS SEGUENT PIPE*/
 				(*tokens) = (*tokens)->next;
-			(*tokens) = (*tokens)->next;
-			printf("comando despues de la pipe: %s\n", (*tokens)->wrd);
-			//iterar fins el seguent comando
-		}
+		(*tokens) = (*tokens)->next;
+		printf("comando despues de la pipe: %s\n", (*tokens)->wrd);
+		//iterar fins el seguent comando
+		if (t_exec->d_pipe->pipecounter != t_exec->total_pipes) //si encara hi ha pipe	
+			dup2(t_exec->d_pipe->pipefd[0], 0);			
 		if (t_exec->d_pipe->pipecounter == t_exec->total_pipes) //si es l'ulitm comando, no mes pipes
 			dup2(t_exec->d_pipe->pipefd[0], t_exec->d_pipe->original_stdout);
 		i++;
