@@ -8,7 +8,7 @@ MAGENTA = \033[1;35m
 BLUE = \033[38;5;75m
 ORIGINAL = \033[0m
 
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 
 INCS = -I./include/ -I./include/Libft -I$(HOME)/.brew/opt/readline/include
 LIBFTA = -L./include/Libft -lft
