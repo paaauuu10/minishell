@@ -1,40 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/21 11:46:27 by pborrull          #+#    #+#             */
-/*   Updated: 2023/09/21 13:02:08 by pborrull         ###   ########.fr       */
+/*   Created: 2024/05/21 14:14:15 by pborrull          #+#    #+#             */
+/*   Updated: 2024/05/21 14:31:46 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *s1)
+char	*ft_exit_status(int i, int j)
 {
-	char	*s2;
-	int		i;
-	size_t	len;
+	static char	*k;
 
-	i = 0;
-	len = ft_strlen(s1);
-	s2 = malloc(len + 1);
-	if (s2 == NULL)
-		return (NULL);
-	while (s1[i] != '\0')
-	{
-		s2[i] = s1[i];
-		i ++;
-	}
-	s2[i] = '\0';
-	return (&s2[0]);
+	if (j == 1)
+		k = ft_itoa(i);
+	return (k);
 }
-/*
-int	main(void)
-{
-	char	a[23] = "prova28";
-	printf("%s", ft_strdup(a));
-	return (0);
-}*/

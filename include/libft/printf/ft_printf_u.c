@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:14:59 by pborrull          #+#    #+#             */
-/*   Updated: 2023/10/19 09:33:12 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:33:14 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_len(unsigned int n)
 	return (len);
 }
 
-char	ft_subitoa(int n, char *r)
+static char	ft_subitoa(int n, char *r)
 {
 	if (n == 0)
 		r[0] = '0';

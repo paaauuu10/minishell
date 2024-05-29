@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/21 10:07:02 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:21:28 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,26 @@
 int	type_tok(char *s)
 {
 	if (s[0] == '>' && s[1] == '>' && s[2] == '\0')
-		return (APPEND);
+		return (5);
 	if (s[0] == '>' && s[1] == '\0')
-		return (OUTP);
+		return (4);
 	if (s[0] == '<' && s[1] == '\0')
-		return (INP);
+		return (3);
 	if (s[0] == '<' && s[1] == '<' && s[2] == '\0')
-		return (HEREDOC);
+		return (6);
 	if (s[0] == '|' && s[1] == '\0')
-		return (PIPE);
+		return (2);
 	if (ft_strcmp(s, "echo") || ft_strcmp(s, "cd") || ft_strcmp(s, "pwd")
 		||ft_strcmp(s, "export") || ft_strcmp(s, "unset") || ft_strcmp(s, "env")
 		|| ft_strcmp(s, "exit"))
-		return (BUILTIN);
-	return (NONE);
+		return (1);
+	return (0);
 }
 
 t_token	*new_token(char *s)
 {
 	t_token	*newtok;
+
 	newtok = (t_token *)malloc(sizeof(t_token));
 	if (!newtok)
 		perror("newtok");
@@ -65,19 +66,15 @@ t_token	**get_tok(t_token **tokens, char *s)
 {
 	char	**matrix;
 	int		i;
-
+	printf("2.0\n");
 	i = 0;
 	matrix = ft_quotes(s);
+	printf("2.1\n");\
 //	matrix = ft_split(s, ' ');
 	if (!tokens)
 		exit(2);
 	while (matrix[i])
 		add_token(tokens, new_token(matrix[i++]));
-
-	/*while ((*tokens))
-	{
-		printf("%s\n", (*tokens)->wrd);
-		(*tokens) = (*tokens)->next;
-	}*/
+	printf("2.2\n");
 	return (tokens);
 }

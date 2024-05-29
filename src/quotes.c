@@ -6,53 +6,83 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/03 13:53:59 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/23 22:09:35 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	ft_count(const char *s)
+{
+	int		i;
+	int		count;
+	char	quote;
+
+	i = 0;
+	count = 0;
+	while (s[i])
+	{
+		while (s[i] && s[i] == ' ')
+			i++;
+		while (s[i] && s[i] != ' ' && s[i] != '"' && s[i] != '\'')
+			i++;
+		if (s[i] && (s[i] == '"' || s[i] == '\''))
+		{
+			quote = s[i++];
+			while (s[i] && s[i] != quote)
+				i++;
+			if (!s[i])
+				break ;
+			if (s[i] == quote)
+				i++;
+		}
+		count++;
+	}
+	return (count);
+}
+
 char	**ft_quotes(const char *s)
 {
 	char	**r;
+	char	quote;
 	int		i;
 	int		j;
 	int		k;
+	int		len;
 
+	r = (char **)malloc(sizeof(char *) * (ft_count(s) + 1));
+	if (!r)
+		return (NULL);
 	i = 0;
-	j = 0;
 	k = 0;
-	r = (char **)malloc(sizeof(char *) * 1000);
-	r[k] = (char *)malloc(sizeof(char) * 1000);
 	while (s[i])
 	{
-		if (s[i] != '"' && s[i] != '\'' && s[i] != ' ')
-			r[k][j++] = s[i];
-		else if (s[i] == ' ')
+		quote = ' ';
+		if (s[i] == '"' || s[i] == '\'')
+			quote = s[i++];
+		len = 0;
+		while (s[i + len] && s[i + len] != quote)
 		{
-			r[k++][j] = '\0';
-			r[k] = (char *)malloc(sizeof(char) * 1000);
-			j = 0;
+			if ((s[i] == '"' || s[i] == '\'') && quote == ' ')
+				i++;
+			len++;
 		}
-		else if (s[i] == '"')
+		r[k] = (char *)malloc(sizeof(char) * (len + 1));
+		if (!r[k])
+			return (NULL);
+		j = 0;
+		while (s[i] && s[i] != quote)
 		{
-			i++;
-			while (s[i] != '"')
+			if ((s[i] == '"' || s[i] == '\'') && quote == ' ')
+				i++;
+			else
 				r[k][j++] = s[i++];
-			r[k++][j] = '\0';
-			r[k] = (char *)malloc(sizeof(char) * 1000);
-			j = 0;
 		}
-		else if (s[i] == '\'')
-		{
+		r[k][j] = '\0';
+		k++;
+		if (s[i] == quote)
 			i++;
-			while (s[i] != '\'')
-				r[k][j++] = s[i++];
-			r[k++][j] = '\0';
-			r[k] = (char *)malloc(sizeof(char) * 1000);
-			j = 0;
-		}
-		i++;
 	}
+	r[k] = NULL;
 	return (r);
 }

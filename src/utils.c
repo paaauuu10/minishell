@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:23:42 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/03 12:08:44 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/23 22:49:52 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,63 +24,68 @@ int	ft_strcmp(char	*s1, char *s2)
 	return (1);
 }
 
-char	*ft_str_list(t_token **env, char *s2)
+
+char	*ft_str_list(t_list **env, char *s2)
 {
 	int		i;
-	t_token	*temp2;
+	t_list	*temp2;
 
 	temp2 = *env;
 	i = 0;
 	while (temp2)
 	{
-		while (s2[i] && temp2->wrd[i] && (temp2->wrd[i] == s2[i]))
+		if (s2[i] && s2[i + 1] && s2[i + 2] && s2[i] == '$' && s2[i + 1] == '?')
+		{
+			s2 = ft_strcat(ft_exit_status(0, 0), &s2[i + 2],
+							(ft_strlen(ft_exit_status(0, 0)) + ft_strlen(&s2[i + 2]) - i));
+			return (s2);
+		}
+		while (s2[i + 1] && temp2->title[i] && (temp2->title[i] == s2[i + 1]))
 		{
 			i++;
-			if ((!s2[i] || s2[i] == '$') && (temp2->wrd[i] == '='))
-			{
-				if (s2[i] == '$')
-				{
-					temp2 = *env;
-					return (ft_strcat(&temp2->wrd[i + 1],
-							ft_str_list(&temp2, &s2[i + 1]), 100));
-				}
-				return (&temp2->wrd[i + 1]);
-			}
+			if ((!s2[i + 1]  && !temp2->title[i]))
+				return (temp2->def);
+			if ((s2[i + 1] == '$' || s2[i + 1] == ' ') && !temp2->title[i])
+				return (ft_strcat(temp2->def, &s2[i + 1],
+							(ft_strlen(temp2->def) + ft_strlen(&s2[i + 2]) - i)));
 		}
 		i = 0;
 		if (temp2->next)
 			temp2 = temp2->next;
+		else
+		{
+			while (s2[i + 1] && s2[i + 1] != '$')
+				i++;
+			if (s2[i])
+				return (s2);
+			else
+				return (NULL);
+		}
 	}
 	return (NULL);
 }
 
 int	ft_quote_error(const char *s)
 {
-	int	i;
+	int		i;
+	char	quote;
 
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == '\'')
+		if (s[i] == '\'' || s[i] == '"')
 		{
+			quote = s[i];
 			i += 1;
-			while (s[i] && s[i] != '\'')
+			while (s[i] && s[i] != quote)
 				i++;
 			if (!s[i])
 			{
-				perror("Single quote");
-				exit(23);
-			}
-		}
-		if (s[i] == '"')
-		{
-			i += 1;
-			while (s[i] && s[i] != '"')
-				i++;
-			if (!s[i])
-			{
-				perror("Doble quote");
-				exit(24);
+				if (quote == '\'')
+					perror("Single quote unfinished");
+				else
+					perror("Double quote unfinished");
+				exit(1);
 			}
 		}
 		i++;
@@ -108,5 +113,6 @@ char	*ft_strcat(char *temp_wrd, char *exp, int i)
 	}
 	while (exp[k])
 		s[j++] = exp[k++];
+	s[j] = '\0';
 	return (s);
 }

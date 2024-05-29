@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 09:41:04 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/17 13:45:04 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:37:22 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	*ft_strchr(const char *s, int d)
 size_t	ft_strlen(const char *str)
 {
 	size_t	count;
+
 	count = 0;
 	if (!str)
 		return (count);
@@ -63,7 +64,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	while ((i + j) > cont)
 		r[cont++] = s2[cont2++];
 	r[i + j] = '\0';
-	//free(s1); /*he comentat aixo, no se si es 100% necesari pero no em funcionava si no el ls*/
+	//free(s1);
 	return (r);
 }
 
