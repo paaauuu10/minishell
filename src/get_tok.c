@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/09 14:23:04 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:09:14 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_token	*new_token(char *s)
 	newtok = (t_token *)malloc(sizeof(t_token));
 	if (!newtok)
 		perror("newtok");
-	newtok->wrd = ft_strdup(s);
+	newtok->wrd = ft_strdup(s);//(ft_expansor(env, s, newtok));
 	newtok->tok = type_tok(s);
 	newtok->next = NULL;
 	return (newtok);
@@ -62,13 +62,13 @@ void	add_token(t_token **tokens, t_token	*node)
 		(*last)->next = node;
 }
 
-t_token	**get_tok(t_token **tokens, char *s)
+t_token	**get_tok(t_list **env, t_token **tokens, char *s)
 {
 	char	**matrix;
 	int		i;
 
 	i = 0;
-	matrix = ft_quotes(s);
+	matrix = ft_quotes(s, env);
 //	matrix = ft_split(s, ' ');
 	if (!tokens)
 		exit(2);

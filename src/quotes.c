@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/23 22:09:35 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:04:58 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	ft_count(const char *s)
 	}
 	return (count);
 }
-
+/*
 char	**ft_quotes(const char *s)
 {
 	char	**r;
@@ -85,4 +85,48 @@ char	**ft_quotes(const char *s)
 	}
 	r[k] = NULL;
 	return (r);
+}*/
+char **ft_quotes(const char *s, t_list **env) {
+	char **r;
+	char quote;
+	int i, j, k, len;
+	t_token token;
+
+	r = (char **)malloc(sizeof(char *) * (ft_count(s) + 1));
+	if (!r)
+		return NULL;
+	i = 0;
+	k = 0;
+	while (s[i]) {
+		quote = ' ';
+		if (s[i] == '"' || s[i] == '\'')
+			quote = s[i++];
+		len = 0;
+		while (s[i + len] && s[i + len] != quote) {
+			if ((s[i + len] == '"' || s[i + len] == '\'') && quote == ' ')
+				len++;
+			else
+				len++;
+		}
+		r[k] = (char *)malloc(sizeof(char) * (len + 1));
+		if (!r[k])
+			return NULL;
+		j = 0;
+		while (s[i] && s[i] != quote) {
+			if ((s[i] == '"' || s[i] == '\'') && quote == ' ')
+				i++;
+			else
+				r[k][j++] = s[i++];
+		}
+		r[k][j] = '\0';
+		// Expansión si no está entre comillas simples
+		if (quote != '\'') {
+			r[k] = ft_expansor(env, r[k], &token);
+		}
+		k++;
+		if (s[i] == quote)
+			i++;
+	}
+	r[k] = NULL;
+	return r;
 }

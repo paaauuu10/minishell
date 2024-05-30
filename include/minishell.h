@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/21 14:30:43 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:09:37 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,10 @@ int		ft_is_builtin(t_token **tokens);
 
 /*------------------------ LIST -------------------------------*/
 
-t_token	**get_tok(t_token **tokens, char *s);
+t_token	**get_tok(t_list **env, t_token **tokens, char *s);
 void	add_token(t_token **tokens, t_token	*node);
 t_token	*new_token(char *s);
+//t_token *new_token(t_list **env, char *s);
 int		change_tok(t_token **export, char *new_wrd);
 char	*ft_str_list(t_list **temp, char *s2);
 t_list	*new_node(char *s);
@@ -83,9 +84,10 @@ void	add_node(t_list **env, t_list *node);
 
 void	signals(void);
 int		ft_strcmp(char *s1, char *s2);
-char	**ft_quotes(const char *s);
+char	**ft_quotes(const char *s, t_list **env);
+//char	**ft_quotes(const char *s);
 int		ft_quote_error(const char *s);
-char	*ft_expansor(t_list **env, t_token **tokens);
+char	*ft_expansor(t_list **env, char *s, t_token *tokens);
 char	*ft_strcat(char *temp_wrd, char *exp, int i);
 char	*ft_exit_status(int i, int j);
 
