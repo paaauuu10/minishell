@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/30 15:09:37 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:14:57 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		ft_strcmp(char *s1, char *s2);
 char	**ft_quotes(const char *s, t_list **env);
 //char	**ft_quotes(const char *s);
 int		ft_quote_error(const char *s);
-char	*ft_expansor(t_list **env, char *s, t_token *tokens);
+char	*ft_expansor(t_list **env, char *s);
 char	*ft_strcat(char *temp_wrd, char *exp, int i);
 char	*ft_exit_status(int i, int j);
 

@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/30 15:04:58 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:14:26 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,10 @@ char	**ft_quotes(const char *s)
 char **ft_quotes(const char *s, t_list **env) {
 	char **r;
 	char quote;
-	int i, j, k, len;
-	t_token token;
+	int i;
+	int	j;
+	int	k;
+	int	len;
 
 	r = (char **)malloc(sizeof(char *) * (ft_count(s) + 1));
 	if (!r)
@@ -121,7 +123,7 @@ char **ft_quotes(const char *s, t_list **env) {
 		r[k][j] = '\0';
 		// Expansión si no está entre comillas simples
 		if (quote != '\'') {
-			r[k] = ft_expansor(env, r[k], &token);
+			r[k] = ft_expansor(env, r[k]);
 		}
 		k++;
 		if (s[i] == quote)
