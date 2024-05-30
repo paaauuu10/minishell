@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/23 21:27:19 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/30 13:45:07 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	change_node(t_list **export, char *new)
 			t->def = ft_def(new);
 			return (0);
 		}
+		if (!new[i] && !t->title[i])
+			return (0);
 		if (new[i] && new[i + 1] && new[i] == '+'
 			&& new[i + 1] == '=' && !t->title[i])
 		{
