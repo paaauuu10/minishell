@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/29 11:19:31 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/31 13:40:58 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,16 @@ int	main(int argc, char **argv, char **envp)
 		if (!tokens)
 			exit(1);
 		s = readline(GREEN "Minishell> " WHITE);
-		printf("1\n");
 		if (s == NULL)
 		{
 			printf("exit\n");
 			exit(1);
 		}
 		ft_quote_error(s);
-		printf("2\n");
 		tokens = get_tok(tokens, (char *)s);
-		printf("3\n");
+		if (ft_strcmp((*tokens)->wrd, "exit") == 1)
+			ft_exit(tokens);
 		ft_expansor(env, tokens);
-		printf("4\n");
 		ft_executor(tokens, env, export);
 		add_history(s);
 	//	free_tokens(tokens);

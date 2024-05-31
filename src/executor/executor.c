@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/31 12:04:12 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/31 13:42:10 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,31 +63,30 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 	t_exec->pid = fork();
 	if (t_exec->pid < 0)
 	{
-		printf("pid < 0");
-		return (0);   //revisar
+		perror("fork failed");
+		return (1);   // Cambiar el valor de retorno para indicar error
 	}
-	if (t_exec->pid == 0)
+	if (t_exec->pid == 0) // Proceso hijo
 	{
 		if (is_redirection(tokens))
 		{
-			ft_redirect(tokens, env, export, t_exec); //testejar
-			exit (1); //revisar valor d'exit
+			ft_redirect(tokens, env, export, t_exec); // Asegurarse que ft_redirect maneja redirecciones correctamente
+			exit (1); // Revisar valor de exit después de redirección
 		}
 		else if (ft_is_builtin(tokens))
-		{
-			exit(builtins(tokens, export, env));
-			//revisar
-		}
+			exit(builtins(tokens, export, env)); // Asegurar que builtins retorna el valor adecuado
 		else
 		{
-			ft_exec(tokens, env, t_exec); //s'ha de modificar
-			exit(127);
+			ft_exec(tokens, env, t_exec); // Ejecutar el comando
+			exit(127); // Comando no encontrado
 		}
-		exit(1); //revisar			//perror("Comand not found");
+		exit(1); // Redundante, pero por si acaso
 	}
-	ft_wait_one_child_process(&t_exec->exit_status); //aixo sha de revisar
-	return (0); //revisar
+	else // Proceso padre
+		ft_wait_one_child_process(&t_exec->exit_status); // Esperar al proceso hijo
+	return (0); // Indicar que el comando se ejecutó correctamente
 }
+
 
 int	ft_save_fd(t_executor *t_exec)
 {

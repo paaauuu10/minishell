@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 09:41:04 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/28 15:37:22 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/31 13:31:15 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ size_t	ft_strlen(const char *str)
 	if (!str)
 		return (count);
 	while (str[count] != '\0')
-		count ++;
+		count++;
 	return (count);
 }
 
