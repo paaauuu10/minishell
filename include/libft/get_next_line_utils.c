@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 09:41:04 by pborrull          #+#    #+#             */
-/*   Updated: 2023/10/31 10:54:35 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/31 11:53:48 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	while ((i + j) > cont)
 		r[cont++] = s2[cont2++];
 	r[i + j] = '\0';
-	free(s1);
+//	free(s1);
 	return (r);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/30 14:51:04 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/31 12:20:39 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,18 @@ int	main(int argc, char **argv, char **envp)
 	t_list		**export;
 
 	error_checker(argc, argv, envp);
-	//tokens = (t_token **)malloc(sizeof(t_token *));
-	//if (!tokens)
-	//	exit(1);
 	signals();
 	ft_exit_status(0, 1);
+	//env = NULL;
 	env = env_list(envp);
+	if (!env)
+		return (1);
 	export = env_list(envp);
+	if (!export)
+	{
+		free(env);
+		return (1);
+	}
 	while (1)
 	{
 		tokens = (t_token **)malloc(sizeof(t_token *));
@@ -70,7 +75,8 @@ int	main(int argc, char **argv, char **envp)
 		ft_quote_error(s);
 		tokens = get_tok(env, tokens, (char *)s);
 	//	ft_expansor(env, tokens);
-		ft_executor(tokens, env, export, envp);
+	//	ft_executor(tokens, env, export);
+	//	builtins(tokens, export, env);
 		add_history(s);
 	//	free_tokens(tokens);
 	}

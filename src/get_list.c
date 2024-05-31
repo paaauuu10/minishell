@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:09:51 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/16 15:40:33 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/05/31 11:50:06 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ t_list	*new_node(char *s)
 {
 	t_list	*newtok;
 
+	if (!s)
+		return (NULL);
 	newtok = (t_list *)malloc(sizeof(t_list));
 	if (!newtok)
 	{
@@ -82,15 +84,20 @@ t_list	*new_node(char *s)
 		return(NULL);
 	}
 	newtok->title = ft_title(s);
-	newtok->def = ft_def(s);
 	if (!newtok->title)
+	{
+		free(newtok);
 		return (NULL);
+	}
+	newtok->def = ft_def(s);
 	newtok->next = NULL;
 	return (newtok);
 }
 
 t_list	**last_node(t_list **tokens)
 {
+	if (!tokens)
+		return (NULL);
 	while (*tokens && (*tokens)->next)
 		tokens = &((*tokens)->next);
 	return (tokens);
@@ -101,6 +108,8 @@ void	add_node(t_list **env, t_list	*node)
 	t_list	**last;
 
 	last = last_node(env);
+	if (!last)
+		return ;
 	if (!(*env))
 		*env = node;
 	else
