@@ -38,7 +38,7 @@ int	ft_printf_aux(unsigned long n)
 	r = (char *)malloc(sizeof(char) * (len + 1));
 	if (!r)
 		return (-1);
-	while (n >= 0 && len > 0)
+	while (len > 0)
 	{
 		r[--len] = "0123456789abcdef"[n % 16];
 		n = n / 16;
