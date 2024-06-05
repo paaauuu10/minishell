@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/05 12:06:23 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:06:07 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,6 @@ int	ft_exec(t_token **tokens, t_list **env, t_executor *t_exec)
 		i++;
 	}
 	if (ft_exec_cmd(&t_exec))
-		execve(t_exec->absolute_path, t_exec->cmd_argv, t_exec->new_envp);
+		execve(t_exec->absolute_path, t_exec->cmd_argv, env);
 	exit(127);
 }

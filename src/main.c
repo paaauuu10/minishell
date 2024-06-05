@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/05 12:09:50 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:11:25 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_exit(tokens);
 		ft_expansor(env, tokens);
 		printf("1\n");
-		ft_executor(tokens, env, export);
+		ft_executor(tokens, env, export); //pasarli el envp original per a provar execve
 		printf("2\n");
 		add_history(s);
 	//	free_tokens(tokens);
