@@ -6,11 +6,13 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:31:39 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/27 17:14:26 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/05 10:58:44 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 
 void	ft_wait_one_child_process(int *exit_status)
 {

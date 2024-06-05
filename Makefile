@@ -6,7 +6,7 @@
 #    By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/25 13:50:18 by pbotargu          #+#    #+#              #
-#    Updated: 2024/05/28 14:56:03 by pbotargu         ###   ########.fr        #
+#    Updated: 2024/06/05 11:10:58 by pbotargu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,10 @@ MAGENTA = \033[1;35m
 BLUE = \033[38;5;75m
 ORIGINAL = \033[0m
 
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
+CFLAGS = -Wall -Wno-unused-variable -Wextra -g #-fsanitize=address
 
 INCS = -I./include/ -I./include/Libft -I$(HOME)/.brew/opt/readline/include
-LIBFTA = -L./include/Libft -lft
+LIBFTA = -L./include/libft -lft
 LIBFT = include/libft	
 READLINE = -L$(HOME)/.brew/opt/readline/lib -lreadline
 SRCDIR = src/

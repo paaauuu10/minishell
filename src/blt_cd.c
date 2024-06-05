@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:33:55 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/21 15:01:06 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:02:05 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 void	ft_change_env(char *oldpwd, char *newpwd, t_list **env)
 {
 	t_list	*temp;
-	int		i;
 
 	temp = *env;
 	while (temp)
 	{
 		if (ft_strcmp(temp->title, "PWD"))
 		{
-			i = ft_strlen(newpwd) + 4;
 			temp->def = getcwd(NULL, 0);
 		}
 		temp = temp->next;
@@ -32,7 +30,6 @@ void	ft_change_env(char *oldpwd, char *newpwd, t_list **env)
 	{
 		if (ft_strcmp(temp->title, "OLDPWD"))
 		{
-			i = ft_strlen(oldpwd) + 7;
 			temp->def = oldpwd;
 		}
 		temp = temp->next;
