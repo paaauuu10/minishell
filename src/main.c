@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/31 13:40:58 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/05 12:09:50 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_strcmp((*tokens)->wrd, "exit") == 1)
 			ft_exit(tokens);
 		ft_expansor(env, tokens);
+		printf("1\n");
 		ft_executor(tokens, env, export);
+		printf("2\n");
 		add_history(s);
 	//	free_tokens(tokens);
 	}
