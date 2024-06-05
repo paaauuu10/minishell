@@ -6,33 +6,11 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/05 14:06:07 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:32:51 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-/*char	*ft_strjon(char const *s1, char const *s2)
-{
-	char	*rtrn;
-	size_t	i;
-
-	i = ft_strlen(s1);
-	if (!s1 || !s2)
-		return (0);
-	rtrn = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) +1));
-	if (!rtrn)
-		return (0);
-	rtrn = ft_memcpy(rtrn, s1, (int)i);
-	while (*s2)
-	{
-		rtrn[i] = *(char *)s2;
-		i++;
-		s2++;
-	}
-	rtrn[i] = '\0';
-	return (rtrn);
-}*/
 
 // This function counts and returns the number of nodes in a linked list of type t_token.
 // It iterates through the list until it reaches the end (when token is NULL or token->wrd is NULL).

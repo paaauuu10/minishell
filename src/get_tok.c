@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/29 11:21:28 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:37:50 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,12 @@ t_token	**get_tok(t_token **tokens, char *s)
 {
 	char	**matrix;
 	int		i;
-	printf("2.0\n");
 	i = 0;
 	matrix = ft_quotes(s);
-	printf("2.1\n");\
 //	matrix = ft_split(s, ' ');
 	if (!tokens)
 		exit(2);
 	while (matrix[i])
 		add_token(tokens, new_token(matrix[i++]));
-	printf("2.2\n");
 	return (tokens);
 }

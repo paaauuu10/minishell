@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/05 13:57:46 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:31:58 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,35 +67,24 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 		perror("fork failed");
 		return (1);   // Cambiar el valor de retorno para indicar error
 	}
-	printf("Deberia aparecer 2 veces\n");
 	if (t_exec->pid == 0) // Proceso hijo
 	{
-		printf("HIJO--->IN\n");
 		if (is_redirection(tokens))
 		{
 			ft_redirect(tokens, env, export, t_exec); // Asegurarse que ft_redirect maneja redirecciones correctamente
-			printf("HIJOOOO--->OUT\n");
 			exit (1); // Revisar valor de exit después de redirección
 		}
 		else if (ft_is_builtin(tokens))
-		{
-			printf("HIJOOOO--->OUT\n");
 			exit(builtins(tokens, export, env)); // Asegurar que builtins retorna el valor adecuado
-		}
 		else
 		{
-			printf("HIJOOOO--->OUT\n");
 			ft_exec(tokens, env, t_exec); // Ejecutar el comando
 			exit(127); // Comando no encontrado
 		}
 		exit(1); // Redundante, pero por si acaso
 	}
 	else // Proceso padre
-	{
-		printf("1.2.1\n");
 		ft_wait_one_child_process(&t_exec->exit_status); // Esperar al proceso hijo
-		printf("1.2.2\n");
-	}
 	return (0); // Indicar que el comando se ejecutó correctamente
 }
 
@@ -199,17 +188,13 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 		free(t_exec);
 		return (0);
 	}
-	printf("1.1\n");
 	ft_count_pipes(t_exec, tokens);
 	ft_save_fd(t_exec);
-	printf("1.2\n");
 	if (t_exec->total_pipes == 0)
 		ft_only_cmd(tokens, env, export, t_exec);
 	//else
 		//ft_more_cmd(tokens, env, export, t_exec);
-	printf("1.3\n");
 	free(t_exec->d_pipe);
 	free(t_exec);
-	printf("1.4\n");
 	return (0);
 }
