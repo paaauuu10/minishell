@@ -6,11 +6,11 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/31 12:20:42 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:51:56 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	type_tok(char *s)
 {
@@ -46,6 +46,8 @@ t_token	*new_token(char *s)
 
 t_token	**last_token(t_token **tokens)
 {
+	if (!tokens)
+		return (NULL);
 	while (*tokens && (*tokens)->next != NULL)
 		tokens = &((*tokens)->next);
 	return (tokens);
@@ -55,7 +57,12 @@ void	add_token(t_token **tokens, t_token	*node)
 {
 	t_token	**last;
 
+	if (!node)
+		return ;
+	last = NULL;
 	last = last_token(tokens);
+	if (!last)
+		return ;
 	if (!(*tokens))
 		*tokens = node;
 	else
@@ -74,13 +81,13 @@ t_token	**get_tok(t_list **env, t_token **tokens, char *s)
 		exit(2);
 	while (matrix[i])
 		add_token(tokens, new_token(matrix[i++]));
-	while (*tokens)
+/*	while (*tokens)
 	{
 		printf("%s\n",(*tokens)->wrd);
 		if ((*tokens)->next)
 			*tokens = (*tokens)->next;
 		else
 			break ;
-	}
+	}*/
 	return (tokens);
 }

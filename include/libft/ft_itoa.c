@@ -6,11 +6,12 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:29:03 by pborrull          #+#    #+#             */
-/*   Updated: 2023/09/29 11:03:57 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:17:54 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "printf/ft_printf.h"
 
 static unsigned int	ft_len(int n)
 {

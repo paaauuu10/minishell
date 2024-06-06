@@ -6,13 +6,14 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 11:47:14 by pborrull          #+#    #+#             */
-/*   Updated: 2024/04/23 15:16:44 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:13:02 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-/*
-char	*ft_strdup(const char *s1)
+#include "../libft.h"
+
+/*char	*ft_strdup(const char *s1)
 {
 	char	*s2;
 	int		i;

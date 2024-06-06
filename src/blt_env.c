@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/31 09:46:14 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:33:54 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,9 @@ t_list	**env_list(char **envp)
 
 int	ft_env(t_list	**env)
 {
-	int		i;
 	t_list	*temp;
 
 	temp = *env;
-	i = 0;
 	while (temp->next)
 	{
 		printf("%s=%s\n", temp->title, temp->def);

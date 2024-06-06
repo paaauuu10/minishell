@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/16 14:44:13 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:38:29 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_unset_aux(t_list **export, t_list *temp, char *wrd, int i)
 void	ft_unset(t_list **export, char *wrd)
 {
 	t_list	*temp;
-	t_list	*prev;
+//	t_list	*prev;
 	int		i;
 
 	i = 0;
@@ -50,7 +50,7 @@ void	ft_unset(t_list **export, char *wrd)
 			prev->next = temp->next;
 			return ;
 		}*/
-		prev = temp;
+	//	prev = temp;
 		temp = temp->next;
 		i = 0;
 	}

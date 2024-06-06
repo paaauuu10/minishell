@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 13:29:06 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/14 09:13:37 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/04/05 09:41:27 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	if (str[i] && (str[i] < 48 || str[i] > 57))
-		return (255);
+			return (255);
 	r *= signo;
 	return (r);
 }

@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/31 13:47:29 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:49:54 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ char **ft_quotes(const char *s, t_list **env) {
 		if (s[i] == '"' || s[i] == '\'')
 			quote = s[i++];
 		len = 0;
-		while (s[i + len] && s[i + len] != quote && s[i + len] != '>'
-			&& s[i + len] != '<' && s[i + len] != '|')
+		while (s[i + len] && s[i + len] != quote && (((s[i + len] != '>' && s[i + len] != '<' && s[i + len] != '|')
+			&& quote == ' ') || quote != ' '))
 		{
 			if ((s[i + len] == '"' || s[i + len] == '\'') && quote == ' ')
 				len++;
@@ -91,16 +91,16 @@ char **ft_quotes(const char *s, t_list **env) {
 		if (!r[k])
 			return NULL;
 		j = 0;
-		while (s[i] && s[i] != quote && s[i] != '>'
-			&& s[i] != '<' && s[i] != '|')
+		while (s[i] && s[i] != quote && (((s[i] != '>' && s[i] != '<' && s[i] != '|')
+			&& quote == ' ') || quote != ' '))
 		{
 			if ((s[i] == '"' || s[i] == '\'') && quote == ' ')
 				i++;
 			else
 				r[k][j++] = s[i++];
 		}
-		while (s[i] && j == 0 && (s[i] == '>'
-			|| s[i] == '<' || s[i] == '|'))
+		while (s[i] && j == 0 && ((s[i] == '>'
+			|| s[i] == '<' || s[i] == '|') && quote == ' '))
 			r[k][j++] = s[i++];
 		r[k][j] = '\0';
 		if (quote != '\'')
