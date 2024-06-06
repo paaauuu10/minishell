@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/06 11:09:48 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:02:40 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		ft_quote_error(s);
 		tokens = get_tok(tokens, (char *)s);
-		if (ft_strcmp((*tokens)->wrd, "exit") == 1)
+		if ((*tokens) && ft_strcmp((*tokens)->wrd, "exit") == 1)
 			ft_exit(tokens);
 		ft_executor(tokens, env, export); //pasarli el envp original per a provar execve
 		add_history(s);

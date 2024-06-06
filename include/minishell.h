@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/06 11:21:11 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:42:03 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ char	*ft_exit_status(int i, int j);
 int	ft_executor(t_token **tokens, t_list **env, t_list **export);
 int	ft_exec(t_token **tokens, t_list **env, t_executor *t_exec);
 int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec);
+char	**ft_get_env(t_list **env);
+
 
 
 /*----------------------- REDIRECTIONS ------------------------*/

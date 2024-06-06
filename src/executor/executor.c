@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/05 14:31:58 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:57:53 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,16 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 	}
 	if (t_exec->pid == 0) // Proceso hijo
 	{
+		t_exec->new_envp = ft_get_env(env);
 		if (is_redirection(tokens))
 		{
 			ft_redirect(tokens, env, export, t_exec); // Asegurarse que ft_redirect maneja redirecciones correctamente
 			exit (1); // Revisar valor de exit después de redirección
 		}
 		else if (ft_is_builtin(tokens))
+		{	
 			exit(builtins(tokens, export, env)); // Asegurar que builtins retorna el valor adecuado
+		}
 		else
 		{
 			ft_exec(tokens, env, t_exec); // Ejecutar el comando

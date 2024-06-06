@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:33:55 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/05 11:02:05 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:31:50 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	ft_cd(t_token	**tokens, t_list **export, t_list	**env)
 {
 	char	*oldpwd;
 	char	*newpwd;
-
 	newpwd = NULL;
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
