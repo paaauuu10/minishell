@@ -6,11 +6,24 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:11:00 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/06 12:28:03 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/07 12:58:59 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	cond(t_token **tokens)
+{
+	write(1, "exit\n", 5);
+	if ((*tokens)->next && (*tokens)->next->wrd)
+	{
+		write(2, "Minishell> exit: ", 17);
+		write(2, (*tokens)->next->wrd, ft_strlen((*tokens)->next->wrd));
+		write(2, ": numeric argument required\n", 28);
+		ft_exit_status(2, 1);
+		exit(2);
+	}
+}
 
 void	ft_exit(t_token **tokens)
 {
@@ -31,17 +44,7 @@ void	ft_exit(t_token **tokens)
 		return ;
 	}
 	else if ((*tokens)->next && n == 255)
-	{
-		write(1, "exit\n", 5);
-		if ((*tokens)->next && (*tokens)->next->wrd)
-		{
-			write(2, "Minishell> exit: ", 17);
-			write(2, (*tokens)->next->wrd, ft_strlen((*tokens)->next->wrd));
-			write(2, ": numeric argument required\n", 28);
-			ft_exit_status(2, 1);
-			exit(2);
-		}
-	}
+		cond(tokens);
 	else if ((*tokens) && !(*tokens)->next)
 		write(1, "exit\n", 5);
 	exit(n);

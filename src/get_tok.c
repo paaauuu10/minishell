@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/06 10:51:56 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/07 12:10:19 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_token	*new_token(char *s)
 	newtok = (t_token *)malloc(sizeof(t_token));
 	if (!newtok)
 		perror("newtok");
-	newtok->wrd = ft_strdup(s);//(ft_expansor(env, s, newtok));
+	newtok->wrd = ft_strdup(s);
 	newtok->tok = type_tok(s);
 	newtok->next = NULL;
 	return (newtok);
@@ -48,7 +48,7 @@ t_token	**last_token(t_token **tokens)
 {
 	if (!tokens)
 		return (NULL);
-	while (*tokens && (*tokens)->next != NULL)
+	while (*tokens && (*tokens)->next)
 		tokens = &((*tokens)->next);
 	return (tokens);
 }
@@ -61,7 +61,7 @@ void	add_token(t_token **tokens, t_token	*node)
 		return ;
 	last = NULL;
 	last = last_token(tokens);
-	if (!last)
+	if (!last || !tokens || !node)
 		return ;
 	if (!(*tokens))
 		*tokens = node;
@@ -79,7 +79,7 @@ t_token	**get_tok(t_list **env, t_token **tokens, char *s)
 //	matrix = ft_split(s, ' ');
 	if (!tokens)
 		exit(2);
-	while (matrix[i])
+	while (matrix[i] && tokens)
 		add_token(tokens, new_token(matrix[i++]));
 /*	while (*tokens)
 	{

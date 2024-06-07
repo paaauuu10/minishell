@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/07 09:48:52 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/07 12:25:20 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,32 +26,31 @@ int	ft_unset_aux(t_list **export, t_list *temp, char *wrd, int i)
 
 void	ft_unset(t_list **export, char *wrd)
 {
-    t_list *temp;
-    t_list *prev;
-    int i;
+	t_list	*temp;
+	t_list	*prev;
+	int	i;
 
-    i = 0;
-    temp = *export;
-    prev = NULL;
-
-    while (temp)
-    {
-        while (temp->title[i] && wrd[i] && temp->title[i] == wrd[i])
-            i++;
-        if (!wrd[i] && !temp->title[i])
-        {
-            if (prev == NULL)
-                *export = temp->next;
-            else  // Eliminar un elemento intermedio o el último
-                prev->next = temp->next;
-      //      free(temp->title);
-        //    free(temp);
-            return;
-        }
-        prev = temp;
-        temp = temp->next;
-        i = 0;
-    }
+	i = 0;
+	temp = *export;
+	prev = NULL;
+	while (temp)
+	{
+		while (temp->title[i] && wrd[i] && temp->title[i] == wrd[i])
+			i++;
+		if (!wrd[i] && !temp->title[i])
+		{
+			if (prev == NULL)
+				*export = temp->next;
+			else
+				prev->next = temp->next;
+	//      	free(temp->title);
+	//		free(temp);
+			return ;
+		}
+		prev = temp;
+		temp = temp->next;
+		i = 0;
+	}
 }
 
 /*
