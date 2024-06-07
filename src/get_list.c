@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:09:51 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/31 11:50:06 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:40:10 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_list	*new_node(char *s)
 	if (!newtok)
 	{
 		perror("newtok");
-		return(NULL);
+		return (NULL);
 	}
 	newtok->title = ft_title(s);
 	if (!newtok->title)
