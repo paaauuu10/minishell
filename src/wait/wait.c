@@ -6,29 +6,28 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:31:39 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/27 17:14:26 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:24:47 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_wait_one_child_process(int *exit_status)
+void	ft_wait_one_child_process()
 {
 	int	status;
 
 	wait(&status);
 	if (WIFEXITED(status))
-		*exit_status = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
 	{
+		ft_exit_status(WEXITSTATUS(status), 1);
+	}
+	else if (WIFSIGNALED(status))
+	{    
 	    if (WTERMSIG(status) == SIGINT)
-	    {
-		    *exit_status = 130;
-		    write(1, "\n", 1);
-	    }
+		    ft_exit_status(130, 1);
 	    else if (WTERMSIG(status) == SIGQUIT)
 	    {
-	    	*exit_status = 131;
+		ft_exit_status(131, 1);
 	    	ft_putstr_fd("Quit: 3\n", 1);
 	    }
     }

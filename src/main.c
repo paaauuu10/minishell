@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/06 11:11:08 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:29:43 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,14 @@ int	main(int argc, char **argv, char **envp)
 			exit(1);
 		}
 		ft_quote_error(s);
-		tokens = get_tok(env, tokens, (char *)s);
-		if (ft_strcmp((*tokens)->wrd, "exit") == 1)
-			ft_exit(tokens);
-//		ft_executor(tokens, env, export);
-		builtins(tokens, export, env);
+		if (!ft_errors(s))
+		{
+			tokens = get_tok(env, tokens, (char *)s);
+			if (*tokens && ft_strcmp((*tokens)->wrd, "exit") == 1)
+				ft_exit(tokens);
+//			ft_executor(tokens, env, export);
+			builtins(tokens, export, env);
+		}
 		add_history(s);
 	//	free_tokens(tokens);
 	}

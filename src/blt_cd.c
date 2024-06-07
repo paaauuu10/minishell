@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:33:55 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/05 11:33:23 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:55:41 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ int	ft_cd(t_token	**tokens, t_list **export, t_list	**env)
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 		exit(43);
+	if (*tokens && (*tokens)->next && (*tokens)->next->next)
+	{
+		write(2, "Minishell: cd: too many arguments", 33);
+		ft_exit_status(1, 1);
+		return (1);
+	}
 	if (!(*tokens)->next)
 	{
 		newpwd = ft_go_home(env);

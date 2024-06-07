@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/05 12:05:28 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:22:38 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int	ft_is_builtin(t_token **tokens);
 
 /*------------------------ LIST -------------------------------*/
 
-//t_token	**get_tok(t_token **tokens, char *s);
 t_token **get_tok(t_list **env, t_token **tokens, char *s);
 void	add_token(t_token **tokens, t_token	*node);
 t_token	*new_token(char *s);
@@ -115,10 +114,10 @@ void	signals(void);
 int	ft_strcmp(char *s1, char *s2);
 char	**ft_quotes(const char *s, t_list **env);
 int	ft_quote_error(const char *s);
-//char	*ft_expansor(t_list **env, t_token **tokens);
-char *ft_expansor(t_list **env, char *s);
+char 	*ft_expansor(t_list **env, char *s);
 char	*ft_strcat(char *temp_wrd, char *exp, int i);
 char	*ft_exit_status(int i, int j);
+int	ft_errors(const char *s);
 
 /*----------------------- EXECUTOR ----------------------------*/
 
@@ -143,7 +142,7 @@ t_token	*ft_lstnew(char *word, int tokk);
 /*------------------------ WAIT --------------------------------*/
 
 
-void	ft_wait_one_child_process(int *exit_status);
+void	ft_wait_one_child_process();
 void	ft_wait_childs_process(int	*exit_status, int i, t_executor *t_exec);
 
 

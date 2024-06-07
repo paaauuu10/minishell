@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:52:19 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/05 12:08:42 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:51:09 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	signals(void)
 	struct sigaction	sa;
 
 	sa.sa_handler = ctrlc;
+	ft_memset(&sa, 0, sizeof(sa));
 	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGINT, &sa, NULL) < 0)
 		exit(56);
