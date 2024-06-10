@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/10 15:11:04 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:39:30 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,19 +131,32 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 				close(prev_pipefd[0]);
 				close(prev_pipefd[1]);
 			}
+			ft_send_new_list(tokens, env, export, t_exec); //crear aquesta funcio
 		//	ft_only_cmd(tokens, env, export, t_exec);
 			exit(1); //revisar exit
 		}
-		printf("Primera palabra tokens: %s\n", (*tokens)->wrd);
-		while (*tokens && ((*tokens)->tok != 2))
+		else
 		{
-			printf("Word: %s\n", (*tokens)->wrd);
-			printf("Token: %d\n", (*tokens)->tok); // Imprimir el tipo de token para depuración
-			(*tokens) = (*tokens)->next;
+			ft_wait_one_child();
+			if (t_exec->d_pipe->pipecounter <= t_exec->total_pipes)
+				close(t_exec->d_pipe->pipefd[1]);
+			if (t_exec->d_pipe->pipecounter != t_exec->total_pipes)
+			{
+				close(prev_pipefd[0]);
+				close(prev_pipefd[1]);
+			}
+			prev_pipefd[0] = t_exec->d_pipe->pipef[0];
+			prev_pipefd[1] = t_exec->d_pipe->pipefd[1];
+			ft_wait_one_child();	
+			while (*tokens && ((*tokens)->tok != 2))
+			{
+				printf("Word: %s\n", (*tokens)->wrd);
+				printf("Token: %d\n", (*tokens)->tok); // Imprimir el tipo de token para depuración
+				(*tokens) = (*tokens)->next;
+			}
+			if ((*tokens)->next)
+				(*tokens) = (*tokens)->next;
 		}
-		if ((*tokens)->next)
-			(*tokens) = (*tokens)->next;
-		
 	}
 }
 
