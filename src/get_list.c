@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:09:51 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/07 13:40:10 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/10 09:20:29 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	*ft_title(char	*s)
 
 	i = 0;
 	while (s[i] && (s[i] != '='))
-		// || (s[i] == '+' && s[i + 1] && s[i + 1] != '=')))
 		i++;
 	if (i == 0)
 	{
@@ -32,14 +31,13 @@ char	*ft_title(char	*s)
 	r = (char *)malloc(sizeof(char) * (i + 1));
 	if (!r)
 		exit(1);
-	j = i;
-	i = 0;
-	while (i < j)
+	j = 0;
+	while (j < i)
 	{
-		r[i] = s[i];
-		i++;
+		r[j] = s[j];
+		j++;
 	}
-	r[i] = '\0';
+	r[j] = '\0';
 	return (r);
 }
 

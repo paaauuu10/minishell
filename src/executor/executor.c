@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/31 12:04:12 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:24:06 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 		}
 		exit(1); //revisar			//perror("Comand not found");
 	}
-	ft_wait_one_child_process(&t_exec->exit_status); //aixo sha de revisar
+	ft_wait_one_child_process(); //aixo sha de revisar
 	return (0); //revisar
 }
 
