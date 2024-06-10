@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/06 12:57:53 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:24:06 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,37 +60,34 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 ---------------------------------------------------------------------------------*/
 int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
-	//t_exec->new_envp = env;
 	t_exec->pid = fork();
 	if (t_exec->pid < 0)
 	{
-		perror("fork failed");
-		return (1);   // Cambiar el valor de retorno para indicar error
+		printf("pid < 0");
+		return (0);   //revisar
 	}
-	if (t_exec->pid == 0) // Proceso hijo
+	if (t_exec->pid == 0)
 	{
-		t_exec->new_envp = ft_get_env(env);
 		if (is_redirection(tokens))
 		{
-			ft_redirect(tokens, env, export, t_exec); // Asegurarse que ft_redirect maneja redirecciones correctamente
-			exit (1); // Revisar valor de exit después de redirección
+			ft_redirect(tokens, env, export, t_exec); //testejar
+			exit (1); //revisar valor d'exit
 		}
 		else if (ft_is_builtin(tokens))
-		{	
-			exit(builtins(tokens, export, env)); // Asegurar que builtins retorna el valor adecuado
+		{
+			exit(builtins(tokens, export, env));
+			//revisar
 		}
 		else
 		{
-			ft_exec(tokens, env, t_exec); // Ejecutar el comando
-			exit(127); // Comando no encontrado
+			ft_exec(tokens, env, t_exec); //s'ha de modificar
+			exit(127);
 		}
-		exit(1); // Redundante, pero por si acaso
+		exit(1); //revisar			//perror("Comand not found");
 	}
-	else // Proceso padre
-		ft_wait_one_child_process(&t_exec->exit_status); // Esperar al proceso hijo
-	return (0); // Indicar que el comando se ejecutó correctamente
+	ft_wait_one_child_process(); //aixo sha de revisar
+	return (0); //revisar
 }
-
 
 int	ft_save_fd(t_executor *t_exec)
 {

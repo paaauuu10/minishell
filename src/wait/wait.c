@@ -6,13 +6,11 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:31:39 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/06 11:20:44 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:24:47 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <sys/types.h>
-#include <sys/wait.h>
 
 void	ft_wait_one_child_process()
 {
@@ -32,7 +30,7 @@ void	ft_wait_one_child_process()
 		ft_exit_status(131, 1);
 	    	ft_putstr_fd("Quit: 3\n", 1);
 	    }
-	}
+    }
 }
 
 void	ft_wait_childs_process(int	*exit_status, int i, t_executor *t_exec)

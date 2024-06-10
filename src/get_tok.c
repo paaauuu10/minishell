@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_tok.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/05 14:37:50 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/07 12:10:19 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	type_tok(char *s)
 {
@@ -46,7 +46,9 @@ t_token	*new_token(char *s)
 
 t_token	**last_token(t_token **tokens)
 {
-	while (*tokens && (*tokens)->next != NULL)
+	if (!tokens)
+		return (NULL);
+	while (*tokens && (*tokens)->next)
 		tokens = &((*tokens)->next);
 	return (tokens);
 }
@@ -55,23 +57,37 @@ void	add_token(t_token **tokens, t_token	*node)
 {
 	t_token	**last;
 
+	if (!node)
+		return ;
+	last = NULL;
 	last = last_token(tokens);
+	if (!last || !tokens || !node)
+		return ;
 	if (!(*tokens))
 		*tokens = node;
 	else
 		(*last)->next = node;
 }
 
-t_token	**get_tok(t_token **tokens, char *s)
+t_token	**get_tok(t_list **env, t_token **tokens, char *s)
 {
 	char	**matrix;
 	int		i;
+
 	i = 0;
-	matrix = ft_quotes(s);
+	matrix = ft_quotes(s, env);
 //	matrix = ft_split(s, ' ');
 	if (!tokens)
 		exit(2);
-	while (matrix[i])
+	while (matrix[i] && tokens)
 		add_token(tokens, new_token(matrix[i++]));
+/*	while (*tokens)
+	{
+		printf("%s\n",(*tokens)->wrd);
+		if ((*tokens)->next)
+			*tokens = (*tokens)->next;
+		else
+			break ;
+	}*/
 	return (tokens);
 }

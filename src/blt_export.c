@@ -1,39 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   blt.export.c                                       :+:      :+:    :+:   */
+/*   blt_export.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/23 21:27:19 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:17:43 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	put_exp(t_list **export, char *wrd)
+static int	change_node_condi(char *new, t_list *t, int i)
 {
-	t_list	*last;
-
-	last = *export;
-	while (last && (last->next))
-		last = last->next;
-	last->title = ft_title(wrd);
-	last->def = ft_def(wrd);
-	last->next = NULL;
-}
-
-void	put_env(t_list **env, char *wrd)
-{
-	t_list	*last;
-
-	last = *env;
-	while (last && (last->next))
-		last = last->next;
-	last->title = ft_title(wrd);
-	last->def = ft_def(wrd);
-	last->next = NULL;
+	if (new[i] && new[i] == '=' && !t->title[i])
+	{
+		t->def = ft_def(new);
+		return (0);
+	}
+	if (!new[i] && !t->title[i])
+		return (0);
+	if (new[i] && new[i + 1] && new[i] == '+'
+		&& new[i + 1] == '=' && !t->title[i])
+	{
+		t->def = ft_strcat(t->def, ft_def(new),
+				ft_strlen(t->def) + ft_strlen(new));
+		return (0);
+	}
+	return (1);
 }
 
 int	change_node(t_list **export, char *new)
@@ -48,18 +43,8 @@ int	change_node(t_list **export, char *new)
 		while (new[i] && (new[i] != '=' || (new[i + 1] && new[i] == '+'
 					&& new[i + 1] != '=')) && t->title[i] == new[i])
 			i++;
-		if (new[i] && new[i] == '=' && !t->title[i])
-		{
-			t->def = ft_def(new);
+		if (change_node_condi(new, t, i) == 0)
 			return (0);
-		}
-		if (new[i] && new[i + 1] && new[i] == '+'
-			&& new[i + 1] == '=' && !t->title[i])
-		{
-			t->def = ft_strcat(t->def, ft_def(new),
-					ft_strlen(t->def) + ft_strlen(new));
-			return (0);
-		}
 		t = t->next;
 		i = 0;
 	}
@@ -93,6 +78,18 @@ static t_list	**ft_nxt(t_token *temp, int i, t_list **export, t_list **env)
 	return (export);
 }
 
+static void	ft_print_exp(t_list *temp2)
+{
+	while (temp2)
+	{
+		if (!temp2->def)
+			printf("declare -x %s\n", temp2->title);
+		else
+			printf("declare -x %s=\"%s\"\n", temp2->title, temp2->def);
+		temp2 = temp2->next;
+	}
+}
+
 t_list	**ft_export(t_token **tokens, t_list **export, t_list **env)
 {
 	t_token	*temp;
@@ -103,16 +100,7 @@ t_list	**ft_export(t_token **tokens, t_list **export, t_list **env)
 	temp2 = *export;
 	temp = *tokens;
 	if (!(temp->next))
-	{
-		while (temp2)
-		{
-			if (!temp2->def)
-				printf("declare -x %s\n", temp2->title);
-			else
-				printf("declare -x %s=\"%s\"\n", temp2->title, temp2->def);
-			temp2 = temp2->next;
-		}
-	}
+		ft_print_exp(temp2);
 	while (temp->next && temp->next->wrd[i] && (ft_isalnum(temp->next->wrd[i])
 			|| temp->next->wrd[i] == '='))
 		i++;
