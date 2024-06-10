@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/10 12:10:09 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:41:16 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ static int	ft_main_while(const char *s, t_list **env, t_list **export)
 		tokens = get_tok(env, tokens, (char *)s);
 		if (tokens && *tokens && ft_strcmp((*tokens)->wrd, "exit") == 1)
 			ft_exit(tokens);
-//		ft_executor(tokens, env, export);
-		builtins(tokens, export, env);
+		ft_executor(tokens, env, export);
+//		builtins(tokens, export, env);
 	}
 	add_history(s);
 	return (0);
