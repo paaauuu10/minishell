@@ -58,7 +58,6 @@ int	ft_redir_here(t_token **tokens)
 				node = node->next;
 			node = node->next;
 			node = node->next;
-			printf("%s\n", node->wrd);
 			if (init_heredoc(node->wrd))
 				return (1);
 		}
