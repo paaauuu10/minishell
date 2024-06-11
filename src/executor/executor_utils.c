@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/06 10:51:15 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/11 14:58:11 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	ft_exec_cmd(t_executor **t_exec)
 	}
 	/*hem de tractar si surt dek bucle, vol dir que no ha trobat*/
 	//ft_error_cmd((*t_exec)->cmd_argv[0], 1); /*exemple de com fer-ho*/
-	return (0);
+	exit(127);
 }
 
 // This function coordinates the execution of a command.
