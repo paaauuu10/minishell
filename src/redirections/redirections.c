@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:09:41 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/11 14:16:38 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:03:31 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int ft_redirect(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
     t_token *temp;
+    char *filename;
 
     temp = *tokens;
     while (temp)
@@ -36,8 +37,10 @@ int ft_redirect(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 	    }
 	    else
 	    {
-		printf("\nRedir tokens not implemented yet\n\n");
-		//ft_redir_in(tokens, env, export, t_exec);
+		//printf("\nRedir tokens not implemented yet\n\n");
+		filename = (*tokens)->next->next->wrd;
+		printf("%s\n", filename);
+		ft_redir_in(filename, t_exec);
             }
 	    return (0); //revisar que ha de retornar
         }
