@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/10 11:20:57 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/11 14:15:53 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ int		ft_redir_append(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
 
 t_token	*ft_lstnew(char *word, int tokk);
+int		ft_redir_here(t_token **tokens);
 
 /*------------------------ WAIT --------------------------------*/
 
