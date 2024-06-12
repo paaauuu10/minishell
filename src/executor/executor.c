@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/12 16:07:41 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/12 16:22:08 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 /**********************************************************************
 				TRYING NEW EXECUTOR
 **********************************************************************/
-/*int	ft_executor(t_token **tokens, t_list **env, t_list **export)
+int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
 	t_exec = malloc(sizeof(t_executor));
@@ -232,9 +232,9 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 	free(t_exec->d_pipe);
 	free(t_exec);
 	return (0);
-}*/
+}
 
-void	ft_exec_child(t_executor *t_exec, t_token **tokens, t_list **env, t_list **export)
+/*void	ft_exec_child(t_executor *t_exec, t_token **tokens, t_list **env, t_list **export)
 {
 	if (t_exec->pid == 0)
 	{
@@ -273,5 +273,5 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	free(t_exec->d_pipe);
 	free(t_exec);
 	return (0);
-}
+}*/
 
