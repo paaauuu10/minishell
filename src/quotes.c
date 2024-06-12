@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/10 11:08:10 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/12 10:34:01 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void	ft_count2(const char *s, t_parser *p)
 			&& s[p->i] != '|' && s[p->i] != '<' && s[p->i] != '>')
 			p->i++;
 	}
-	p->count++;
 }
 
 static void	ft_count(const char *s, t_parser *p)
@@ -54,29 +53,39 @@ static void	ft_count(const char *s, t_parser *p)
 				break ;
 			if (s[p->i] == p->quote)
 				p->i++;
+			if (s[p->i] != ' ' && p->quote != ' ')
+				continue ;
 		}
 		else
 			ft_count2(s, p);
+		p->count++;
 	}
 }
 
 static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 {
 	int	len;
+	int	temp;
 
+	temp = p->i;
 	len = 0;
-	while (s[p->i + len] && s[p->i + len] != p->quote && (((s[p->i + len] != '>'
-					&& s[p->i + len] != '<' && s[p->i + len] != '|')
+	p->quote = ' ';
+	while (s[temp + len] && s[temp + len] != p->quote && (((s[temp + len] != '>'
+					&& s[temp + len] != '<' && s[temp + len] != '|')
 				&& p->quote == ' ') || p->quote != ' '))
 	{
-		if ((s[p->i + len] == '"' || s[p->i + len] == '\'') && p->quote == ' ')
-			len++;
+		if ((s[temp + len] == '"' || s[temp + len] == '\'') && p->quote == ' ')
+			p->quote = s[temp++ + len];
 		else
 			len++;
+		if (p->quote != ' ' && s[temp + len] && s[temp + len] == p->quote
+				&& (s[temp + len] == '"' || s[temp + len] == '\''))
+			temp++;
 	}
-	while (s[p->i + len] && len == 0 && (s[p->i + len] == '>'
-			|| s[p->i + len] == '<' || s[p->i + len] == '|'))
+	while (s[temp + len] && len == 0 && (s[temp + len] == '>'
+			|| s[temp + len] == '<' || s[temp + len] == '|'))
 		len++;
+	printf("Len de la paraula:%d, es:%d\n", p->k, len);
 	r[p->k] = (char *)malloc(sizeof(char) * (len + 1));
 	return (r[p->k]);
 }
@@ -84,11 +93,40 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 {
 	p->j = 0;
+//	p->i = 0;
+	while (s[p->i] && s[p->i] != p->quote && (((s[p->i ] != '>'
+					&& s[p->i] != '<' && s[p->i] != '|')
+				&& p->quote == ' ') || p->quote != ' '))
+	{
+		if ((s[p->i] == '"' || s[p->i] == '\'') && p->quote == ' ')
+			p->quote = s[p->i++];
+		else
+			r[p->k][p->j++] = s[p->i++];
+		if (p->quote != ' ' && s[p->i] && s[p->i] == p->quote
+				&& (s[p->i] == '"' || s[p->i] == '\''))
+			p->i++;
+	}
+	while (s[p->i] && (s[p->i] == '>' || s[p->i] == '<' || s[p->i] == '|'))
+		r[p->k][p->i++] = s[p->i];
+	r[p->k][p->j] = '\0';
+	if (p->quote != '\'')
+		r[p->k] = ft_expansor(env, r[p->k]);
+	p->k++;
+	if (s[p->i] == p->quote)
+		p->i++;
+}
+/*
+static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
+{
+	p->j = 0;
 	while (s[p->i] && s[p->i] != p->quote && (((s[p->i] != '>' && s[p->i] != '<'
 					&& s[p->i] != '|') && p->quote == ' ') || p->quote != ' '))
 	{
 		if ((s[p->i] == '"' || s[p->i] == '\'') && p->quote == ' ')
-			p->i++;
+		//	p->i++;
+			p->quote = s[p->i++];
+		else if (s[p->i] && s[p->i - 1] && p->quote != ' ' && s[p->i] != ' ' && (s[p->i - 1] == '"' || s[p->i - 1] == '\''))
+			p->quote = ' ';
 		else
 			r[p->k][p->j++] = s[p->i++];
 	}
@@ -101,7 +139,7 @@ static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 	p->k++;
 	if (s[p->i] == p->quote)
 		p->i++;
-}
+}*/
 
 char	**ft_quotes(const char *s, t_list **env)
 {
@@ -128,6 +166,7 @@ char	**ft_quotes(const char *s, t_list **env)
 		ft_quotes3(p, r, s, env);
 	}
 	r[p->k] = NULL;
+	printf("Count is-> %d\n", p->count);
 	return (r);
 }
 /*
