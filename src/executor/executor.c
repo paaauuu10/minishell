@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/12 14:38:12 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/12 16:07:41 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,16 +206,18 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 	ft_wait_childs_process(&t_exec->exit_status, i, t_exec);
 }*/
 
-
-int	ft_executor(t_token **tokens, t_list **env, t_list **export)
+/**********************************************************************
+				TRYING NEW EXECUTOR
+**********************************************************************/
+/*int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
 	t_exec = malloc(sizeof(t_executor));
 	if (!t_exec)
-		exit(1); /*revisar*/
+		exit(1); //revisar
 	t_exec->d_pipe = malloc(sizeof(t_pipe));
 	if (!t_exec->d_pipe)
-		exit(1); /*revisar*/
+		exit(1); //revisar
 	if (!tokens || !*tokens)
 	{
 		free(t_exec);
@@ -230,4 +232,46 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	free(t_exec->d_pipe);
 	free(t_exec);
 	return (0);
+}*/
+
+void	ft_exec_child(t_executor *t_exec, t_token **tokens, t_list **env, t_list **export)
+{
+	if (t_exec->pid == 0)
+	{
+		//TREBALLAR LES PIPES
+		//CAL COMPROVAR TOKENS?
+		if (ft_is_builtin(tokens))
+			exit(builtins(tokens, env, export));
+	}
 }
+
+int	ft_executor(t_token **tokens, t_list **env, t_list **export)
+{
+	t_executor	*t_exec;
+	t_exec = malloc(sizeof(t_executor));
+	if (!t_exec)
+		exit(1); //revisar
+	t_exec->d_pipe = malloc(sizeof(t_pipe));
+	if (!t_exec->d_pipe)
+		exit(1); //revisar
+	if (!tokens || !*tokens)
+	{
+		free(t_exec->d_pipe);
+		free(t_exec);
+		return (0);
+	}
+	ft_count_pipes(t_exec, tokens);
+	ft_save_fd(t_exec);
+	t_exec->pid = fork();
+	if (t_exec->pid < 0)
+	{
+		perror("FORK");
+		exit(12);
+	}
+	ft_exec_child(t_exec, tokens, env, export);
+	ft_wait_one_child_process();
+	free(t_exec->d_pipe);
+	free(t_exec);
+	return (0);
+}
+
