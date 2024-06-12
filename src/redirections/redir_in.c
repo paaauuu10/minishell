@@ -12,7 +12,8 @@ int	ft_redir_in(char *filename, t_executor *exec)
 	fd = open (filename, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("Error al abrir el archivo de entrada :(\n");
+		perror(" ");
+		ft_exit_status(1, 1);
 		return (1);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)

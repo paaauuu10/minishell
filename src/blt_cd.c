@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:33:55 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/07 13:34:23 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:28:49 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ char	*ft_go_home(t_list **env)
 	return (NULL);
 }
 
-static int	ft_cd_condi(t_list **env, char *newpwd, t_token **tokens)
+static char	*ft_cd_condi(t_list **env, char *newpwd, t_token **tokens)
 {
 	if (*tokens && (*tokens)->next && (*tokens)->next->next)
 	{
 		write(2, "Minishell: cd: too many arguments", 33);
 		ft_exit_status(1, 1);
-		return (1);
+		return (NULL);
 	}
 	if (!(*tokens)->next)
 	{
@@ -61,12 +61,13 @@ static int	ft_cd_condi(t_list **env, char *newpwd, t_token **tokens)
 		{
 			write(2, "Minishell: cd: HOME not set\n", 28);
 			ft_exit_status(1, 1);
-			return (1);
+			return (NULL);
 		}
 	}
 	else
 		newpwd = (*tokens)->next->wrd;
-	return (0);
+	printf("%s\n", newpwd);
+	return (newpwd);
 }
 
 int	ft_cd(t_token	**tokens, t_list **export, t_list **env)
@@ -78,7 +79,8 @@ int	ft_cd(t_token	**tokens, t_list **export, t_list **env)
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 		exit(43);
-	if (ft_cd_condi(env, newpwd, tokens) == 1)
+	 newpwd = ft_cd_condi(env, newpwd, tokens);
+	 if (!newpwd)
 		return (1);
 	if (chdir(newpwd))
 	{
