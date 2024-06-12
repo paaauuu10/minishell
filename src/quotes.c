@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/12 10:34:01 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/12 12:07:40 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,14 @@ static void	ft_count(const char *s, t_parser *p)
 			while (s[p->i] && s[p->i] != p->quote)
 				p->i++;
 			if (!s[p->i])
+			{
+				p->count++;
 				break ;
+			}
 			if (s[p->i] == p->quote)
 				p->i++;
-			if (s[p->i] != ' ' && p->quote != ' ')
-				continue ;
+		//	if (s[p->i] != ' ' && p->quote != ' ')
+		//		continue ;
 		}
 		else
 			ft_count2(s, p);
@@ -69,7 +72,6 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 
 	temp = p->i;
 	len = 0;
-	p->quote = ' ';
 	while (s[temp + len] && s[temp + len] != p->quote && (((s[temp + len] != '>'
 					&& s[temp + len] != '<' && s[temp + len] != '|')
 				&& p->quote == ' ') || p->quote != ' '))
@@ -93,7 +95,6 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 {
 	p->j = 0;
-//	p->i = 0;
 	while (s[p->i] && s[p->i] != p->quote && (((s[p->i ] != '>'
 					&& s[p->i] != '<' && s[p->i] != '|')
 				&& p->quote == ' ') || p->quote != ' '))
@@ -150,6 +151,7 @@ char	**ft_quotes(const char *s, t_list **env)
 	if (!p)
 		return (NULL);
 	ft_count(s, p);
+	printf("Count is-> %d\n", p->count);
 	r = (char **)malloc(sizeof(char *) * (p->count + 1));
 	if (!r)
 		return (NULL);
@@ -166,7 +168,6 @@ char	**ft_quotes(const char *s, t_list **env)
 		ft_quotes3(p, r, s, env);
 	}
 	r[p->k] = NULL;
-	printf("Count is-> %d\n", p->count);
 	return (r);
 }
 /*
