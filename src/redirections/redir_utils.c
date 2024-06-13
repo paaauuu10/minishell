@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:15:28 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/11 12:45:51 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:50:06 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
         if (fd == -1)
         {
             perror("open");
-            return (-1); /*revisar*/
+            return (-1); //revisar
         }
     }
     temp = *tokens; 
-    /*TENIM FILENAME I OBERT*/ 
+    //TENIM FILENAME I OBERT 
     aux_head = ft_lstnew(temp->wrd, temp->tok);
     temp = temp->next;
     while (temp && ft_strcmp(temp->next->wrd, ">") != 0)
@@ -73,11 +73,11 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
         add_token(&aux_head, new_token(temp->wrd));
         temp = temp->next;
     }
-	/*while(aux_head)
-    	{
-		printf("%s\n", aux_head->wrd);
-		aux_head = aux_head->next;
-    	}*/
+	//while(aux_head)
+    	//{
+	//	printf("%s\n", aux_head->wrd);
+	//	aux_head = aux_head->next;
+    	//}
     dup2(fd, STDOUT_FILENO);
     close(fd);
     if (aux_head)
@@ -114,11 +114,11 @@ int ft_redir_append(t_token **tokens, t_list **env, t_list **export, t_executor 
         if (fd == -1)
         {
             perror("open");
-            return (-1); /*revisar*/
+            return (-1); //revisa
         }
     }
     temp = *tokens; 
-    /*TENIM FILENAME I OBERT*/ 
+    //TENIM FILENAME I OBERT
     aux_head = ft_lstnew(temp->wrd, temp->tok);
     temp = temp->next;
     while (temp && ft_strcmp(temp->next->wrd, ">") == 0)
@@ -126,11 +126,11 @@ int ft_redir_append(t_token **tokens, t_list **env, t_list **export, t_executor 
         add_token(&aux_head, new_token(temp->wrd));
 	temp = temp->next;
     }
-    /*while(aux_head)
-    {
-	printf("%s\n", aux_head->wrd);
-	aux_head = aux_head->next;
-    }*/
+    //while(aux_head)
+   //{
+//	printf("%s\n", aux_head->wrd);
+//	aux_head = aux_head->next;
+  //  }
     dup2(fd, STDOUT_FILENO);
     close(fd);
     if (aux_head)
@@ -160,7 +160,7 @@ int ft_redir_append(t_token **tokens, t_list **env, t_list **export, t_executor 
 //         temp = temp->next;
             
 //     }   
-// } 
+// }
 
 
 
