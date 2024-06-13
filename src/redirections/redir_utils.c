@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:15:28 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/13 14:50:06 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:12:51 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
     }
     dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO);
     close(t_exec->d_pipe->original_stdout);
+    free_token_list(&aux_head);
     //exit(1);
     return (0);
 }
