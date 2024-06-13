@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/13 11:25:15 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/13 11:46:07 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 		if((s[temp + len] == '>' || s[temp + len] == '<'
 				|| s[temp + len] == '|') && p->quote == ' ')
 			break ;
-		if ((s[temp + len] == '"' || s[temp + len] == '\'') && p->quote == ' ')
+		if ((s[temp + len] == '"' || s[temp + len] == '\'')
+				&& (p->quote == ' ' || p->open == 0))
 		{
 				p->quote = s[temp++ + len];
 				p->open = 1;
@@ -106,15 +107,11 @@ static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 	p->j = 0;
 	while (s[p->i] && (s[p->i] != p->quote || (p->open == 0 && p->quote != ' ')))
 	{
-		if (s[p->i] == '"' || s[p->i] == '\'')
-		{
-			p->quote = s[p->i++];
-			p->open = 1;
-		}
 		if((s[p->i] == '>' || s[p->i] == '<'
 				|| s[p->i] == '|') && p->quote == ' ')
 			break ;		
-		if ((s[p->i] == '"' || s[p->i] == '\'') && p->quote == ' ')
+		if ((s[p->i] == '"' || s[p->i] == '\'') 
+				&& (p->quote == ' ' || p->open == 0))
 		{
 			p->quote = s[p->i++];
 			p->open = 1;
