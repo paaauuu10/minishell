@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/14 11:05:13 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/14 11:29:50 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 	while (s[temp + len] && len == 0 && (s[temp + len] == '>'
 			|| s[temp + len] == '<' || s[temp + len] == '|'))
 		len++;
-	//printf("Len de la paraula en posicio:%d, es:%d\n", p->k, len);
+	printf("Len de la paraula en posicio:%d, es:%d\n", p->k, len);
 	r[p->k] = (char *)malloc(sizeof(char) * (len + 1));
 	return (r[p->k]);
 }
@@ -126,7 +126,7 @@ static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 		}
 	}
 	while (s[p->i] && (s[p->i] == '>' || s[p->i] == '<' || s[p->i] == '|'))
-		r[p->k][p->i++] = s[p->i];
+		r[p->k][p->j++] = s[p->i++];
 	r[p->k][p->j] = '\0';
 	if (p->quote != '\'')
 		r[p->k] = ft_expansor(env, r[p->k]);
@@ -145,7 +145,7 @@ char	**ft_quotes(const char *s, t_list **env)
 		return (NULL);
 	p->open = 0;
 	ft_count(s, p);
-	//printf("Count is-> %d\n", p->count);
+	printf("Count is-> %d\n", p->count);
 	r = (char **)malloc(sizeof(char *) * (p->count + 1));
 	if (!r)
 		return (NULL);
