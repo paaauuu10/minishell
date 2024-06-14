@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/14 11:29:50 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/14 11:51:24 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 			p->open = 0;
 		}
 	}
-	while (s[temp + len] && len == 0 && (s[temp + len] == '>'
+	if (s[temp + len] && len == 0 && (s[temp + len] == '>'
 			|| s[temp + len] == '<' || s[temp + len] == '|'))
 		len++;
 	printf("Len de la paraula en posicio:%d, es:%d\n", p->k, len);
@@ -125,7 +125,7 @@ static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 			p->open = 0;
 		}
 	}
-	while (s[p->i] && (s[p->i] == '>' || s[p->i] == '<' || s[p->i] == '|'))
+	if (s[p->i] && p->j == 0 && (s[p->i] == '>' || s[p->i] == '<' || s[p->i] == '|'))
 		r[p->k][p->j++] = s[p->i++];
 	r[p->k][p->j] = '\0';
 	if (p->quote != '\'')
