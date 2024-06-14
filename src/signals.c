@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:52:19 by pborrull          #+#    #+#             */
-/*   Updated: 2024/03/20 09:31:04 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:51:09 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ctrlc(int signal)
 {
-	signal = 0;
+	(void)signal;
 	ft_printf("\n");
 	rl_replace_line("", 1);
 	rl_on_new_line();
@@ -23,7 +23,7 @@ void	ctrlc(int signal)
 
 void	ctrls(int signal)
 {
-	signal = 0;
+	(void)signal;
 }
 
 void	signals(void)
@@ -31,6 +31,7 @@ void	signals(void)
 	struct sigaction	sa;
 
 	sa.sa_handler = ctrlc;
+	ft_memset(&sa, 0, sizeof(sa));
 	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGINT, &sa, NULL) < 0)
 		exit(56);

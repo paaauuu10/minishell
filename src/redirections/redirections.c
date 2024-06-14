@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:09:41 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/28 12:11:17 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:24:39 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int ft_redirect(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
         }
         else if (ft_strcmp(temp->wrd, ">>") == 1)
         {
-            //i = ft_redir_append(tokens, env, export, t_exec);
+            i = ft_redir_append(tokens, env, export, t_exec);
             return i;
         }
         else if (ft_strcmp(temp->wrd, "<") == 1)

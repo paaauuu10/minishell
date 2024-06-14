@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:14:59 by pborrull          #+#    #+#             */
-/*   Updated: 2024/05/21 14:33:14 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:17:40 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_len(unsigned int n)
 	return (len);
 }
 
-static char	ft_subitoa(int n, char *r)
+char	ft_subuitoa(int n, char *r)
 {
 	if (n == 0)
 		r[0] = '0';
@@ -47,7 +47,7 @@ char	*ft_uitoa(int n)
 	r = (char *)malloc(sizeof(char) * (len + 1));
 	if (!r)
 		return (0);
-	r[0] = ft_subitoa(un, r);
+	r[0] = ft_subuitoa(un, r);
 	if (un == 0)
 		r[0] = '0';
 	while (un > 9)
