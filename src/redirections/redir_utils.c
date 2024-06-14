@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:15:28 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/05/29 11:24:35 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:12:51 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
         if (fd == -1)
         {
             perror("open");
-            return (-1); /*revisar*/
+            return (-1); //revisar
         }
     }
     temp = *tokens; 
-    /*TENIM FILENAME I OBERT*/ 
+    //TENIM FILENAME I OBERT 
     aux_head = ft_lstnew(temp->wrd, temp->tok);
     temp = temp->next;
     while (temp && ft_strcmp(temp->next->wrd, ">") != 0)
@@ -73,6 +73,11 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
         add_token(&aux_head, new_token(temp->wrd));
         temp = temp->next;
     }
+	//while(aux_head)
+    	//{
+	//	printf("%s\n", aux_head->wrd);
+	//	aux_head = aux_head->next;
+    	//}
     dup2(fd, STDOUT_FILENO);
     close(fd);
     if (aux_head)
@@ -82,6 +87,7 @@ int ft_redir_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_
     }
     dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO);
     close(t_exec->d_pipe->original_stdout);
+    free_token_list(&aux_head);
     //exit(1);
     return (0);
 }
@@ -95,9 +101,12 @@ int ft_redir_append(t_token **tokens, t_list **env, t_list **export, t_executor 
     temp = *tokens;  
     while (temp)
     {
-        if (ft_strcmp(temp->wrd, ">>") != 0)
-            break ;
-        temp = temp->next;
+        if (ft_strcmp(temp->wrd, ">"))
+	{
+	    temp = temp->next;
+	    break ;
+	}
+	temp = temp->next;
     }
     if (temp && temp->next)
     {
@@ -106,18 +115,23 @@ int ft_redir_append(t_token **tokens, t_list **env, t_list **export, t_executor 
         if (fd == -1)
         {
             perror("open");
-            return (-1); /*revisar*/
+            return (-1); //revisa
         }
     }
     temp = *tokens; 
-    /*TENIM FILENAME I OBERT*/ 
+    //TENIM FILENAME I OBERT
     aux_head = ft_lstnew(temp->wrd, temp->tok);
     temp = temp->next;
-    while (temp && ft_strcmp(temp->next->wrd, ">>") != 0)
+    while (temp && ft_strcmp(temp->next->wrd, ">") == 0)
     {
         add_token(&aux_head, new_token(temp->wrd));
-        temp = temp->next;
+	temp = temp->next;
     }
+    //while(aux_head)
+   //{
+//	printf("%s\n", aux_head->wrd);
+//	aux_head = aux_head->next;
+  //  }
     dup2(fd, STDOUT_FILENO);
     close(fd);
     if (aux_head)
@@ -147,7 +161,7 @@ int ft_redir_append(t_token **tokens, t_list **env, t_list **export, t_executor 
 //         temp = temp->next;
             
 //     }   
-// } 
+// }
 
 
 

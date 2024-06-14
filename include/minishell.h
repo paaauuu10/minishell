@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/13 10:12:22 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/14 10:53:14 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,16 +146,17 @@ int		ft_redirect(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
 int		ft_redir_out(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
-int		ft_redir_in(t_token **tokens, t_list **env,
-			t_list **export, t_executor *t_exec);
+int		ft_redir_in(char *filename, t_executor *t_exec);
 int		ft_redir_append(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
+int		ft_redir_here(t_token **tokens);
+
 
 t_token	*ft_lstnew(char *word, int tokk);
 
 /*------------------------ WAIT --------------------------------*/
 
 void	ft_wait_one_child_process(void);
-void	ft_wait_childs_process(int	*exit_status, int i, t_executor *t_exec);
+void	ft_wait_childs_process(int i, t_executor *t_exec);
 
 #endif
