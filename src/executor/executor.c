@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/14 11:32:19 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/14 11:57:54 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 /*---------------------------------------------------------------------------------*/
 int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
-	/*if (ft_is_builtin(tokens))
+	if (ft_is_builtin(tokens))
 	{
 		builtins(tokens, export, env);
 		return (1);
-	}*/
+	}
 	t_exec->pid = fork();
 	if (t_exec->pid < 0)
 	{
