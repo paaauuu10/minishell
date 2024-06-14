@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/13 11:46:07 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/14 11:29:50 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 		}
 	}
 	while (s[p->i] && (s[p->i] == '>' || s[p->i] == '<' || s[p->i] == '|'))
-		r[p->k][p->i++] = s[p->i];
+		r[p->k][p->j++] = s[p->i++];
 	r[p->k][p->j] = '\0';
 	if (p->quote != '\'')
 		r[p->k] = ft_expansor(env, r[p->k]);
