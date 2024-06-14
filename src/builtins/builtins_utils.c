@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:47:47 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/07 12:13:24 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:55:13 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	builtins(t_token **tokens, t_list **export, t_list **env)
 
 	i = 0;
 	temp = tokens;
-	while (*temp && temp)
+	while (*temp)
 	{
 		if (ft_strcmp((*temp)->wrd, "echo"))
 		{

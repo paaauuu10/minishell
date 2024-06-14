@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/13 15:18:36 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/14 11:36:41 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,8 @@ t_token	**last_token(t_token **tokens)
 {
 	if (!tokens)
 		return (NULL);
-	while (*tokens)
-	{
-		if ((*tokens)->next == NULL)
-			break;
-		if ((*tokens)->next != NULL)
-			tokens = &((*tokens)->next);
-		else
-			break;
-	}
+	while (*tokens && (*tokens)->next)
+		tokens = &((*tokens)->next);
 	return (tokens);
 }
 
@@ -76,57 +69,6 @@ void	add_token(t_token **tokens, t_token	*node)
 		(*last)->next = node;
 }
 
-
-/*********************************************************
-			LIBFT BOTA
-**********************************************************/
-
-int	ft_lstsize(t_token *lst)
-{
-	int		num;
-
-	num = 0;
-	while (lst != NULL)
-	{
-		lst = lst->next;
-		num++;
-	}
-	return (num);
-}
-
-t_token	*ft_lstlast(t_token *lst)
-{
-	t_token	*last;
-	size_t	i;
-
-	last = lst;
-	i = ft_lstsize(lst);
-	while (i > 1)
-	{
-		last = last->next;
-		i--;
-	}
-	return (last);
-}
-
-void	ft_lstadd_back(t_token **lst, t_token *new)
-{
-	t_token	*last;
-
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	last = ft_lstlast(*lst);
-	last->next = new;
-}
-
-
-/**********************************************************
-			LIBFT BOTA
-**********************************************************/
-
 t_token	**get_tok(t_list **env, t_token **tokens, char *s)
 {
 	char	**matrix;
@@ -134,12 +76,11 @@ t_token	**get_tok(t_list **env, t_token **tokens, char *s)
 
 	i = 0;
 	matrix = ft_quotes(s, env);
-//	matrix = ft_split(s, ' ');
 	if (!tokens)
 		exit(2);
 	while (matrix[i] && tokens)
 		add_token(tokens, new_token(matrix[i++]));
-/*	while (*tokens)
+	/*while (*tokens)
 	{
 		printf("%s\n",(*tokens)->wrd);
 		if ((*tokens)->next)

@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:23:42 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/10 11:11:50 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:19:45 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,15 @@ char	*ft_str_list(t_list **env, char *s2)
 {
 	int		i;
 	t_list	*temp2;
+	char	*s3;
 
 	i = 0;
 	temp2 = *env;
 	while (temp2)
 	{
-		s2 = ft_str_list2(temp2, s2);
-		if (s2)
-			return (s2);
+		s3 = ft_str_list2(temp2, s2);
+		if (s3)
+			return (s3);
 		if (temp2->next)
 			temp2 = temp2->next;
 		else

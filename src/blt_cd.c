@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:33:55 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/12 14:28:49 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/14 11:09:11 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static char	*ft_cd_condi(t_list **env, char *newpwd, t_token **tokens)
 	}
 	else
 		newpwd = (*tokens)->next->wrd;
-	printf("%s\n", newpwd);
 	return (newpwd);
 }
 
@@ -79,8 +78,8 @@ int	ft_cd(t_token	**tokens, t_list **export, t_list **env)
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 		exit(43);
-	 newpwd = ft_cd_condi(env, newpwd, tokens);
-	 if (!newpwd)
+	newpwd = ft_cd_condi(env, newpwd, tokens);
+	if (!newpwd)
 		return (1);
 	if (chdir(newpwd))
 	{

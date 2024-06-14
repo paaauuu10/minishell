@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/13 15:26:03 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/14 10:56:12 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_list	**env_list(char **envp)
 	env = (t_list **)malloc(sizeof(t_list *));
 	if (!env)
 		return (NULL);
-	*env = NULL; //funciona
+	*env = NULL;
 	while (envp[i])
 	{
 		node = new_node(envp[i]);

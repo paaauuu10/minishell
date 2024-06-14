@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/13 14:50:24 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/14 10:53:14 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_parser
 	int		k;
 	char	quote;
 	int		count;
+	int		open;
 }	t_parser;
 
 # define NONE 0
@@ -145,14 +146,13 @@ int		ft_redirect(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
 int		ft_redir_out(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
-//int		ft_redir_in(t_token **tokens, t_list **env,
-//			t_list **export, t_executor *t_exec);
+int		ft_redir_in(char *filename, t_executor *t_exec);
 int		ft_redir_append(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
+int		ft_redir_here(t_token **tokens);
+
 
 t_token	*ft_lstnew(char *word, int tokk);
-int		ft_redir_here(t_token **tokens);
-int		ft_redir_in(char *filename, t_executor *exec);
 
 /*------------------------ WAIT --------------------------------*/
 
