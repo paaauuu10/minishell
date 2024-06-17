@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/17 12:18:10 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:41:27 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,38 +37,29 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 /*---------------------------------------------------------------------------------*/
 int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
-	if (ft_is_builtin(tokens))
-	{
-		builtins(tokens, export, env);
-		return (1);
-	}
 	t_exec->pid = fork();
-	if (t_exec->pid < 0)
-	{
-		printf("pid < 0");
-		return (0);   //revisar
-	}
 	if (t_exec->pid == 0)
 	{
-		
 		if (is_redirection(tokens))
 		{
 			ft_redirect(tokens, env, export, t_exec); //testejar
 			exit (1); //revisar valor d'exit
 		}
-		//else if (ft_is_builtin(tokens))
-		//{
-		//	exit(builtins(tokens, export, env));
-			//revisar
-		//}
+		else if (ft_is_builtin(tokens))
+		{
+			exit(builtins(tokens, export, env));
+		//	revisar
+		}
 		else
 		{
 			ft_exec(tokens, env, t_exec); //s'ha de modificar
+			perror("Command not found");
 			exit(127);
 		}
 		exit(1); //revisar			//perror("Comand not found");
 	}
-	ft_wait_one_child_process(); //aixo sha de revisar
+	else
+		ft_wait_one_child_process();
 	return (0); //revisar
 }
 

@@ -67,14 +67,15 @@
 	ft_wait_childs_process(&t_exec->exit_status, i, t_exec);
 }*/
 
-# define BUFFFER_SIZE 256
-int	ft_pipes(t_token **tokens, t_list **env, t_list **export,  t_executor *t_exec)
+/*int	ft_pipes(t_token **tokens, t_list **env, t_list **export,  t_executor *t_exec)
 {
 	int	pipesfd[2];
+	int	prev_pipe[2] = {-1, -1};
 	int status;
 	char buffer[BUFFFER_SIZE];
 	int i = 1;
 	t_token *aux;
+	
 	while (t_exec->total_pipes != 0)
 	{
 		if (t_exec->total_pipes != 0)
@@ -85,6 +86,13 @@ int	ft_pipes(t_token **tokens, t_list **env, t_list **export,  t_executor *t_exe
 		t_exec->pid = fork();
 		if (t_exec->pid == 0)
 		{
+			if (prev_pipe[0] != -1) // vol dir que ja hi ha pipes previes
+			{
+				close(prev_pipe[1]); // Close write end of old pipe
+                dup2(prev_pipe[0], STDIN_FILENO); // Redirect stdin to read end of old pipe
+                close(prev_pipe[0]);
+
+			}
 			close(pipesfd[0]);
 			dup2(pipesfd[1], STDOUT_FILENO);
 			close (pipesfd[1]);
@@ -106,26 +114,120 @@ int	ft_pipes(t_token **tokens, t_list **env, t_list **export,  t_executor *t_exe
 		}
 		else
 		{
-			close(pipesfd[1]);
-			ssize_t count = read(pipesfd[0], buffer, BUFFFER_SIZE - 1);
-        	if (count == -1) {
-            	perror("read");
-            	exit(EXIT_FAILURE);
-       		}
-			buffer[count] = '\0';
-
-        	// Imprimir el mensaje
-        	printf("Recibido del comando: %s: ", (*tokens)->wrd);
+			if (prev_pipe[0] != -1)
+			{
+				close(prev_pipe[0]);
+                close(prev_pipe[1]);
+			}
+			//update_info
+			prev_pipe[0] = pipesfd[0];
+            prev_pipe[1] = pipesfd[1];
 			// un cop agafat el comando avancem fins a la seguent pipe, caldra mirar si existeix next i si s'han fet totes les pipes
 			while ((*tokens)->tok != 2)
 				(*tokens) = (*tokens)->next;
 			(*tokens) = (*tokens)->next;
-			printf("Mensaje: %s\n", buffer);
-			(void)tokens;
 			t_exec->cmd_count--;
 			i++;
 			wait(&status);
 		}
 	}
 	return (0);	
+}*/
+
+int ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec) {
+    int prev_pipe[2] = {-1, -1}; // Inicializa prev_pipe correctamente
+    int new_pipe[2];
+    int status;
+    t_token *aux;
+
+    while (t_exec->total_pipes > 0) {
+        if (pipe(new_pipe) == -1) {
+            perror("pipe");
+            exit(EXIT_FAILURE);
+        }
+
+        t_exec->total_pipes--;
+
+        t_exec->pid = fork();
+        if (t_exec->pid == 0) { // Proceso hijo
+            if (prev_pipe[0] != -1) { // Si hay una tubería anterior
+                dup2(prev_pipe[0], STDIN_FILENO); // Redirige la entrada estándar
+                close(prev_pipe[0]);
+                close(prev_pipe[1]);
+            }
+
+            close(new_pipe[0]); // Cierra el extremo de lectura de la nueva tubería
+            //if (t_exec->total_pipes > 0) { // Si no es el último comando
+              //  dup2(new_pipe[1], STDOUT_FILENO); // Redirige la salida estándar
+         //   }
+            //close(new_pipe[1]);
+
+            // Procesar el comando actual
+            aux = ft_lstnew((*tokens)->wrd, (*tokens)->tok);
+            if ((*tokens)->next)
+				(*tokens) = (*tokens)->next;
+			while ((*tokens) && ft_strcmp((*tokens)->next->wrd, "|") != 0) {
+                add_token(&aux, new_token((*tokens)->wrd));
+                (*tokens) = (*tokens)->next;
+            }
+			while (aux && aux->next->wrd)
+			{
+					printf("Lista comando: %s\n", aux->wrd);
+					aux = aux->next;
+			}
+			if (aux)
+				printf("Lista comando: %s\n", aux->wrd);
+            ft_only_cmd(&aux, env, export, t_exec); // Ejecuta el comando
+            close(new_pipe[1]);
+			exit(EXIT_FAILURE); // Si exec falla, salir con error
+        } else { // Proceso padre
+            if (prev_pipe[0] != -1) {
+                close(prev_pipe[0]); // Cierra el extremo de lectura de la tubería anterior
+                close(prev_pipe[1]); // Cierra el extremo de escritura de la tubería anterior
+            }
+
+            prev_pipe[0] = new_pipe[0];
+            prev_pipe[1] = new_pipe[1];
+
+            // Avanzar el puntero de tokens hasta el próximo comando
+            while ((*tokens)->tok != 2 && (*tokens)->next) {
+                (*tokens) = (*tokens)->next;
+            }
+            if ((*tokens)->next) {
+                (*tokens) = (*tokens)->next;
+            }
+
+            t_exec->cmd_count--;
+            wait(&status);
+        }
+    }
+
+    // Procesar el último comando
+    t_exec->pid = fork();
+    if (t_exec->pid == 0) { // Proceso hijo
+        if (prev_pipe[0] != -1) { // Si hay una tubería anterior
+            dup2(prev_pipe[0], STDIN_FILENO); // Redirige la entrada estándar
+            close(prev_pipe[0]);
+            close(prev_pipe[1]);
+        }
+
+        // Ejecuta el último comando
+        aux = ft_lstnew((*tokens)->wrd, (*tokens)->tok);
+        while ((*tokens)) {
+            add_token(&aux, new_token((*tokens)->wrd));
+            (*tokens) = (*tokens)->next;
+        }
+
+        ft_only_cmd(&aux, env, export, t_exec); // Ejecuta el comando
+        exit(EXIT_FAILURE); // Si exec falla, salir con error
+    } else { // Proceso padre
+        if (prev_pipe[0] != -1) {
+            close(prev_pipe[0]);
+            close(prev_pipe[1]);
+        }
+
+        wait(&status);
+    }
+
+    return 0;
 }
