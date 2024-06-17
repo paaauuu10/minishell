@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/14 10:53:14 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/17 10:58:34 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_executor
 {
 	int		pid;
 	int		total_pipes;
+	int		cmd_count;
 	int		exit_status;
 	char	*absolute_path;
 	char	**path;
@@ -136,7 +137,8 @@ int		ft_executor(t_token **tokens, t_list **env, t_list **export);
 int		ft_exec(t_token **tokens, t_list **env, t_executor *t_exec);
 int		ft_only_cmd(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
-
+int		ft_pipes(t_token **tokens, t_list **env, 
+			t_list **export, t_executor *t_exec);
 /*----------------------- REDIRECTIONS ------------------------*/
 
 int		is_redirection(t_token **tokens);

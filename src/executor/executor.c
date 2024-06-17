@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/14 13:16:54 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:18:10 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 		temp = temp->next;
 	}
 	t_exec->d_pipe->pipecounter = t_exec->total_pipes;
+	t_exec->cmd_count = t_exec->total_pipes + 1;
+	printf("Numero de pipes: %d\n", t_exec->total_pipes);
+	printf("Numero de cmd: %d\n", t_exec->cmd_count);
 }
 
 /*---------------------------------------------------------------------------------*/
@@ -140,72 +143,6 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 	}
 }
 
-/*void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
-{
-	int i;
-	t_token *aux;
-	t_token *temp;
-	i = 0;
-	temp = *tokens;
-	t_exec->d_pipe->pipecounter = 0;
-	while (*tokens)
-	{
-		if (t_exec->d_pipe->pipecounter != t_exec->total_pipes)
-			pipe(t_exec->d_pipe->pipefd);
-		t_exec->d_pipe->pipecounter++; //aixi sabem quantes pipes portem creades i podem saber si es l'ultima
-		//if (ft_is_redir_pipe(tokens)) //revisar redireccio fins que trobi la primera pipe
-		//prerara la llista fins a pipe  //creo llista o matriu 
-		//aux = ft_lstnew(temp->wrd, temp->tok);
-    	//temp = temp->next;  
-    	//while (temp && ft_strcmp(temp->next->wrd, "|") == 1)
-    	//{
-        //	add_token(&aux, new_token(temp->wrd));
-        //	temp = temp->next;
-   	 //	}
-	//	printf("PRIMERA PARAULA COMANDO ENVIAT: %s\n", aux->wrd);
-	//	if (aux->next)
-	//		printf("SEGONA PARAULA COMANDO ENVIAT: %s\n", aux->next->wrd);
-		
-	    				//ES POT REMPLAÇAR PER FT_CHILD_PROCESS
-		t_exec->pid = fork();
-		if (t_exec->pid < 0)
-		{
-			perror ("pid"); //revisar
-			exit (1); //revisar
-		}
-		if (t_exec->pid == 0) //fill
-		{
-			printf("PROCES FILL\n");
-			//if (t_exec->d_pipe->pipecounter != t_exec->total_pipes) //si encara queda una pipe mes
-			dup2(t_exec->d_pipe->pipefd[1], 1); //sortida del comando que s'executara a la std_out de la pipe
-			printf("Read end: %d\n", t_exec->d_pipe->pipefd[0]);
-    			printf("Write end: %d\n", t_exec->d_pipe->pipefd[1]);
-			if (!tokens || !*tokens)
-				exit (0); //revisar
-			if (ft_is_builtin(&aux))
-			{
-				printf("acaba FILL0\n");
-				exit(builtins(&aux, export, env));
-			}
-			else
-			{
-				printf("acaba FILL1\n");
-				exit(ft_exec(&aux, env, t_exec)); //revisar si cal fer exit, ja que la funcion ja en te un (crec que si)
-			}
-		}
-		while ((*tokens)->tok != PIPE) //MIRO AVANÇAR FINS SEGUENT PIPE
-				(*tokens) = (*tokens)->next;
-		(*tokens) = (*tokens)->next;
-		printf("comando despues de la pipe: %s\n", (*tokens)->wrd);
-		//iterar fins el seguent comando
-		if (t_exec->d_pipe->pipecounter != t_exec->total_pipes) //si encara hi ha pipe	
-			dup2(t_exec->d_pipe->pipefd[0], 0);			
-		if (t_exec->d_pipe->pipecounter == t_exec->total_pipes) //si es l'ulitm comando, no mes pipes
-			dup2(t_exec->d_pipe->pipefd[0], t_exec->d_pipe->original_stdout);
-		i++;
-	}
-	ft_wait_childs_process(&t_exec->exit_status, i, t_exec);
-}*/
 
 /**********************************************************************
 				TRYING NEW EXECUTOR
@@ -227,10 +164,12 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	ft_exit_status(0, 1);
 	ft_count_pipes(t_exec, tokens);
 	ft_save_fd(t_exec);
-	if (t_exec->total_pipes == 0)
+	if (t_exec->total_pipes == 0 && !is_redirection(tokens) && ft_is_builtin(tokens))
+		builtins(tokens, env, export);
+	else if (t_exec->total_pipes == 0)
 		ft_only_cmd(tokens, env, export, t_exec);
 	else
-		ft_more_cmd(tokens, env, export, t_exec);
+		ft_pipes(tokens, env, export, t_exec);
 	free(t_exec->d_pipe);
 	free(t_exec);
 	return (0);
@@ -245,9 +184,9 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 		if (ft_is_builtin(tokens))
 			exit(builtins(tokens, env, export));
 	}
-}
+}*/
 
-int	ft_executor(t_token **tokens, t_list **env, t_list **export)
+/*int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
 	t_exec = malloc(sizeof(t_executor));
@@ -264,6 +203,7 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	}
 	ft_count_pipes(t_exec, tokens);
 	ft_save_fd(t_exec);
+	pipe(t_exec->d_pipe->pipefd);
 	t_exec->pid = fork();
 	if (t_exec->pid < 0)
 	{
