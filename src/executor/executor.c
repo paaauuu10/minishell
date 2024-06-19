@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/17 14:41:27 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/19 11:47:33 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,14 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 	}
 	t_exec->d_pipe->pipecounter = t_exec->total_pipes;
 	t_exec->cmd_count = t_exec->total_pipes + 1;
-	printf("Numero de pipes: %d\n", t_exec->total_pipes);
-	printf("Numero de cmd: %d\n", t_exec->cmd_count);
 }
 
 /*---------------------------------------------------------------------------------*/
 int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
+	char *aux;
+
+	aux = (*tokens)->wrd;
 	t_exec->pid = fork();
 	if (t_exec->pid == 0)
 	{
@@ -52,9 +53,12 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 		}
 		else
 		{
-			ft_exec(tokens, env, t_exec); //s'ha de modificar
-			perror("Command not found");
-			exit(127);
+			if (ft_exec(tokens, env, t_exec) == 0) //s'ha de modificar
+			{	
+				ft_print_error(aux);
+				write(2, ": command not found\n", 21);
+				exit(127);
+			}
 		}
 		exit(1); //revisar			//perror("Comand not found");
 	}
@@ -138,10 +142,14 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 /**********************************************************************
 				TRYING NEW EXECUTOR
 **********************************************************************/
+//int	ft_executor_2(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
+
+
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
 	t_exec = malloc(sizeof(t_executor));
+
 	if (!t_exec)
 		exit(1); //revisar
 	t_exec->d_pipe = malloc(sizeof(t_pipe));
@@ -152,19 +160,24 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 		free(t_exec);
 		return (0);
 	}
-	ft_exit_status(0, 1);
+	ft_exit_status(0, 1); //descobrir perque vaig posar aixo aqui
 	ft_count_pipes(t_exec, tokens);
 	ft_save_fd(t_exec);
-	if (t_exec->total_pipes == 0 && !is_redirection(tokens) && ft_is_builtin(tokens))
-		builtins(tokens, env, export);
-	else if (t_exec->total_pipes == 0)
-		ft_only_cmd(tokens, env, export, t_exec);
+	if (t_exec->total_pipes == 0 && !is_redirection(tokens))
+	{
+		if (ft_is_builtin(tokens))
+			builtins(tokens, env, export);
+		else
+			ft_only_cmd(tokens, env, export, t_exec);
+	}
 	else
 		ft_pipes(tokens, env, export, t_exec);
 	free(t_exec->d_pipe);
 	free(t_exec);
 	return (0);
 }
+
+
 
 /*void	ft_exec_child(t_executor *t_exec, t_token **tokens, t_list **env, t_list **export)
 {

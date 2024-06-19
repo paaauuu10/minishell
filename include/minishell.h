@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/17 10:58:34 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/19 11:46:55 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,5 +160,9 @@ t_token	*ft_lstnew(char *word, int tokk);
 
 void	ft_wait_one_child_process(void);
 void	ft_wait_childs_process(int i, t_executor *t_exec);
+
+/*------------------------ MESSAGE -----------------------------*/
+
+void	ft_print_error(char *a);
 
 #endif

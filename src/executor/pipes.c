@@ -134,6 +134,8 @@
 	return (0);	
 }*/
 
+# define BUFFFER_SIZE 1024
+
 int ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec) {
     int prev_pipe[2] = {-1, -1}; // Inicializa prev_pipe correctamente
     int new_pipe[2];
@@ -181,6 +183,8 @@ int ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
             close(new_pipe[1]);
 			exit(EXIT_FAILURE); // Si exec falla, salir con error
         } else { // Proceso padre
+			char buffer[BUFFER_SIZE];
+    		ssize_t bytes_read;
             if (prev_pipe[0] != -1) {
                 close(prev_pipe[0]); // Cierra el extremo de lectura de la tubería anterior
                 close(prev_pipe[1]); // Cierra el extremo de escritura de la tubería anterior
@@ -188,7 +192,12 @@ int ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
 
             prev_pipe[0] = new_pipe[0];
             prev_pipe[1] = new_pipe[1];
-
+			
+			printf("Contenido de la tubería:\n");
+        	while ((bytes_read = read(prev_pipe[0], buffer, BUFFFER_SIZE - 1)) > 0) {
+            	buffer[bytes_read] = '\0'; // Asegurar la cadena terminada en NULL
+            printf("%s", buffer); // Imprimir el contenido leído
+        }
             // Avanzar el puntero de tokens hasta el próximo comando
             while ((*tokens)->tok != 2 && (*tokens)->next) {
                 (*tokens) = (*tokens)->next;
