@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/19 14:09:08 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:43:49 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,60 +65,6 @@ int	ft_save_fd(t_executor *t_exec)
 	return (0);
 }
 
-void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
-{
-	(void)env;
-	(void)export;
-	int	prev_pipefd[2];
-	t_exec->d_pipe->pipecounter = 0;
-	while (*tokens)
-	{
-		pipe(t_exec->d_pipe->pipefd);
-		t_exec->pid = fork();
-		// controlar error pid;
-		if (t_exec->pid == 0)
-		{
-			if (t_exec->d_pipe->pipecounter <= t_exec->total_pipes)
-			{
-				dup2(t_exec->d_pipe->pipefd[1], 1);
-				close(t_exec->d_pipe->pipefd[0]);
-				close(t_exec->d_pipe->pipefd[1]);
-			}
-			if (t_exec->d_pipe->pipecounter != t_exec->total_pipes)
-			{
-				dup2(prev_pipefd[0], STDIN_FILENO);
-				close(prev_pipefd[0]);
-				close(prev_pipefd[1]);
-			}
-		//	ft_send_new_list(tokens, env, export, t_exec); //crear aquesta funcio
-		//	ft_only_cmd(tokens, env, export, t_exec);
-			exit(1); //revisar exit
-		}
-		else
-		{
-	//		ft_wait_one_child();
-			if (t_exec->d_pipe->pipecounter <= t_exec->total_pipes)
-				close(t_exec->d_pipe->pipefd[1]);
-			if (t_exec->d_pipe->pipecounter != t_exec->total_pipes)
-			{
-				close(prev_pipefd[0]);
-				close(prev_pipefd[1]);
-			}
-			prev_pipefd[0] = t_exec->d_pipe->pipefd[0];
-			prev_pipefd[1] = t_exec->d_pipe->pipefd[1];
-			//ft_wait_one_child();	
-			while (*tokens && ((*tokens)->tok != 2))
-			{
-				printf("Word: %s\n", (*tokens)->wrd);
-				printf("Token: %d\n", (*tokens)->tok); // Imprimir el tipo de token para depuración
-				(*tokens) = (*tokens)->next;
-			}
-			if ((*tokens)->next)
-				(*tokens) = (*tokens)->next;
-		}
-	}
-}
-
 
 /**********************************************************************
 				TRYING NEW EXECUTOR
@@ -127,6 +73,8 @@ int	ft_executor_2(t_token **tokens, t_list **env, t_list **export, t_executor *t
 {
 	if (ft_is_builtin(tokens))
 		builtins(tokens, env, export);
+	else
+		ft_only_cmd(tokens, env, export, t_exec);
 	(void)t_exec;
 	return (0);
 	//falten la resta de comandos
@@ -155,7 +103,7 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	else
 	{
 		ft_pipes(tokens, env, export, t_exec);
-		ft_executor_2(tokens, env, export, t_exec);
+	//	ft_executor_2(tokens, env, export, t_exec);
 	}
 	free(t_exec->d_pipe);
 	free(t_exec);
