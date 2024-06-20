@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/20 11:39:49 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:06:17 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
 	fd = 0;
 	if (ft_redirect(tokens, env, export, t_exec) == REDIR_OUT_APPEND)
 		fd = open(filename(tokens), O_CREAT | O_WRONLY | O_APPEND, 0660);
+	if (ft_redirect(tokens, env, export, t_exec) == REDIR_OUT)
+		fd = open(filename(tokens), O_CREAT | O_WRONLY | O_TRUNC, 0660);
 	if (fd == -1)
 		return (1);
 
