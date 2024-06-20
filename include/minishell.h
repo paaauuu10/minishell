@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/19 11:46:55 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/20 10:49:03 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_token
 {
 	char			*wrd;
 	int				tok;
+	int				stop_flag;
 	struct s_token	*next;
 }	t_token;
 
@@ -93,6 +94,9 @@ typedef struct s_parser
 # define ACTIVE 8
 # define INACTIVE 9
 
+# define REDIR_OUT 10
+# define REDIR_OUT_APPEND 11
+
 /*---------------------- BUILTINGS ----------------------------*/
 
 int		builtins(t_token **tokens, t_list **export, t_list **env);
@@ -139,6 +143,8 @@ int		ft_only_cmd(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
 int		ft_pipes(t_token **tokens, t_list **env, 
 			t_list **export, t_executor *t_exec);
+int	ft_executor_2(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec);
+
 /*----------------------- REDIRECTIONS ------------------------*/
 
 int		is_redirection(t_token **tokens);

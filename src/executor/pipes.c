@@ -1,4 +1,65 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipes.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
+/*   Updated: 2024/06/20 11:39:49 by pbotargu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
+
+char *filename(t_token **tokens)
+{
+	t_token *aux;
+
+	aux = *tokens;
+	while (aux->tok != 4)
+		aux = aux->next;
+	aux = aux->next;
+	if (aux->tok == 4)
+		aux = aux->next;
+	return (aux->wrd);	
+}
+
+void	ft_new_list_exec(t_token **tokens, t_token **aux)
+{
+	(*aux) = ft_lstnew((*tokens)->wrd, (*tokens)->tok);
+	if ((*tokens)->next)
+		(*tokens) = (*tokens)->next;
+	if ((*tokens)->tok == 4)
+		return ;
+	while ((*tokens) && ft_strcmp((*tokens)->wrd, ">") == 0)
+	{
+		add_token(aux, new_token((*tokens)->wrd));
+		(*tokens) = (*tokens)->next;
+	}
+}
+
+int	ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
+{
+	int	fd;
+
+	t_token **aux;
+
+	aux = malloc(sizeof(t_token));
+	fd = 0;
+	if (ft_redirect(tokens, env, export, t_exec) == REDIR_OUT_APPEND)
+		fd = open(filename(tokens), O_CREAT | O_WRONLY | O_APPEND, 0660);
+	if (fd == -1)
+		return (1);
+
+	if (dup2(fd, STDOUT_FILENO) == -1)
+		return (1);
+	ft_new_list_exec(tokens, aux);
+	ft_executor_2(aux, env, export, t_exec);
+	close(fd);
+	dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO);
+	return (0);
+}
 
 /*void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
@@ -41,7 +102,7 @@
 			printf("Read end: %d\n", t_exec->d_pipe->pipefd[0]);
     			printf("Write end: %d\n", t_exec->d_pipe->pipefd[1]);
 			if (!tokens || !*tokens)
-				exit (0); //revisar
+i				exit (0); //revisar
 			if (ft_is_builtin(&aux))
 			{
 				printf("acaba FILL0\n");
@@ -136,7 +197,7 @@
 
 # define BUFFFER_SIZE 1024
 
-int ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec) {
+/*int ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec) {
     int prev_pipe[2] = {-1, -1}; // Inicializa prev_pipe correctamente
     int new_pipe[2];
     int status;
@@ -239,4 +300,4 @@ int ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
     }
 
     return 0;
-}
+}*/

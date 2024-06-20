@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/19 12:24:26 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:09:08 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,14 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 /**********************************************************************
 				TRYING NEW EXECUTOR
 **********************************************************************/
+int	ft_executor_2(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
+{
+	if (ft_is_builtin(tokens))
+		builtins(tokens, env, export);
+	(void)t_exec;
+	return (0);
+	//falten la resta de comandos
+}
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
@@ -142,10 +150,13 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	ft_save_fd(t_exec);
 	if (t_exec->total_pipes == 0 && !is_redirection(tokens) && ft_is_builtin(tokens))
 		builtins(tokens, env, export);
-	else if (t_exec->total_pipes == 0)
+	else if (t_exec->total_pipes == 0 && !is_redirection(tokens))
 		ft_only_cmd(tokens, env, export, t_exec);
 	else
+	{
 		ft_pipes(tokens, env, export, t_exec);
+		ft_executor_2(tokens, env, export, t_exec);
+	}
 	free(t_exec->d_pipe);
 	free(t_exec);
 	return (0);
