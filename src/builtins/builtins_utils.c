@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:47:47 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/14 12:01:39 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/14 13:10:22 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	builtins(t_token **tokens, t_list **export, t_list **env)
 
 	i = 0;
 	temp = tokens;
-	while (*temp)
+	if (*temp)
 	{
 		if (ft_strcmp((*temp)->wrd, "echo"))
 		{
@@ -61,7 +61,6 @@ int	builtins(t_token **tokens, t_list **export, t_list **env)
 				*temp = (*temp)->next;
 			}
 		}
-		(*temp) = (*temp)->next;
 	}
 	return (i);
 }

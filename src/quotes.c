@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/14 11:56:26 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:32:08 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,19 +76,19 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 	while (s[temp + len] && (s[temp + len] != p->quote
 			|| (p->open == 0 && p->quote != ' ')))
 	{
-		if((s[temp + len] == '>' || s[temp + len] == '<'
+		if ((s[temp + len] == '>' || s[temp + len] == '<'
 				|| s[temp + len] == '|') && p->quote == ' ')
 			break ;
 		if ((s[temp + len] == '"' || s[temp + len] == '\'')
-				&& (p->quote == ' ' || p->open == 0))
+			&& (p->quote == ' ' || p->open == 0))
 		{
-				p->quote = s[temp++ + len];
-				p->open = 1;
+			p->quote = s[temp++ + len];
+			p->open = 1;
 		}
 		else
 			len++;
 		if (p->quote != ' ' && s[temp + len] && s[temp + len] == p->quote
-				&& (s[temp + len] == '"' || s[temp + len] == '\''))
+			&& (s[temp + len] == '"' || s[temp + len] == '\''))
 		{
 			temp++;
 			p->open = 0;
@@ -97,7 +97,6 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 	if (s[temp + len] && len == 0 && (s[temp + len] == '>'
 			|| s[temp + len] == '<' || s[temp + len] == '|'))
 		len++;
-//	printf("Len de la paraula en posicio:%d, es:%d\n", p->k, len);
 	r[p->k] = (char *)malloc(sizeof(char) * (len + 1));
 	return (r[p->k]);
 }
@@ -105,13 +104,14 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 {
 	p->j = 0;
-	while (s[p->i] && (s[p->i] != p->quote || (p->open == 0 && p->quote != ' ')))
+	while (s[p->i] && (s[p->i] != p->quote
+			|| (p->open == 0 && p->quote != ' ')))
 	{
-		if((s[p->i] == '>' || s[p->i] == '<'
+		if ((s[p->i] == '>' || s[p->i] == '<'
 				|| s[p->i] == '|') && p->quote == ' ')
-			break ;		
-		if ((s[p->i] == '"' || s[p->i] == '\'') 
-				&& (p->quote == ' ' || p->open == 0))
+			break ;
+		if ((s[p->i] == '"' || s[p->i] == '\'')
+			&& (p->quote == ' ' || p->open == 0))
 		{
 			p->quote = s[p->i++];
 			p->open = 1;
@@ -119,13 +119,14 @@ static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 		else
 			r[p->k][p->j++] = s[p->i++];
 		if (p->quote != ' ' && s[p->i] && s[p->i] == p->quote
-				&& (s[p->i] == '"' || s[p->i] == '\''))
+			&& (s[p->i] == '"' || s[p->i] == '\''))
 		{
 			p->i++;
 			p->open = 0;
 		}
 	}
-	if (s[p->i] && p->j == 0 && (s[p->i] == '>' || s[p->i] == '<' || s[p->i] == '|'))
+	if (s[p->i] && p->j == 0 && (s[p->i] == '>' || s[p->i] == '<'
+			|| s[p->i] == '|'))
 		r[p->k][p->j++] = s[p->i++];
 	r[p->k][p->j] = '\0';
 	if (p->quote != '\'')
@@ -145,7 +146,6 @@ char	**ft_quotes(const char *s, t_list **env)
 		return (NULL);
 	p->open = 0;
 	ft_count(s, p);
-//	printf("Count is-> %d\n", p->count);
 	r = (char **)malloc(sizeof(char *) * (p->count + 1));
 	if (!r)
 		return (NULL);
@@ -162,6 +162,7 @@ char	**ft_quotes(const char *s, t_list **env)
 		ft_quotes3(p, r, s, env);
 	}
 	r[p->k] = NULL;
+	free(p);
 	return (r);
 }
 /*

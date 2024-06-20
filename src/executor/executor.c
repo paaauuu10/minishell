@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/14 11:58:18 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/14 13:16:52 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 {
 	if (ft_is_builtin(tokens))
 	{
-		builtins(tokens, export, env);
+		ft_exit_status(builtins(tokens, export, env), 1);
 		return (1);
 	}
 	t_exec->pid = fork();
@@ -213,6 +213,7 @@ void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
+	ft_exit_status(0, 1);
 	t_exec = malloc(sizeof(t_executor));
 	if (!t_exec)
 		exit(1); //revisar
