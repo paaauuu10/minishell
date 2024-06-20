@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/20 10:49:03 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:11:16 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_pipe
 typedef struct s_executor
 {
 	int		pid;
+	int		redir_type;
 	int		total_pipes;
 	int		cmd_count;
 	int		exit_status;
@@ -84,18 +85,10 @@ typedef struct s_parser
 	int		open;
 }	t_parser;
 
-# define NONE 0
-# define INP 1
-# define OUTP 2
-# define PIPE 3
-# define HEREDOC 4
-# define APPEND 5
-# define BUILTIN 6
-# define ACTIVE 8
-# define INACTIVE 9
-
 # define REDIR_OUT 10
 # define REDIR_OUT_APPEND 11
+# define REDIR_IN 12
+# define HEREDOC 13
 
 /*---------------------- BUILTINGS ----------------------------*/
 
