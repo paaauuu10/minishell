@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/21 10:39:10 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:45:01 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 			temp++;
 			p->open = 0;
 		}
+		if (p->open == 0 && p->quote != ' ')
+			p->quote = ' ';
 	}
 	if (s[temp + len] && len == 0 && (s[temp + len] == '>'
 			|| s[temp + len] == '<' || s[temp + len] == '|'))
@@ -124,6 +126,8 @@ static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 			p->i++;
 			p->open = 0;
 		}
+		if (p->open == 0 && p->quote != ' ')
+			p->quote = ' ';
 	}
 	if (s[p->i] && p->j == 0 && (s[p->i] == '>' || s[p->i] == '<'
 			|| s[p->i] == '|'))
