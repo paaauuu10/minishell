@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/21 09:46:20 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/21 10:29:46 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,16 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 /*---------------------------------------------------------------------------------*/
 int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
+	char	*aux;
+
+	aux = (*tokens)->wrd;
 	(void)export;
 	t_exec->pid = fork();
 	if (t_exec->pid == 0)
 	{
 		ft_exec(tokens, env, t_exec); //s'ha de modificar
-		perror("Command not found");
+		ft_print_error(aux);
+		write(2, ": command not found\n", 20);
 		exit(127);
 	}
 	else
