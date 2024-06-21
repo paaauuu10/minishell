@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/19 11:29:33 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/21 10:02:45 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ int	ft_exec_cmd(t_executor **t_exec)
 	}
 	/*hem de tractar si surt dek bucle, vol dir que no ha trobat*/
 	//ft_error_cmd((*t_exec)->cmd_argv[0], 1); /*exemple de com fer-ho*/
-	//printf("%s: ", tokens->wrd);
-	//write(2, "Command not found\n", 18);
 	return (0);
 }
 

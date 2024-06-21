@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/20 14:12:08 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/21 10:29:46 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,16 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 /*---------------------------------------------------------------------------------*/
 int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
+	char	*aux;
+
+	aux = (*tokens)->wrd;
 	(void)export;
 	t_exec->pid = fork();
 	if (t_exec->pid == 0)
 	{
 		ft_exec(tokens, env, t_exec); //s'ha de modificar
-		perror("Command not found");
+		ft_print_error(aux);
+		write(2, ": command not found\n", 20);
 		exit(127);
 	}
 	else
@@ -61,7 +65,6 @@ int	ft_save_fd(t_executor *t_exec)
 	return (0);
 }
 
-
 /**********************************************************************
 				TRYING NEW EXECUTOR
 **********************************************************************/
@@ -71,10 +74,9 @@ int	ft_executor_2(t_token **tokens, t_list **env, t_list **export, t_executor *t
 		builtins(tokens, env, export);
 	else
 		ft_only_cmd(tokens, env, export, t_exec);
-	(void)t_exec;
 	return (0);
-	//falten la resta de comandos
 }
+
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
@@ -97,54 +99,8 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	else if (t_exec->total_pipes == 0 && !is_redirection(tokens))
 		ft_only_cmd(tokens, env, export, t_exec);
 	else
-	{
 		ft_pipes(tokens, env, export, t_exec);
-	//	ft_executor_2(tokens, env, export, t_exec);
-	}
 	free(t_exec->d_pipe);
 	free(t_exec);
 	return (0);
 }
-
-/*void	ft_exec_child(t_executor *t_exec, t_token **tokens, t_list **env, t_list **export)
-{
-	if (t_exec->pid == 0)
-	{
-		//TREBALLAR LES PIPES
-		//CAL COMPROVAR TOKENS?
-		if (ft_is_builtin(tokens))
-			exit(builtins(tokens, env, export));
-	}
-}*/
-
-/*int	ft_executor(t_token **tokens, t_list **env, t_list **export)
-{
-	t_executor	*t_exec;
-	t_exec = malloc(sizeof(t_executor));
-	if (!t_exec)
-		exit(1); //revisar
-	t_exec->d_pipe = malloc(sizeof(t_pipe));
-	if (!t_exec->d_pipe)
-		exit(1); //revisar
-	if (!tokens || !*tokens)
-	{
-		free(t_exec->d_pipe);
-		free(t_exec);
-		return (0);
-	}
-	ft_count_pipes(t_exec, tokens);
-	ft_save_fd(t_exec);
-	pipe(t_exec->d_pipe->pipefd);
-	t_exec->pid = fork();
-	if (t_exec->pid < 0)
-	{
-		perror("FORK");
-		exit(12);
-	}
-	ft_exec_child(t_exec, tokens, env, export);
-	ft_wait_one_child_process();
-	free(t_exec->d_pipe);
-	free(t_exec);
-	return (0);
-}*/
-

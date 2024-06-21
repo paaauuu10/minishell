@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/19 13:54:27 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:35:36 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_token	**get_tok(t_list **env, t_token **tokens, char *s)
 		exit(2);
 	while (matrix[i] && tokens)
 		add_token(tokens, new_token(matrix[i++]));
-	/*while (*tokens)
+/*	while (*tokens)
 	{
 		printf("%s\n",(*tokens)->wrd);
 		if ((*tokens)->next)

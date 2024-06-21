@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:47:47 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/14 14:16:26 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/21 10:01:14 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	builtins(t_token **tokens, t_list **export, t_list **env)
 
 	i = 0;
 	temp = tokens;
-	while (*temp)
+	if (*temp)
 	{
 		if (ft_strcmp((*temp)->wrd, "echo"))
 		{
@@ -45,8 +45,8 @@ int	builtins(t_token **tokens, t_list **export, t_list **env)
 			i = ft_env(env);
 		if (ft_strcmp((*temp)->wrd, "pwd"))
 			i = ft_pwd();
-	//	if (ft_strcmp((*temp)->wrd, "exit"))
-	//		ft_exit(tokens);
+		if (ft_strcmp((*temp)->wrd, "exit"))
+			ft_exit(tokens);
 		if (ft_strcmp((*temp)->wrd, "export"))
 			ft_export(tokens, export, env);
 		if (ft_strcmp((*temp)->wrd, "cd"))
@@ -60,7 +60,6 @@ int	builtins(t_token **tokens, t_list **export, t_list **env)
 				*temp = (*temp)->next;
 			}
 		}
-		(*temp) = (*temp)->next;
 	}
 	return (i);
 }
