@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_status.c                                      :+:      :+:    :+:   */
+/*   message.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
+/*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/17 15:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/21 10:12:45 by pbotargu         ###   ########.fr       */
+/*   Created: 2024/06/19 11:40:31 by pbotargu          #+#    #+#             */
+/*   Updated: 2024/06/19 11:48:23 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../include/minishell.h"
 
-char	*ft_exit_status(int i, int j)
+void	ft_print_error(char *a)
 {
-	static char	*k;
-
-	if (j == 1)
-		k = ft_itoa(i);
-	return (k);
+	write(2, a, ft_strlen(a));
 }

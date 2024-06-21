@@ -5,12 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/17 15:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/14 14:05:00 by pborrull         ###   ########.fr       */
+/*   Created: 2024/05/21 14:14:15 by pborrull          #+#    #+#             */
+/*   Updated: 2024/06/21 10:13:22 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 /*
 int	ft_unset_aux(t_list **export, t_list *temp, char *wrd, int i)
 {

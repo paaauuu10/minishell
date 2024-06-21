@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/14 11:53:55 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/06/21 10:32:01 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 
 int	type_tok(char *s)
 {
-	if (s[0] == '>' && s[1] == '>' && s[2] == '\0')
-		return (5);
 	if (s[0] == '>' && s[1] == '\0')
 		return (4);
 	if (s[0] == '<' && s[1] == '\0')
 		return (3);
-	if (s[0] == '<' && s[1] == '<' && s[2] == '\0')
-		return (6);
 	if (s[0] == '|' && s[1] == '\0')
 		return (2);
 	if (ft_strcmp(s, "echo") || ft_strcmp(s, "cd") || ft_strcmp(s, "pwd")
@@ -80,13 +76,13 @@ t_token	**get_tok(t_list **env, t_token **tokens, char *s)
 		exit(2);
 	while (matrix[i] && tokens)
 		add_token(tokens, new_token(matrix[i++]));
-/*	while (*tokens)
+	while (*tokens)
 	{
 		printf("%s\n",(*tokens)->wrd);
 		if ((*tokens)->next)
 			*tokens = (*tokens)->next;
 		else
 			break ;
-	}*/
+	}
 	return (tokens);
 }
