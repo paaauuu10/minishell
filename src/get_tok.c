@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/14 11:36:41 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/21 09:48:17 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 
 int	type_tok(char *s)
 {
-	if (s[0] == '>' && s[1] == '>' && s[2] == '\0')
-		return (5);
 	if (s[0] == '>' && s[1] == '\0')
 		return (4);
 	if (s[0] == '<' && s[1] == '\0')
 		return (3);
-	if (s[0] == '<' && s[1] == '<' && s[2] == '\0')
-		return (6);
 	if (s[0] == '|' && s[1] == '\0')
 		return (2);
 	if (ft_strcmp(s, "echo") || ft_strcmp(s, "cd") || ft_strcmp(s, "pwd")

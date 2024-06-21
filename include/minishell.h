@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/14 10:53:14 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/21 09:40:09 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_token
 {
 	char			*wrd;
 	int				tok;
+	int				stop_flag;
 	struct s_token	*next;
 }	t_token;
 
@@ -60,7 +61,9 @@ typedef struct s_pipe
 typedef struct s_executor
 {
 	int		pid;
+	int		redir_type;
 	int		total_pipes;
+	int		cmd_count;
 	int		exit_status;
 	char	*absolute_path;
 	char	**path;
@@ -82,15 +85,10 @@ typedef struct s_parser
 	int		open;
 }	t_parser;
 
-# define NONE 0
-# define INP 1
-# define OUTP 2
-# define PIPE 3
-# define HEREDOC 4
-# define APPEND 5
-# define BUILTIN 6
-# define ACTIVE 8
-# define INACTIVE 9
+# define REDIR_OUT 10
+# define REDIR_OUT_APPEND 11
+# define REDIR_IN 12
+# define HEREDOC 13
 
 /*---------------------- BUILTINGS ----------------------------*/
 
@@ -136,6 +134,9 @@ int		ft_executor(t_token **tokens, t_list **env, t_list **export);
 int		ft_exec(t_token **tokens, t_list **env, t_executor *t_exec);
 int		ft_only_cmd(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
+int		ft_pipes(t_token **tokens, t_list **env, 
+			t_list **export, t_executor *t_exec);
+int	ft_executor_2(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec);
 
 /*----------------------- REDIRECTIONS ------------------------*/
 
@@ -158,5 +159,9 @@ t_token	*ft_lstnew(char *word, int tokk);
 
 void	ft_wait_one_child_process(void);
 void	ft_wait_childs_process(int i, t_executor *t_exec);
+
+/*------------------------ MESSAGE -----------------------------*/
+
+void	ft_print_error(char *a);
 
 #endif
