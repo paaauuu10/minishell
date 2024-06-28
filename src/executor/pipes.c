@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/28 12:32:59 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/28 13:53:41 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@
 //void	ft_last_command(int new_pipe, int prev_pipe, t_token **tokens,t_executor *t_exec)
 //{
 //}
-
-
 void ft_check_pipe(t_token **tokens)
 {
+	while ((*tokens) && ft_strcmp((*tokens)->wrd, "|") == 0)
+	{
+		if ((*tokens)->next)
+			(*tokens) = (*tokens)->next;
+	}
 	if ((*tokens) && ft_strcmp((*tokens)->wrd, "|") == 1)
 	{
 		if ((*tokens)->next)
@@ -42,7 +45,77 @@ void ft_check_pipe(t_token **tokens)
 	}
 }
 
-int	ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
+int ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec) {
+    int pipe_fd[2];
+    int prev_fd = -1;
+    int i = 0;
+    pid_t pid;
+    t_token *aux_head;
+	(void)export;
+
+    while (i < t_exec->cmd_count) {
+        if (i < t_exec->cmd_count - 1) {
+            if (pipe(pipe_fd) == -1) {
+                perror("pipe");
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        if ((pid = fork()) == -1) {
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+
+        if (pid == 0) { // Proceso hijo
+            if (prev_fd != -1) {
+                dup2(prev_fd, STDIN_FILENO);
+                close(prev_fd);
+            }
+            if (i < t_exec->cmd_count - 1) {
+                dup2(pipe_fd[1], STDOUT_FILENO);
+                close(pipe_fd[0]);
+                close(pipe_fd[1]);
+            }
+			aux_head = ft_lstnew((*tokens)->wrd, (*tokens)->tok);
+            if ((*tokens)->next) {
+                *tokens = (*tokens)->next;
+            }
+            while ((*tokens) && strcmp((*tokens)->wrd, "|") == 1) {	
+                add_token(&aux_head, new_token((*tokens)->wrd));
+                *tokens = (*tokens)->next;
+            }
+            ft_exec(&aux_head, env, t_exec);
+            perror("execvp"); // Solo si execvp falla
+            exit(EXIT_FAILURE);
+        } else { // Proceso padre
+            if (prev_fd != -1) {
+                close(prev_fd);
+            }
+            if (i < t_exec->cmd_count - 1) {
+                close(pipe_fd[1]);
+                prev_fd = pipe_fd[0];
+            }
+
+            i++;
+            if (i < t_exec->cmd_count)
+				ft_check_pipe(tokens);
+        }
+    }
+
+    if (prev_fd != -1) {
+        close(prev_fd);
+    }
+
+    i = 0;
+    while (i < t_exec->cmd_count) {
+        wait(NULL);
+        i++;
+    }
+
+    return 0;
+}
+
+/*int	ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
     int pipe_fd[2];
     int prev_fd = -1; // Descriptor de lectura de la tubería anterior
@@ -73,8 +146,8 @@ int	ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
             if (i < t_exec->cmd_count - 1) {
                 // Redirigir la salida estándar a la nueva tubería
                 dup2(pipe_fd[1], STDOUT_FILENO);
-                close(pipe_fd[0]);
-                close(pipe_fd[1]);
+                //close(pipe_fd[0]);
+                //close(pipe_fd[1]);
             }
             aux_head = ft_lstnew((*tokens)->wrd, (*tokens)->tok);
 			if ((*tokens)->next)
@@ -99,7 +172,8 @@ int	ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
             }
 
             i++;
-        }
+        	ft_check_pipe(tokens);
+		}
     }
 
     // Cerrar el descriptor de lectura final en el padre
@@ -115,7 +189,7 @@ int	ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
     }
 	(void)export;
 	return (0);
-}
+}*/
 
 /*int	ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
