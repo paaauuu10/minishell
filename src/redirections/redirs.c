@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/26 11:17:15 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:31:31 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	ft_red(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 int ft_redirs(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
 	ft_red(tokens, env, export, t_exec);
-	return (0);
+	return (1);
 }
 
 /*void	ft_more_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)

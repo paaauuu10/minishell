@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/28 15:09:36 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:33:50 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,11 @@ int ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
     pid_t pid;
     t_token *aux_head;
 	(void)export;
-
-    while (i < t_exec->cmd_count) {
+	aux_head = (*tokens);
+    //if (ft_redirs(tokens, env, export, t_exec))
+	//	return (0);
+	//(*tokens) = aux_head;
+	while (i < t_exec->cmd_count) {
         if (i < t_exec->cmd_count - 1) {
             if (pipe(pipe_fd) == -1) {
                 perror("pipe");
@@ -88,9 +91,14 @@ int ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
 				add_token(&aux_head, new_token((*tokens)->wrd));
 				(*tokens) = (*tokens)->next;
 			}
-			ft_exec(&aux_head, env, t_exec);
-            perror("execvp"); // Solo si execvp falla
-            exit(EXIT_FAILURE);
+			if (ft_is_builtin(tokens))
+				exit(builtins(&aux_head, env, export));
+			else
+			{
+				ft_exec(&aux_head, env, t_exec);
+            	perror("execvp"); // Solo si execvp falla
+            }
+			exit(EXIT_FAILURE);
         } else { // Proceso padre
             if (prev_fd != -1) {
                 close(prev_fd);
