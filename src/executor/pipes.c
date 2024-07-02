@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/28 15:33:50 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/02 10:16:43 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
     int i = 0;
     pid_t pid;
     t_token *aux_head;
+	t_token *first = (*tokens);
 	(void)export;
 	aux_head = (*tokens);
     //if (ft_redirs(tokens, env, export, t_exec))
@@ -96,7 +97,8 @@ int ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
 			else
 			{
 				ft_exec(&aux_head, env, t_exec);
-            	perror("execvp"); // Solo si execvp falla
+            	ft_print_error(first->wrd);
+				ft_print_error(": command not found\n");// Solo si execvp falla
             }
 			exit(EXIT_FAILURE);
         } else { // Proceso padre
