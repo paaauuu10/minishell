@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/28 15:31:31 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/02 10:47:07 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_new_list_exec(t_token **tokens, t_token **aux)
 	}
 }
 
-int	ft_red_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
+int	ft_red_in(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
 	int fd;
 	t_token **aux;
@@ -72,7 +72,7 @@ int	ft_red_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_ex
 	return (0);
 }
 
-int	ft_red_in(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
+int	ft_red_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
 	int	fd;
 
@@ -102,9 +102,9 @@ int	ft_red(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
 	ft_redirect(tokens, env, export, t_exec);
 	if (t_exec->redir_type == REDIR_OUT || t_exec->redir_type == REDIR_OUT_APPEND)
-		ft_red_in(tokens, env, export, t_exec);
-	else if (t_exec->redir_type == REDIR_IN || t_exec->redir_type == HEREDOC)
 		ft_red_out(tokens, env, export, t_exec);
+	else if (t_exec->redir_type == REDIR_IN || t_exec->redir_type == HEREDOC)
+		ft_red_in(tokens, env, export, t_exec);
 	return (0);
 }
 
