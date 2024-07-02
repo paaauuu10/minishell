@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:09:41 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/02 10:45:14 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/02 10:52:21 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	ft_redirect(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
 	t_token	*temp;
-	char	*filename;
 	
 	(void)env;
 	(void)export;
@@ -38,11 +37,14 @@ int	ft_redirect(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 		else if (ft_strcmp(temp->wrd, "<") == 1)
 		{
 			if (temp->next && temp->next->wrd[0] == '<')
-				ft_redir_here(tokens);
+			{
+				t_exec->redir_type = HEREDOC;
+				return (REDIR_IN);
+			}
 			else
 			{
-				filename = (*tokens)->next->next->wrd;
-				ft_redir_in(filename, t_exec);
+				t_exec->redir_type = REDIR_IN;
+				return (REDIR_IN);
 			}
 		}
 		temp = temp->next;
