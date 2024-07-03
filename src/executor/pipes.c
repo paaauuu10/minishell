@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/03 13:12:04 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/03 14:10:05 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,16 @@ int ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
             }
             aux_head = ft_lstnew((*tokens)->wrd, (*tokens)->tok);
 			if ((*tokens)->next)
-				(*tokens) = (*tokens)->next;
-			while ((*tokens) && ft_strcmp((*tokens)->wrd, "|") == 0)
 			{
-				//if (!(*tokens)->next)
-					//break ;
-				add_token(&aux_head, new_token((*tokens)->wrd));
-				if ((*tokens)->next)
-					(*tokens) = (*tokens)->next;
-				else
-					break;
+				(*tokens) = (*tokens)->next;
+				while ((*tokens) && ft_strcmp((*tokens)->wrd, "|") == 0)
+				{
+					add_token(&aux_head, new_token((*tokens)->wrd));
+					if ((*tokens)->next)
+						(*tokens) = (*tokens)->next;
+					else
+						break;
+				}
 			}
 			if (ft_redirect(&aux_head, env, export, t_exec) != 0)
 			{
