@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/03 15:59:22 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:05:15 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,34 +49,36 @@ t_token	*ft_pipes_aux(t_token **tokens, t_token *aux_head)
 int	ft_pipes(t_token **tokens, t_list **env, t_list **export, \
 	t_executor *t_exec)
 {
-    int	pipe_fd[2];
-    int	prev_fd;
-    int	i = 0;
-    pid_t	pid;
-    t_token	*aux_head;
-	
+	int		pipe_fd[2];
+	int		prev_fd;
+	int		i;
+	pid_t	pid;
+	t_token	*aux_head;
+
+	i = 0;
 	prev_fd = -1;
 	aux_head = (*tokens);
 	while (i < t_exec->cmd_count)
 	{
-        if (i < t_exec->cmd_count - 1)
+		if (i < t_exec->cmd_count - 1)
 		{
-            if (pipe(pipe_fd) == -1)
+			if (pipe(pipe_fd) == -1)
 			{
-                perror("pipe");
-                exit(EXIT_FAILURE);
-            }
-        }
-        if ((pid = fork()) == -1)
+				perror("pipe");
+				exit(EXIT_FAILURE);
+			}
+		}
+		pid = fork();
+		if (pid  == -1)
 		{
-            perror("fork");
-            exit(EXIT_FAILURE);
-        }
-        if (pid == 0)
-		{ // Proceso hijo
-            if (prev_fd != -1)
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
+		if (pid == 0)
+		{
+			if (prev_fd != -1)
 			{
-                dup2(prev_fd, STDIN_FILENO);
+				dup2(prev_fd, STDIN_FILENO);
                 close(prev_fd);
             }
             if (i < t_exec->cmd_count - 1)
