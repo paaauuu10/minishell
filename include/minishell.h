@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/03 16:24:28 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:52:03 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,15 @@ typedef struct s_pipe
 	int	original_stdin;
 	int	original_stdout;
 }	t_pipe;
+
+typedef struct	s_data
+{
+	int	pipe_fd[2];
+	int	prev_fd;
+	int	i;
+	pid_t pid;
+	struct s_token *aux_head;
+}	t_data;
 
 typedef struct s_executor
 {
