@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/03 14:10:05 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/03 14:17:17 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,11 @@ int ft_pipes(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec
     }
 
     i = 0;
-    while (i < t_exec->cmd_count) {
-        wait(NULL);
-        i++;
-    }
+    //while (i < t_exec->cmd_count) {
+      //  wait(NULL);
+        //i++;
+    //}
+	ft_wait_childs_process(t_exec->cmd_count, t_exec);
 
     return 0;
 }
