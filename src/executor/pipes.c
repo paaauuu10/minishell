@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/03 17:00:54 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/03 17:39:34 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,6 @@ void	ft_check_pipe(t_token **tokens)
 	}
 }
 
-t_token	*ft_aux_lst(t_token **tokens, t_token *aux_head)
-{
-	aux_head = ft_lstnew((*tokens)->wrd, (*tokens)->tok);
-	if ((*tokens)->next)
-	{
-		(*tokens) = (*tokens)->next;
-		while ((*tokens) && ft_strcmp((*tokens)->wrd, "|") == 0)
-		{
-			add_token(&aux_head, new_token((*tokens)->wrd));
-			if ((*tokens)->next)
-				(*tokens) = (*tokens)->next;
-			else
-				break ;
-		}
-	}
-	return (aux_head);
-}
-
 void	ft_cmd_exec(t_token **tokens, t_list **env, t_list **export, \
 		t_executor *t_exec)
 {
@@ -64,24 +46,58 @@ void	ft_cmd_exec(t_token **tokens, t_list **env, t_list **export, \
 	exit(EXIT_FAILURE);
 }
 
+void	ft_parent(t_data *data, t_token **tokens, t_executor *t_exec)
+{
+	if (data->prev_fd != -1)
+		close(data->prev_fd);
+	if (data->i < t_exec->cmd_count - 1)
+	{
+		close(data->pipe_fd[1]);
+		data->prev_fd = data->pipe_fd[0];
+	}
+	data->i++;
+	if (data->i < t_exec->cmd_count)
+		ft_check_pipe(tokens);
+}
+
+void	ft_fork(t_data *data, t_list **env, t_list **export, t_token **tokens)
+{
+	data->pid = fork();
+	if (data->pid == -1)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if (data->pid == 0)
+	{
+		if (data->prev_fd != -1)
+		{
+			dup2(data->prev_fd, STDIN_FILENO);
+			close(data->prev_fd);
+		}
+		if (data->i < data->exec->cmd_count - 1)
+		{
+			dup2(data->pipe_fd[1], STDOUT_FILENO);
+			close(data->pipe_fd[0]);
+			close(data->pipe_fd[1]);
+		}
+		data->aux_head = ft_aux_lst(tokens, data->aux_head);
+		ft_cmd_exec(&(data->aux_head), env, export, data->exec);
+	}
+	else
+		ft_parent(data, tokens, data->exec);
+}
+
 int	ft_pipes(t_token **tokens, t_list **env, t_list **export, \
 	t_executor *t_exec)
 {
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
-	/*int		pipe_fd[2];
-	int		prev_fd;
-	int		i;
-	pid_t	pid;
-	t_token	*aux_head;
-
-	i = 0;
-	prev_fd = -1;
-	aux_head = (*tokens);*/
 	data->i = 0;
 	data->prev_fd = -1;
 	data->aux_head = (*tokens);
+	data->exec = t_exec;
 	while (data->i < t_exec->cmd_count)
 	{
 		if (data->i < t_exec->cmd_count - 1)
@@ -92,41 +108,7 @@ int	ft_pipes(t_token **tokens, t_list **env, t_list **export, \
 				exit(EXIT_FAILURE);
 			}
 		}
-		data->pid = fork();
-		if (data->pid == -1)
-		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
-		if (data->pid == 0)
-		{
-			if (data->prev_fd != -1)
-			{
-				dup2(data->prev_fd, STDIN_FILENO);
-				close(data->prev_fd);
-			}
-			if (data->i < t_exec->cmd_count - 1)
-			{
-				dup2(data->pipe_fd[1], STDOUT_FILENO);
-				close(data->pipe_fd[0]);
-				close(data->pipe_fd[1]);
-			}
-			data->aux_head = ft_aux_lst(tokens, data->aux_head);
-			ft_cmd_exec(&(data->aux_head), env, export, t_exec);
-		}
-		else
-		{
-			if (data->prev_fd != -1)
-				close(data->prev_fd);
-			if (data->i < t_exec->cmd_count - 1)
-			{
-				close(data->pipe_fd[1]);
-				data->prev_fd = data->pipe_fd[0];
-			}
-			data->i++;
-			if (data->i < t_exec->cmd_count)
-				ft_check_pipe(tokens);
-		}
+		ft_fork(data, env, export, tokens);
 	}
 	if (data->prev_fd != -1)
 		close(data->prev_fd);

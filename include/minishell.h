@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/03 16:52:03 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/03 17:40:05 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct	s_data
 	int	i;
 	pid_t pid;
 	struct s_token *aux_head;
+	struct s_executor *exec; //revisar
 }	t_data;
 
 typedef struct s_executor
@@ -150,6 +151,7 @@ int		ft_only_cmd(t_token **tokens, t_list **env,
 int		ft_pipes(t_token **tokens, t_list **env, 
 			t_list **export, t_executor *t_exec);
 int	ft_executor_2(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec);
+t_token	*ft_aux_lst(t_token **tokens, t_token *aux_head);
 
 /*----------------------- REDIRECTIONS ------------------------*/
 
