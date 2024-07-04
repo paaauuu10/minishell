@@ -6,11 +6,99 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/21 10:02:45 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/04 11:27:26 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+/*******************************************
+				cal revisar
+********************************************/
+
+size_t	ft_strlen_s(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i])
+		i++;
+	return (i);
+}
+
+char	*ft_strjoin_s(char *s1, char *s2)
+{
+	char	*rtrn;
+	int		i;
+
+	i = 0;
+	if (!s2)
+		return (0);
+	rtrn = (char *)malloc(sizeof(char) * (ft_strlen_s(s1) + ft_strlen_s(s2)+1));
+	if (!rtrn)
+		return (free(s1), NULL);
+	if (s1)
+	{
+		while (s1[i])
+		{
+			rtrn[i] = s1[i];
+			i++;
+		}
+	}
+	while (*s2)
+		rtrn[i++] = *s2++;
+	rtrn[i] = '\0';
+	free(s1);
+	return (rtrn);
+}
+
+int	ft_env_lst_size(t_list *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
+}
+
+char	**ft_copy_env(t_list **env)
+{
+	int		i;
+	char	**new_env;
+	t_list	*ref;
+
+	i = ft_env_lst_size(*env);
+	ref = *env;
+	new_env = (char **)malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (ref)
+	{
+		new_env[i] = ft_strjoin(ref->title, "=");
+		if (!new_env[i])
+			exit(1); //revisar
+		if (ref->def)
+		{
+			new_env[i] = ft_strjoin_s(new_env[i], ref->def);
+			if (!new_env[i])
+				exit(1); //revisar
+		}
+		ref = ref->next;
+		i++;
+	}
+	i++;
+	new_env[i] = NULL;
+	return (new_env);
+}
+
+/****************************************************************
+						FINS AQUI
+*****************************************************************/
 
 // This function counts and returns the number of nodes in a linked list of type t_token.
 // It iterates through the list until it reaches the end (when token is NULL or token->wrd is NULL).
@@ -110,6 +198,6 @@ int	ft_exec(t_token **tokens, t_list **env, t_executor *t_exec)
 //	while (t_exec->cmd_argv[i])
 //		printf("EXEC_utils:%s\n", t_exec->cmd_argv[i++]);
 	if (ft_exec_cmd(&t_exec))
-		execve(t_exec->absolute_path, t_exec->cmd_argv, NULL);
+		execve(t_exec->absolute_path, t_exec->cmd_argv, t_exec->new_envp);
 	return (0);
 }

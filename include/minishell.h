@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/03 17:40:05 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/04 11:18:49 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ int		ft_pipes(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
 int	ft_executor_2(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec);
 t_token	*ft_aux_lst(t_token **tokens, t_token *aux_head);
+char	**ft_copy_env(t_list **env);
 
 /*----------------------- REDIRECTIONS ------------------------*/
 
