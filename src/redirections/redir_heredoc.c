@@ -15,7 +15,7 @@ static int	ft_strcmp_hd(const char *s1, const char *s2)
 void	bucle_heredoc(int fd, char *str)
 {
 	char	*line;
-
+	
 	signals();
 	while (42)
 	{
@@ -26,6 +26,7 @@ void	bucle_heredoc(int fd, char *str)
 		write(fd, "\n", 2);
 		free(line);
 	}
+	close(fd);
 }
 
 static int	init_heredoc(char *str)

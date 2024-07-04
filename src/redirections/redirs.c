@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/04 15:40:38 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/04 16:16:26 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,20 @@ char *filename(t_token **tokens)
 	if (aux->tok == 4)
 		aux = aux->next;
 	return (aux->wrd);	
+}
+
+void	ft_new_list_exec_in(t_token **tokens, t_token **aux)
+{
+	(*aux) = ft_lstnew((*tokens)->wrd, (*tokens)->tok);
+	if ((*tokens)->next)
+		(*tokens) = (*tokens)->next;
+	if ((*tokens)->tok == 4)
+		return ;
+	while ((*tokens) && ft_strcmp((*tokens)->wrd, "<") == 0)
+	{
+		add_token(aux, new_token((*tokens)->wrd));
+		(*tokens) = (*tokens)->next;
+	}
 }
 
 void	ft_new_list_exec(t_token **tokens, t_token **aux)
@@ -69,7 +83,7 @@ int	ft_red_in(t_token **tokens, t_list **env, t_list **export, t_executor *t_exe
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 		return (1);
-	ft_new_list_exec(tokens, aux);
+	ft_new_list_exec_in(tokens, aux);
 	ft_executor_2(aux, env, export, t_exec);
 	close(fd);
 	dup2(t_exec->d_pipe->original_stdin, STDIN_FILENO);
