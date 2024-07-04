@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/04 12:16:54 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/04 15:47:17 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,22 @@ int	ft_save_fd(t_executor *t_exec)
 	return (0);
 }
 
+void	ft_reset_fd(t_executor *t_exec)
+{
+	if (dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO) == -1)
+	{
+        perror("Error en dup2");
+        close(t_exec->d_pipe->original_stdout);
+        exit(EXIT_FAILURE);
+    }
+	if (dup2(t_exec->d_pipe->original_stdin, STDIN_FILENO) == -1) 
+	{
+        perror("Error en dup2");
+        close(t_exec->d_pipe->original_stdin);
+        exit(EXIT_FAILURE);
+    }
+}
+
 /**********************************************************************
 				TRYING NEW EXECUTOR
 **********************************************************************/
@@ -106,6 +122,7 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 		ft_redirs(tokens, env, export, t_exec);	
 	else
 		ft_pipes(tokens, env, export, t_exec);
+	ft_reset_fd(t_exec);
 	free(t_exec->d_pipe);
 	free(t_exec);
 	return (0);
