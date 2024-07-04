@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/03 17:47:02 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/04 12:08:47 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	error_checker(int argc, char **argv, char **envp)
 static int	ft_main_while(const char *s, t_list **env, t_list **export)
 {
 	t_token	**tokens;
-
+	(void)export;
 	tokens = (t_token **)malloc(sizeof(t_token *));
 	if (!tokens)
 		exit(1);
