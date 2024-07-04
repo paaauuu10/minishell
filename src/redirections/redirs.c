@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/04 16:16:26 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/04 16:33:09 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,12 @@ int	ft_red_in(t_token **tokens, t_list **env, t_list **export, t_executor *t_exe
 	if (t_exec->redir_type == REDIR_IN)
 		fd = open(filename_2(tokens), O_RDONLY);
 	if (t_exec->redir_type == HEREDOC)
-	{	
 		ft_redir_here(tokens);	
-		return (0);
+	if (fd != 0)
+	{
+		if (dup2(fd, STDIN_FILENO) == -1)
+			return (1);
 	}
-	if (dup2(fd, STDIN_FILENO) == -1)
-		return (1);
 	ft_new_list_exec_in(tokens, aux);
 	ft_executor_2(aux, env, export, t_exec);
 	close(fd);

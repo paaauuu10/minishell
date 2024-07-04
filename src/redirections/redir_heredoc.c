@@ -15,18 +15,24 @@ static int	ft_strcmp_hd(const char *s1, const char *s2)
 void	bucle_heredoc(int fd, char *str)
 {
 	char	*line;
-	
+	int	fd1;
+	(void)fd;
+
 	signals();
+	fd1 = open("temp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	while (42)
 	{
 		line = readline("> ");
 		if (ft_strcmp_hd(line, str) == 0)
 			break ;
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 2);
+		write(fd1, line, ft_strlen(line));
+		write(fd1, "\n", 2);
 		free(line);
 	}
-	close(fd);
+	close(fd1);
+	fd1 = open("temp", O_RDONLY);
+	dup2(fd1, STDIN_FILENO);
+	close(fd1);
 }
 
 static int	init_heredoc(char *str)
@@ -41,7 +47,7 @@ static int	init_heredoc(char *str)
 	else
 		bucle_heredoc(fd[1], str);
 	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
+	//dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	return (0);
 }

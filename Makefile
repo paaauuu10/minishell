@@ -6,7 +6,7 @@
 #    By: pbotargu <pbotargu@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/25 13:50:18 by pbotargu          #+#    #+#              #
-#    Updated: 2024/07/03 17:40:21 by pbotargu         ###   ########.fr        #
+#    Updated: 2024/07/04 16:46:19 by pbotargu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ fclean: clean
 
 clean:
 		@rm -rf $(OBJDIR)
+		@rm -f temp
 		@make clean -C $(LIBFT) > /dev/null
 		@echo "$(RED)[OK]       $(BLUE)All Clean$(ORIGINAL)"
 
