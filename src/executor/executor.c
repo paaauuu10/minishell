@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/04 15:47:17 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:35:10 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,7 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 	{
 		ft_exec(tokens, env, t_exec); //s'ha de modificar
 		ft_print_error(aux);
-		if (aux[0] == '.' && aux[1] == '/')
-			write(2, ": No such file or directory\n", 28);
-		else
-			write(2, ": command not found\n", 20);
+		write(2, ": command not found\n", 20);
 		exit(127);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/04 16:33:09 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:55:38 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	ft_red_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_ex
 
 int	ft_red(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
-	ft_redirect(tokens, env, export, t_exec);
+	//ft_redirect(tokens, env, export, t_exec);
 	if (t_exec->redir_type == REDIR_OUT || t_exec->redir_type == REDIR_OUT_APPEND)
 		ft_red_out(tokens, env, export, t_exec);
 	else if (t_exec->redir_type == REDIR_IN || t_exec->redir_type == HEREDOC)
@@ -128,6 +128,10 @@ int	ft_red(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 
 int ft_redirs(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
-	ft_red(tokens, env, export, t_exec);
+	if (t_exec->redir_type == REDIR_OUT || t_exec->redir_type == REDIR_OUT_APPEND)
+		ft_red_out(tokens, env, export, t_exec);
+	else if (t_exec->redir_type == REDIR_IN || t_exec->redir_type == HEREDOC)
+		ft_red_in(tokens, env, export, t_exec);
+	//ft_red(tokens, env, export, t_exec);
 	return (1);
 }
