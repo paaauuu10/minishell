@@ -19,7 +19,7 @@ void	bucle_heredoc(int fd, char *str)
 	(void)fd;
 
 	signals();
-	fd1 = open("temp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	fd1 = open(".temp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	while (42)
 	{
 		line = readline("> ");
@@ -30,7 +30,7 @@ void	bucle_heredoc(int fd, char *str)
 		free(line);
 	}
 	close(fd1);
-	fd1 = open("temp", O_RDONLY);
+	fd1 = open(".temp", O_RDONLY);
 	dup2(fd1, STDIN_FILENO);
 	close(fd1);
 }
