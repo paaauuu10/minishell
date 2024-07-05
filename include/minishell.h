@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/05 12:45:06 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/05 13:50:41 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_executor
 	int		exit_status;
 	int		redir_in;
 	int		redir_out;
+	char	*filename;
 	char	*absolute_path;
 	char	**path;
 	char	**new_envp;

@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/05 12:55:38 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/05 14:28:57 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ int	ft_red_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_ex
 	*aux = NULL;
 	fd = 0;
 	if (t_exec->redir_type == REDIR_OUT_APPEND)
-		fd = open(filename(tokens), O_CREAT | O_WRONLY | O_APPEND, 0660);
+		fd = open(t_exec->filename, O_CREAT | O_WRONLY | O_APPEND, 0660);
 	else if (t_exec->redir_type == REDIR_OUT)
-		fd = open(filename(tokens), O_CREAT | O_WRONLY | O_TRUNC, 0660);
+		fd = open(t_exec->filename, O_CREAT | O_WRONLY | O_TRUNC, 0660);
 	if (fd == -1)
 		perror("Minishell");
 	if (dup2(fd, STDOUT_FILENO) == -1)
@@ -116,7 +116,7 @@ int	ft_red_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_ex
 	return (0);
 }
 
-int	ft_red(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
+/*int	ft_red(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
 	//ft_redirect(tokens, env, export, t_exec);
 	if (t_exec->redir_type == REDIR_OUT || t_exec->redir_type == REDIR_OUT_APPEND)
@@ -124,14 +124,94 @@ int	ft_red(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 	else if (t_exec->redir_type == REDIR_IN || t_exec->redir_type == HEREDOC)
 		ft_red_in(tokens, env, export, t_exec);
 	return (0);
+}*/
+
+void	ft_count_redirects(t_token **tokens, t_executor *t_exec)
+{
+	t_token *temp;
+
+	temp = (*tokens);
+	t_exec->redir_in = 0;
+	while (temp->next)
+	{
+		if (temp->tok == 4)
+		{
+			t_exec->redir_in++;
+			if (temp->next)
+			{
+				temp = temp->next;
+				if (temp->tok == 4 && temp->next)
+					temp = temp->next;
+			}
+		}
+		if (temp->next)
+			temp = temp->next;
+	}
+}
+
+void	ft_aux_open(char *a, t_executor *t_exec)
+{
+	int fd;
+
+	fd  = 0;
+	if (t_exec->redir_type == REDIR_OUT_APPEND)
+		fd = open(a, O_CREAT | O_WRONLY | O_APPEND, 0660);
+	else if (t_exec->redir_type == REDIR_OUT)
+		fd = open(a, O_CREAT | O_WRONLY | O_TRUNC, 0660);
+	if (fd == -1)
+		perror("Minishell");
+	close(fd);
+}
+
+void	ft_last_redir(t_token **tokens, t_executor *t_exec)
+{
+	(*tokens) = (*tokens)->next;
+	if ((*tokens)->tok == 4 && (*tokens)->next)
+	{	
+		(*tokens) = (*tokens)->next;
+		t_exec->redir_type = REDIR_OUT;
+		if ((*tokens)->tok == 4)
+		{
+			(*tokens) = (*tokens)->next;
+			t_exec->redir_type = REDIR_OUT_APPEND;
+		}
+	}
+	t_exec->filename = (*tokens)->wrd;
+}	
+void	ft_open(t_token **tokens, t_executor *t_exec)
+{
+	int	i;
+	t_token *temp;
+
+	temp = (*tokens);
+	i = 0;
+	while (i < t_exec->redir_in - 1)
+	{
+		while (temp->tok != 4)
+			temp = temp->next;
+		temp = temp->next;
+		t_exec->redir_type = REDIR_OUT;
+		if (temp->tok == 4 && temp->next)
+		{
+			temp = temp->next;
+			t_exec->redir_type = REDIR_OUT_APPEND;
+		}
+		ft_aux_open(temp->wrd, t_exec);
+		i++;
+	}
+	ft_last_redir(&temp, t_exec);
 }
 
 int ft_redirs(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
+	int i;
+
+	i = 0;
+	ft_count_redirects(tokens, t_exec);
+	ft_open(tokens, t_exec);
 	if (t_exec->redir_type == REDIR_OUT || t_exec->redir_type == REDIR_OUT_APPEND)
 		ft_red_out(tokens, env, export, t_exec);
 	else if (t_exec->redir_type == REDIR_IN || t_exec->redir_type == HEREDOC)
 		ft_red_in(tokens, env, export, t_exec);
-	//ft_red(tokens, env, export, t_exec);
 	return (1);
 }
