@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/05 14:28:57 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/08 11:54:49 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,14 @@ int	ft_red_in(t_token **tokens, t_list **env, t_list **export, t_executor *t_exe
 	*aux = NULL;
 	fd = 0;
 	if (t_exec->redir_type == REDIR_IN)
+	{
 		fd = open(filename_2(tokens), O_RDONLY);
+		if (fd == -1)
+		{	
+			perror("Minishell ");
+			ft_exit_status(1, 1);
+		}
+	}
 	if (t_exec->redir_type == HEREDOC)
 		ft_redir_here(tokens);	
 	if (fd != 0)
@@ -105,26 +112,21 @@ int	ft_red_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_ex
 	else if (t_exec->redir_type == REDIR_OUT)
 		fd = open(t_exec->filename, O_CREAT | O_WRONLY | O_TRUNC, 0660);
 	if (fd == -1)
+	{
 		perror("Minishell");
+		ft_exit_status(1, 1);
+		return (1); //que s'ha de retornar?
+	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		return (1);
 	ft_new_list_exec(tokens, aux);
 	ft_executor_2(aux, env, export, t_exec);
+
 	close(fd);
 	dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO);
 	free(aux);
 	return (0);
 }
-
-/*int	ft_red(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
-{
-	//ft_redirect(tokens, env, export, t_exec);
-	if (t_exec->redir_type == REDIR_OUT || t_exec->redir_type == REDIR_OUT_APPEND)
-		ft_red_out(tokens, env, export, t_exec);
-	else if (t_exec->redir_type == REDIR_IN || t_exec->redir_type == HEREDOC)
-		ft_red_in(tokens, env, export, t_exec);
-	return (0);
-}*/
 
 void	ft_count_redirects(t_token **tokens, t_executor *t_exec)
 {
