@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/08 15:01:25 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:00:28 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	ft_red_in(t_token **tokens, t_list **env, t_list **export, t_executor *t_exe
 	fd = 0;
 	if (t_exec->redir_type == REDIR_IN)
 	{
-		fd = open(filename_2(tokens), O_RDONLY);
+		fd = open(t_exec->filename, O_RDONLY);
 		if (fd == -1)
 		{	
 			ft_reset_fd(t_exec);
@@ -170,12 +170,17 @@ void	ft_aux_open(char *a, t_token **tokens, t_executor *t_exec)
 	else if (t_exec->redir_type == HEREDOC)
 		ft_redir_here(tokens);
 	if (fd == -1)
+	{
+		ft_exit_status(1, 1);
 		perror("Minishell");
+	}
 	close(fd);
 }
 
 void	ft_last_redir(t_token **tokens, t_executor *t_exec)
 {
+	while ((*tokens) && ((*tokens)->tok != 3 && (*tokens)->tok != 4))
+		(*tokens) = (*tokens)->next;
 	(*tokens) = (*tokens)->next;
 	if (((*tokens)->tok == 4 || (*tokens)->tok == 3) && (*tokens)->next)
 	{	
