@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/05 13:50:41 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/08 13:08:35 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct	s_data
 typedef struct s_executor
 {
 	int		pid;
+	int		flag;
 	int		redir_type;
 	int		total_pipes;
 	int		cmd_count;
@@ -101,6 +102,9 @@ typedef struct s_parser
 
 # define IN 0
 # define OUT 1
+
+# define YES 2
+# define NO 3
 
 # define REDIR_OUT 10
 # define REDIR_OUT_APPEND 11
@@ -172,6 +176,7 @@ int		ft_redir_append(t_token **tokens, t_list **env,
 int		ft_redir_here(t_token **tokens);
 int		ft_redirs(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec);
 
+void	ft_reset_fd(t_executor *t_exec);
 t_token	*ft_lstnew(char *word, int tokk);
 
 /*------------------------ WAIT --------------------------------*/
