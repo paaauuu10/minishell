@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:15:02 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/05 11:15:03 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:33:37 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,19 @@ static int	ft_strcmp_hd(const char *s1, const char *s2)
 	return (s1[i] - s2[i]);
 }
 
+void	no_loop_heredoc(char *str)
+{
+	char *line;
+
+	while (42)
+	{
+		line = readline("> ");
+		if (ft_strcmp_hd(line, str) == 0)
+			break ;
+		free(line);
+	}
+}
+	
 void	bucle_heredoc(int fd, char *str)
 {
 	char	*line;
@@ -38,7 +51,7 @@ void	bucle_heredoc(int fd, char *str)
 		if (ft_strcmp_hd(line, str) == 0)
 			break ;
 		write(fd1, line, ft_strlen(line));
-		write(fd1, "\n", 2);
+		write(fd1, "\n", 1);
 		free(line);
 	}
 	close(fd1);
@@ -77,7 +90,7 @@ int	ft_redir_here(t_token **tokens)
 				node = node->next;
 			node = node->next;
 			node = node->next;
-			if (init_heredoc(node->wrd))
+			if ((init_heredoc(node->wrd))) // aqui esta
 				return (1);
 		}
 		node = node->next;

@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/10 12:12:28 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:28:05 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ int		ft_redirs(t_token **tokens, t_list **env, t_list **export, t_executor *t_ex
 
 void	ft_reset_fd(t_executor *t_exec);
 t_token	*ft_lstnew(char *word, int tokk);
+void	no_loop_heredoc(char *str);
 
 /*------------------------ WAIT --------------------------------*/
 

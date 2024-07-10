@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/10 12:39:53 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:33:59 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ void	ft_parent(t_data *data, t_token **tokens, t_executor *t_exec)
 
 void	ft_fork(t_data *data, t_list **env, t_list **export, t_token **tokens)
 {
+	t_token *aux;
+	
+	aux = *tokens;
 	data->pid = fork();
 	if (data->pid == -1)
 	{
@@ -71,6 +74,8 @@ void	ft_fork(t_data *data, t_list **env, t_list **export, t_token **tokens)
 	if (data->pid == 0)
 	{
 		signals();
+		//if (ft_redir_here(&aux)) //caldra eliminar si no funciona
+		//	exit(0);
 		if (data->prev_fd != -1)
 		{
 			dup2(data->prev_fd, STDIN_FILENO);
@@ -82,6 +87,7 @@ void	ft_fork(t_data *data, t_list **env, t_list **export, t_token **tokens)
 			close(data->pipe_fd[0]);
 			close(data->pipe_fd[1]);
 		}
+		//ft_redir_here(&aux);
 		data->aux_head = ft_aux_lst(tokens, data->aux_head);
 		ft_cmd_exec(&(data->aux_head), env, export, data->exec);
 	}
