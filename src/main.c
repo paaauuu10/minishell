@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/04 12:08:47 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:29:04 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,21 @@ static void	error_checker(int argc, char **argv, char **envp)
 	}
 }
 
+void ft_free_tokens(t_token *head)
+{
+    t_token *current = head;
+    t_token *next;
+
+    while (current != NULL) {
+        next = current->next;
+        free(current->wrd);  // Liberar la cadena asociada al token
+        free(current);       // Liberar el nodo actual
+        current = next;
+    }
+	free(current);
+	head = NULL;
+}
+
 static int	ft_main_while(const char *s, t_list **env, t_list **export)
 {
 	t_token	**tokens;
@@ -62,6 +77,7 @@ static int	ft_main_while(const char *s, t_list **env, t_list **export)
 		ft_executor(tokens, env, export);
 	}
 	add_history(s);
+	ft_free_tokens(*tokens);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/08 13:08:35 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:12:28 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_token
 {
 	char			*wrd;
 	int				tok;
-	int				stop_flag;
 	struct s_token	*next;
 }	t_token;
 

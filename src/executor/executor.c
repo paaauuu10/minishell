@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/05 12:35:10 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:39:13 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 	t_exec->pid = fork();
 	if (t_exec->pid == 0)
 	{
+		signals();
 		ft_exec(tokens, env, t_exec); //s'ha de modificar
 		ft_print_error(aux);
 		write(2, ": command not found\n", 20);
@@ -93,6 +94,17 @@ int	ft_executor_2(t_token **tokens, t_list **env, t_list **export, t_executor *t
 	return (0);
 }
 
+void	ft_free_mini(t_executor *t_exec)
+{
+	free(t_exec->d_pipe);
+	int i;
+	i = 0;
+	while (t_exec->new_envp[i])
+		free(t_exec->new_envp[i++]);
+	free(t_exec->new_envp);
+	free(t_exec);
+}
+
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
@@ -120,7 +132,6 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	else
 		ft_pipes(tokens, env, export, t_exec);
 	ft_reset_fd(t_exec);
-	free(t_exec->d_pipe);
-	free(t_exec);
+	ft_free_mini(t_exec);
 	return (0);
 }

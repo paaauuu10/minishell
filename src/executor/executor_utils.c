@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/04 11:27:26 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/10 11:03:13 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ char	**ft_copy_env(t_list **env)
 		ref = ref->next;
 		i++;
 	}
-	i++;
 	new_env[i] = NULL;
 	return (new_env);
 }

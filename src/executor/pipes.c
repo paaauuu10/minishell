@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/04 12:42:35 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:39:53 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	ft_fork(t_data *data, t_list **env, t_list **export, t_token **tokens)
 	}
 	if (data->pid == 0)
 	{
+		signals();
 		if (data->prev_fd != -1)
 		{
 			dup2(data->prev_fd, STDIN_FILENO);
