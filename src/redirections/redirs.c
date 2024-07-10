@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/08 16:00:28 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:57:47 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void	ft_count_redirects(t_token **tokens, t_executor *t_exec)
 	}
 }
 
-void	ft_aux_open(char *a, t_token **tokens, t_executor *t_exec)
+int	ft_aux_open(char *a, t_token **tokens, t_executor *t_exec)
 {
 	int fd;
 
@@ -173,8 +173,10 @@ void	ft_aux_open(char *a, t_token **tokens, t_executor *t_exec)
 	{
 		ft_exit_status(1, 1);
 		perror("Minishell");
+		return (0);
 	}
 	close(fd);
+	return (1);
 }
 
 void	ft_last_redir(t_token **tokens, t_executor *t_exec)
@@ -201,7 +203,7 @@ void	ft_last_redir(t_token **tokens, t_executor *t_exec)
 	t_exec->filename = (*tokens)->wrd;
 }
 
-void	ft_open(t_token **tokens, t_executor *t_exec)
+int	ft_open(t_token **tokens, t_executor *t_exec)
 {
 	int	i;
 	t_token *temp;
@@ -227,10 +229,12 @@ void	ft_open(t_token **tokens, t_executor *t_exec)
 			else
 				t_exec->redir_type = REDIR_OUT_APPEND;
 		}
-		ft_aux_open(temp->wrd, tokens, t_exec);
+		if (!(ft_aux_open(temp->wrd, tokens, t_exec)))
+			return (0);
 		i++;
 	}
 	ft_last_redir(&temp, t_exec);
+	return (1);
 }
 
 int ft_redirs(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
@@ -239,10 +243,11 @@ int ft_redirs(t_token **tokens, t_list **env, t_list **export, t_executor *t_exe
 
 	i = 0;
 	ft_count_redirects(tokens, t_exec);
-	ft_open(tokens, t_exec);
+	if (!(ft_open(tokens, t_exec)))
+		return (1);
 	if (t_exec->redir_type == REDIR_OUT || t_exec->redir_type == REDIR_OUT_APPEND)
 		ft_red_out(tokens, env, export, t_exec);
 	else if (t_exec->redir_type == REDIR_IN || t_exec->redir_type == HEREDOC)
 		ft_red_in(tokens, env, export, t_exec);
-	return (1);
+	return (0);
 }
