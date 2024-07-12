@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/12 13:21:58 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:34:21 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,15 @@ typedef struct s_pipe
 	int	original_stdout;
 }	t_pipe;
 
-typedef struct	s_data
+typedef struct s_data
 {
-	int	pipe_fd[2];
-	int	prev_fd;
-	int	i;
-	pid_t pid;
-	struct s_token *aux_head;
-	struct s_executor *exec; //revisar
+	int					pipe_fd[2];
+	int					prev_fd;
+	int					i;
+	pid_t				pid;
+	struct s_token		*aux_head;
+	struct s_executor	*exec; //revisar
 }	t_data;
-
-/*typedef struct s_redir
-{
-	char	*last_redir_in;
-	char	*last_redir_out;
-	int		flag;
-}	t_redir;*/
 
 typedef struct s_executor
 {
@@ -83,7 +76,6 @@ typedef struct s_executor
 	int		redir_type;
 	int		total_pipes;
 	int		cmd_count;
-	//int		exit_status;
 	int		redir_in;
 	int		redir_out;
 	char	*filename;
@@ -97,7 +89,6 @@ typedef struct s_executor
 	int		red_typ_4;
 	int		red_typ_3;
 	t_pipe	*d_pipe;
-//	t_redir	*t_redir;
 }	t_executor;
 
 typedef struct s_parser
@@ -170,9 +161,10 @@ int		ft_executor(t_token **tokens, t_list **env, t_list **export);
 int		ft_exec(t_token **tokens, t_list **env, t_executor *t_exec);
 int		ft_only_cmd(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
-int		ft_pipes(t_token **tokens, t_list **env, 
+int		ft_pipes(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
-int	ft_executor_2(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec);
+int		ft_executor_2(t_token **tokens, t_list **env,
+			t_list **export, t_executor *t_exec);
 t_token	*ft_aux_lst(t_token **tokens, t_token *aux_head);
 char	**ft_copy_env(t_list **env);
 
@@ -189,13 +181,15 @@ int		ft_redir_in(char *filename, t_executor *t_exec);
 int		ft_redir_append(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
 int		ft_redir_here(t_token **tokens);
-int		ft_redirs(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec);
+int		ft_redirs(t_token **tokens, t_list **env,
+			t_list **export, t_executor *t_exec);
 
 void	ft_reset_fd(t_executor *t_exec);
 t_token	*ft_lstnew(char *word, int tokk);
 void	no_loop_heredoc(char *str);
-int	init_heredoc(char *str);
-int	ft_last_two(t_token **tokens, t_list **env, t_list **ex, t_executor *t_exec);
+int		init_heredoc(char *str);
+int		ft_last_two(t_token **tokens, t_list **env,
+			t_list **ex, t_executor *t_exec);
 
 /*------------------------ WAIT --------------------------------*/
 
