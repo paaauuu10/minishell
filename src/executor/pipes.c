@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/10 17:33:59 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:31:32 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ void	ft_cmd_exec(t_token **tokens, t_list **env, t_list **export, \
 		t_executor *t_exec)
 {
 	if (ft_redirect(tokens, env, export, t_exec) != 0)
-	{
-		ft_redirs(tokens, env, export, t_exec);
-		exit(0);
-	}
+		exit(ft_redirs(tokens, env, export, t_exec));
 	else if (ft_is_builtin(tokens))
 		exit(builtins(tokens, env, export));
 	else

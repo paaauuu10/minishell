@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/21 12:35:36 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/07/12 09:56:07 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_token	*new_token(char *s)
 		perror("newtok");
 	newtok->wrd = ft_strdup(s);
 	newtok->tok = type_tok(s);
+	newtok->flag = 0;//revisar si fa falta
 	newtok->next = NULL;
 	return (newtok);
 }

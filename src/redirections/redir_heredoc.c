@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:15:02 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/10 17:33:37 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:14:01 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	bucle_heredoc(int fd, char *str)
 	close(fd1);
 }
 
-static int	init_heredoc(char *str)
+int	init_heredoc(char *str)
 {
 	int		fd[2];
 

@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/10 16:56:26 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:24:45 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ void	ft_new_list_exec(t_token **tokens, t_token **aux)
 	(*aux) = ft_lstnew((*tokens)->wrd, (*tokens)->tok);
 	if ((*tokens)->next)
 		(*tokens) = (*tokens)->next;
-	if ((*tokens)->tok == 4)
+	if ((*tokens)->tok == 4 || (*tokens)->tok == 3)
 		return ;
-	while ((*tokens) && ft_strcmp((*tokens)->wrd, ">") == 0)
+	while ((*tokens) && (*tokens)->tok != 4 && (*tokens)->tok != 3)
 	{
 		add_token(aux, new_token((*tokens)->wrd));
 		(*tokens) = (*tokens)->next;
@@ -127,6 +127,61 @@ int	ft_red_out(t_token **tokens, t_list **env, t_list **export, t_executor *t_ex
 	return (0);
 }
 
+
+void	ft_find_last_in(t_token **tokens, t_executor *t_exec)
+{
+	t_token *temp;
+	int		i;
+	
+	temp = *tokens;
+	i = 0;
+	while (i < t_exec->redir_in)
+	{
+		while (temp->tok != 3 && temp->next)
+			temp = temp->next;
+		if (temp->tok == 3)
+		{
+			i++;
+			t_exec->red_typ_3 = REDIR_IN;
+			temp = temp->next;
+			if (temp->tok == 3)
+			{	
+				temp = temp->next;
+				t_exec->red_typ_3 = HEREDOC;
+			}
+		}
+			
+	}
+	temp->flag = LAST_IN;
+}
+
+void	ft_find_last_out(t_token **tokens, t_executor *t_exec)
+{
+	t_token *temp;
+	int		i;
+
+	temp = *tokens;
+	i = 0;
+	while (i < t_exec->redir_out)
+	{
+		while (temp->tok != 4 && temp->next)
+			temp = temp->next;
+		if (temp->tok == 4)
+		{
+			i++;
+			t_exec->red_typ_4 = REDIR_OUT;
+			temp = temp->next;
+			if (temp->tok == 4 && temp->next)
+			{	
+				temp = temp->next;
+				t_exec->red_typ_4 = REDIR_OUT_APPEND;
+			}
+		}
+
+	}
+	temp->flag = LAST_OUT;
+}
+
 void	ft_count_redirects(t_token **tokens, t_executor *t_exec)
 {
 	t_token *temp;
@@ -139,9 +194,15 @@ void	ft_count_redirects(t_token **tokens, t_executor *t_exec)
 		if (temp->tok == 4 || temp->tok == 3)
 		{
 			if (temp->tok == 3)
+			{	
 				t_exec->redir_in++;
+				t_exec->flag_red = LAST_GLB_IN;
+			}
 			else
+			{
+				t_exec->flag_red = LAST_GLB_OUT;
 				t_exec->redir_out++;
+			}
 			if (temp->next)
 			{
 				temp = temp->next;
@@ -151,6 +212,11 @@ void	ft_count_redirects(t_token **tokens, t_executor *t_exec)
 		}
 		if (temp->next)
 			temp = temp->next;
+	}
+	if (t_exec->redir_out > 0 && t_exec->redir_in > 0)
+	{
+		ft_find_last_in(tokens, t_exec);
+		ft_find_last_out(tokens, t_exec);
 	}
 }
 
@@ -235,13 +301,73 @@ int	ft_open(t_token **tokens, t_executor *t_exec)
 				t_exec->redir_type = REDIR_OUT_APPEND;
 			temp = temp->next;
 		}
-		if (!(ft_aux_open(temp->wrd, t_exec)))
-			return (0);
+		if (temp->flag == 0)
+		{
+			if (!(ft_aux_open(temp->wrd, t_exec)))
+				return (0);
+		}
 		i++;
 	}
 	ft_last_redir(&temp, t_exec);
 	return (1);
 }
+
+int	ft_last_two(t_token **tokens, t_list **env, t_list **ex, t_executor *t_exec)
+{
+	int	fd;
+	int fd1;
+	t_token *temp;
+	t_token **aux;
+
+	aux = malloc(sizeof(t_token));
+	*aux = NULL;
+
+	fd = 0;
+	fd1 = 0;
+	temp = *tokens;
+	while (temp->flag != LAST_IN)
+		temp = temp->next;
+	if (t_exec->red_typ_3 == REDIR_IN)
+	{
+		fd = open(temp->wrd, O_RDONLY);
+		if (fd == -1)
+		{	
+			ft_reset_fd(t_exec);
+			perror("Minishell ");
+			ft_exit_status(1, 1);
+		}
+	}
+	else if (t_exec->red_typ_3 == HEREDOC)
+		init_heredoc(temp->wrd);
+	if (fd != 0)
+	{
+		if (dup2(fd, STDIN_FILENO) == -1)
+			return (1);
+	}
+	temp = *tokens;
+	while (temp->flag != LAST_OUT)
+		temp = temp->next;
+	if (t_exec->red_typ_4 == REDIR_OUT_APPEND)
+		fd1 = open(temp->wrd, O_CREAT | O_WRONLY | O_APPEND, 0660);
+	else if (t_exec->red_typ_4 == REDIR_OUT)
+		fd1 = open(temp->wrd, O_CREAT | O_WRONLY | O_TRUNC, 0660);
+	if (fd1 == -1)
+	{
+		ft_reset_fd(t_exec);
+		perror("Minishell");
+		ft_exit_status(1, 1);
+		return (1); //que s'ha de retornar?
+	}
+	if (dup2(fd1, STDOUT_FILENO) == -1)
+		return (1);
+	ft_new_list_exec(tokens, aux);
+	ft_executor_2(aux, env, ex, t_exec);
+	close(fd);
+	dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO);
+	free(aux);
+	return(0);
+}
+
 
 int ft_redirs(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
 {
@@ -251,9 +377,20 @@ int ft_redirs(t_token **tokens, t_list **env, t_list **export, t_executor *t_exe
 	ft_count_redirects(tokens, t_exec);
 	if (!(ft_open(tokens, t_exec)))
 		return (1);
-	if (t_exec->redir_type == REDIR_OUT || t_exec->redir_type == REDIR_OUT_APPEND)
-		ft_red_out(tokens, env, export, t_exec);
+	if (t_exec->redir_in > 0 && t_exec->redir_out > 0)
+	{	
+		if (ft_last_two(tokens, env, export, t_exec) > 0)
+			return (1);
+	}
+	else if (t_exec->redir_type == REDIR_OUT || t_exec->redir_type == REDIR_OUT_APPEND)
+	{	
+		if (ft_red_out(tokens, env, export, t_exec) > 0)
+			return (1);
+	}
 	else if (t_exec->redir_type == REDIR_IN || t_exec->redir_type == HEREDOC)
-		ft_red_in(tokens, env, export, t_exec);
+	{
+		if (ft_red_in(tokens, env, export, t_exec) > 0)
+			return (1);
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/10 16:28:05 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:21:58 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_token
 {
 	char			*wrd;
 	int				tok;
+	int				flag;
 	struct s_token	*next;
 }	t_token;
 
@@ -68,14 +69,21 @@ typedef struct	s_data
 	struct s_executor *exec; //revisar
 }	t_data;
 
+/*typedef struct s_redir
+{
+	char	*last_redir_in;
+	char	*last_redir_out;
+	int		flag;
+}	t_redir;*/
+
 typedef struct s_executor
 {
 	int		pid;
-	int		flag;
+	int		flag_red;
 	int		redir_type;
 	int		total_pipes;
 	int		cmd_count;
-	int		exit_status;
+	//int		exit_status;
 	int		redir_in;
 	int		redir_out;
 	char	*filename;
@@ -84,9 +92,12 @@ typedef struct s_executor
 	char	**new_envp;
 	char	*cmd;
 	char	**cmd_argv;
-	t_list	*env;
-	t_list	*exp;
+	char	*last_redir_in;
+	char	*last_redir_out;
+	int		red_typ_4;
+	int		red_typ_3;
 	t_pipe	*d_pipe;
+//	t_redir	*t_redir;
 }	t_executor;
 
 typedef struct s_parser
@@ -109,6 +120,11 @@ typedef struct s_parser
 # define REDIR_OUT_APPEND 11
 # define REDIR_IN 12
 # define HEREDOC 13
+
+# define LAST_GLB_IN 14
+# define LAST_GLB_OUT 15
+# define LAST_IN 16
+# define LAST_OUT 17
 
 /*---------------------- BUILTINGS ----------------------------*/
 
@@ -178,6 +194,8 @@ int		ft_redirs(t_token **tokens, t_list **env, t_list **export, t_executor *t_ex
 void	ft_reset_fd(t_executor *t_exec);
 t_token	*ft_lstnew(char *word, int tokk);
 void	no_loop_heredoc(char *str);
+int	init_heredoc(char *str);
+int	ft_last_two(t_token **tokens, t_list **env, t_list **ex, t_executor *t_exec);
 
 /*------------------------ WAIT --------------------------------*/
 
