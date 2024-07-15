@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/15 14:30:05 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:05:02 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 	t_exec->cmd_count = t_exec->total_pipes + 1;
 }
 
-/*---------------------------------------------------------------------------------*/
-int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
+int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export,
+	t_executor *t_exec)
 {
 	char	*aux;
 
@@ -42,7 +42,7 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export, t_executor *t_e
 		if ((*tokens)->wrd[0] == '/')
 			ft_exec_absolut(tokens, t_exec);
 		else
-			ft_exec(tokens, env, t_exec); //s'ha de modificar
+			ft_exec(tokens, env, t_exec);
 		ft_print_error(aux);
 		write(2, ": command not found\n", 20);
 		exit(127);
@@ -73,22 +73,23 @@ void	ft_reset_fd(t_executor *t_exec)
 {
 	if (dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO) == -1)
 	{
-        perror("Error en dup2");
-        close(t_exec->d_pipe->original_stdout);
-        exit(EXIT_FAILURE);
-    }
-	if (dup2(t_exec->d_pipe->original_stdin, STDIN_FILENO) == -1) 
+		perror("Error en dup2");
+		close(t_exec->d_pipe->original_stdout);
+		exit(EXIT_FAILURE);
+	}
+	if (dup2(t_exec->d_pipe->original_stdin, STDIN_FILENO) == -1)
 	{
-        perror("Error en dup2");
-        close(t_exec->d_pipe->original_stdin);
-        exit(EXIT_FAILURE);
-    }
+		perror("Error en dup2");
+		close(t_exec->d_pipe->original_stdin);
+		exit(EXIT_FAILURE);
+	}
 }
 
 /**********************************************************************
 				TRYING NEW EXECUTOR
 **********************************************************************/
-int	ft_executor_2(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
+int	ft_executor_2(t_token **tokens, t_list **env, t_list **export,
+	t_executor *t_exec)
 {
 	if (ft_is_builtin(tokens))
 		builtins(tokens, env, export);
@@ -99,9 +100,10 @@ int	ft_executor_2(t_token **tokens, t_list **env, t_list **export, t_executor *t
 
 void	ft_free_mini(t_executor *t_exec)
 {
-	free(t_exec->d_pipe);
-	int i;
+	int	i;
+
 	i = 0;
+	free (t_exec->d_pipe);
 	while (t_exec->new_envp[i])
 		free(t_exec->new_envp[i++]);
 	free(t_exec->new_envp);
@@ -111,6 +113,7 @@ void	ft_free_mini(t_executor *t_exec)
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
+
 	t_exec = malloc(sizeof(t_executor));
 	if (!t_exec)
 		exit(1); //revisar
@@ -131,7 +134,7 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	else if (t_exec->total_pipes == 0 && !is_redirection(tokens))
 		ft_only_cmd(tokens, env, export, t_exec);
 	else if (t_exec->total_pipes == 0 && ft_redirect(tokens, t_exec))
-		ft_redirs(tokens, env, export, t_exec);	
+		ft_redirs(tokens, env, export, t_exec);
 	else
 		ft_pipes(tokens, env, export, t_exec);
 	ft_reset_fd(t_exec);
