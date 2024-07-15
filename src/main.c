@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/12 13:07:58 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:57:43 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,19 @@ static void	error_checker(int argc, char **argv, char **envp)
 	}
 }
 
-void ft_free_tokens(t_token *head)
+void	ft_free_tokens(t_token *head)
 {
-    t_token *current = head;
-    t_token *next;
+	t_token	*current;
+	t_token	*next;
 
-    while (current != NULL) {
-        next = current->next;
-        free(current->wrd);  // Liberar la cadena asociada al token
-        free(current);       // Liberar el nodo actual
-        current = next;
-    }
+	current = head;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current->wrd);
+		free(current);
+		current = next;
+	}
 	free(current);
 	head = NULL;
 }
@@ -59,7 +61,7 @@ void ft_free_tokens(t_token *head)
 static int	ft_main_while(const char *s, t_list **env, t_list **export)
 {
 	t_token	**tokens;
-	(void)export;
+
 	tokens = (t_token **)malloc(sizeof(t_token *));
 	if (!tokens)
 		exit(1);

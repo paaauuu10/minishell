@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/15 14:29:25 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:54:03 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ char	*ft_def(char *s);
 void	add_node(t_list **env, t_list *node);
 void	put_exp(t_list **export, char *wrd);
 void	put_env(t_list **env, char *wrd);
-int	ft_list_size(t_token *token);
+int		ft_list_size(t_token *token);
 
 /*------------------------ OTHER ------------------------------*/
 
