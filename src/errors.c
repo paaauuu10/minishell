@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:28:59 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/21 10:02:07 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:52:20 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,6 @@ static int	ft_errors_condi(const char *s, int i)
 		ft_exit_status(2, 0);
 		return (1);
 	}
-/*	if (s[i + 1] && s[i] == '|' && s[i + 1] == '|')
-	{
-		write (2, "Minishell: syntax error `||'\n", 29);
-		ft_exit_status(2, 0);
-		return (1);
-	}
-	if (s[i + 1] && s[i] == '&' && s[i + 1] == '&')
-	{
-		write (2, "Minishell: syntax error `&&'\n", 29);
-		ft_exit_status(2, 0);
-		return (1);
-	}*/
 	return (0);
 }
 

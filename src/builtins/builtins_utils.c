@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:47:47 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/21 10:01:14 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:38:01 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,18 @@ int	builtins(t_token **tokens, t_list **export, t_list **env)
 	if (*temp)
 	{
 		if (ft_strcmp((*temp)->wrd, "echo"))
-		{
 			i = ft_echo(tokens);
-			return (i);
-		}
-		if (ft_strcmp((*temp)->wrd, "env"))
+		else if (ft_strcmp((*temp)->wrd, "env"))
 			i = ft_env(env);
-		if (ft_strcmp((*temp)->wrd, "pwd"))
+		else if (ft_strcmp((*temp)->wrd, "pwd"))
 			i = ft_pwd();
-		if (ft_strcmp((*temp)->wrd, "exit"))
+		else if (ft_strcmp((*temp)->wrd, "exit"))
 			ft_exit(tokens);
-		if (ft_strcmp((*temp)->wrd, "export"))
+		else if (ft_strcmp((*temp)->wrd, "export"))
 			ft_export(tokens, export, env);
-		if (ft_strcmp((*temp)->wrd, "cd"))
+		else if (ft_strcmp((*temp)->wrd, "cd"))
 			i = ft_cd(tokens, export, env);
-		if (ft_strcmp((*temp)->wrd, "unset"))
+		else if (ft_strcmp((*temp)->wrd, "unset"))
 		{
 			while ((*temp)->next)
 			{
