@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/12 13:34:21 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/15 11:56:20 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ char	*ft_def(char *s);
 void	add_node(t_list **env, t_list *node);
 void	put_exp(t_list **export, char *wrd);
 void	put_env(t_list **env, char *wrd);
+int	ft_list_size(t_token *token);
 
 /*------------------------ OTHER ------------------------------*/
 
@@ -167,6 +168,8 @@ int		ft_executor_2(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
 t_token	*ft_aux_lst(t_token **tokens, t_token *aux_head);
 char	**ft_copy_env(t_list **env);
+void	ft_exec_absolut(t_token **tokens, t_executor *t_exec);
+int		ft_aux_abs(char *str);
 
 /*----------------------- REDIRECTIONS ------------------------*/
 
