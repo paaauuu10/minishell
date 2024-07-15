@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:15:02 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/12 12:14:01 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:02:46 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	ft_strcmp_hd(const char *s1, const char *s2)
 
 void	no_loop_heredoc(char *str)
 {
-	char *line;
+	char	*line;
 
 	while (42)
 	{
@@ -36,13 +36,13 @@ void	no_loop_heredoc(char *str)
 		free(line);
 	}
 }
-	
+
 void	bucle_heredoc(int fd, char *str)
 {
 	char	*line;
-	int	fd1;
-	(void)fd;
+	int		fd1;
 
+	(void)fd;
 	signals();
 	fd1 = open(".temp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	while (42)
@@ -72,7 +72,6 @@ int	init_heredoc(char *str)
 	else
 		bucle_heredoc(fd[1], str);
 	close(fd[1]);
-	//dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	return (0);
 }
@@ -84,13 +83,13 @@ int	ft_redir_here(t_token **tokens)
 	node = *tokens;
 	while (node != NULL)
 	{
-		if (node->tok == 3 /*|| node->exp_type == HEREDOC_PIPE*/)
-			{
+		if (node->tok == 3)
+		{
 			while (ft_strcmp(node->wrd, "<") == 0)
 				node = node->next;
 			node = node->next;
 			node = node->next;
-			if ((init_heredoc(node->wrd))) // aqui esta
+			if ((init_heredoc(node->wrd)))
 				return (1);
 		}
 		node = node->next;
