@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:15:28 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/12 12:28:45 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:24:40 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_token	*ft_lstnew(char *word, int tokk)
 	if (!new_node)
 		return (NULL);
 	new_node->wrd = word;
-    new_node->tok = tokk;
+	new_node->tok = tokk;
 	new_node->next = NULL;
 	return (new_node);
 }
