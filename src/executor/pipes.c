@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/12 12:31:32 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:30:44 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_check_pipe(t_token **tokens)
 void	ft_cmd_exec(t_token **tokens, t_list **env, t_list **export, \
 		t_executor *t_exec)
 {
-	if (ft_redirect(tokens, env, export, t_exec) != 0)
+	if (ft_redirect(tokens, t_exec) != 0)
 		exit(ft_redirs(tokens, env, export, t_exec));
 	else if (ft_is_builtin(tokens))
 		exit(builtins(tokens, env, export));

@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/15 11:56:20 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:29:25 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,8 +176,7 @@ int		ft_aux_abs(char *str);
 int		is_redirection(t_token **tokens);
 int		ft_is_redirection(char *str, int i);
 int		check_rd(char *str, int i);
-int		ft_redirect(t_token **tokens, t_list **env,
-			t_list **export, t_executor *t_exec);
+int		ft_redirect(t_token **tokens, t_executor *t_exec);
 int		ft_redir_out(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
 int		ft_redir_in(char *filename, t_executor *t_exec);

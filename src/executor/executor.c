@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/15 11:57:27 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:30:05 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 		builtins(tokens, env, export);
 	else if (t_exec->total_pipes == 0 && !is_redirection(tokens))
 		ft_only_cmd(tokens, env, export, t_exec);
-	else if (t_exec->total_pipes == 0 && ft_redirect(tokens, env, export,t_exec))
+	else if (t_exec->total_pipes == 0 && ft_redirect(tokens, t_exec))
 		ft_redirs(tokens, env, export, t_exec);	
 	else
 		ft_pipes(tokens, env, export, t_exec);
