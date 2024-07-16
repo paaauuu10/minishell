@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/16 11:06:24 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:00:42 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ char	*ft_expansor(t_list **env, char *s);
 char	*ft_strcat(char *temp_wrd, char *exp, int i);
 char	*ft_exit_status(int i, int j);
 int		ft_errors(const char *s);
-int		ft_syntax(const char *s);
+int		ft_syntax(t_token **tokens);
 
 /*----------------------- EXECUTOR ----------------------------*/
 
