@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/15 14:57:43 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:46:21 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ static int	ft_main_while(const char *s, t_list **env, t_list **export)
 		exit(1);
 	}
 	ft_quote_error(s);
+	if (ft_syntax(s))
+		return (1);
 	if (!ft_errors(s))
 	{
 		tokens = get_tok(env, tokens, (char *)s);
