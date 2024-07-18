@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/16 13:00:42 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:19:35 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ void	add_node(t_list **env, t_list *node);
 void	put_exp(t_list **export, char *wrd);
 void	put_env(t_list **env, char *wrd);
 int		ft_list_size(t_token *token);
+char	**ft_copy_env(t_list **env);
 
 /*------------------------ OTHER ------------------------------*/
 
@@ -171,6 +172,8 @@ t_token	*ft_aux_lst(t_token **tokens, t_token *aux_head);
 char	**ft_copy_env(t_list **env);
 void	ft_exec_absolut(t_token **tokens, t_executor *t_exec);
 int		ft_aux_abs(char *str);
+void	ft_reset_fd(t_executor *t_exec);
+int	ft_save_fd(t_executor *t_exec);
 
 /*----------------------- REDIRECTIONS ------------------------*/
 
@@ -186,13 +189,20 @@ int		ft_redir_append(t_token **tokens, t_list **env,
 int		ft_redir_here(t_token **tokens);
 int		ft_redirs(t_token **tokens, t_list **env,
 			t_list **export, t_executor *t_exec);
-
 void	ft_reset_fd(t_executor *t_exec);
 t_token	*ft_lstnew(char *word, int tokk);
 void	no_loop_heredoc(char *str);
 int		init_heredoc(char *str);
 int		ft_last_two(t_token **tokens, t_list **env,
 			t_list **ex, t_executor *t_exec);
+void	ft_new_list_exec(t_token **tokens, t_token **aux);
+void	ft_find_last_in(t_token **tokens, t_executor *t_exec);
+void	ft_find_last_out(t_token **tokens, t_executor *t_exec);
+int		ft_red_in(t_token **tokens, t_list **env, t_list **export,
+		t_executor *t_exec);
+int		ft_red_out(t_token **tokens, t_list **env, t_list **export,
+		t_executor *t_exec);
+void	ft_count_redirects(t_token **tokens, t_executor *t_exec);
 
 /*------------------------ WAIT --------------------------------*/
 

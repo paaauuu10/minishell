@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:45:39 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/15 13:43:23 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:12:57 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,39 @@
 							URGENT FER AIXO
 
 *********************************************************************/
+
+int	ft_save_fd(t_executor *t_exec)
+{
+	t_exec->d_pipe->original_stdin = dup(STDIN_FILENO);
+	if (t_exec->d_pipe->original_stdin == -1)
+	{
+		perror("dup");
+		return (1);
+	}
+	t_exec->d_pipe->original_stdout = dup(STDOUT_FILENO);
+	if (t_exec->d_pipe->original_stdout == -1)
+	{
+		perror("dup");
+		return (1);
+	}
+	return (0);
+}
+
+void	ft_reset_fd(t_executor *t_exec)
+{
+	if (dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO) == -1)
+	{
+		perror("Error en dup2");
+		close(t_exec->d_pipe->original_stdout);
+		exit(EXIT_FAILURE);
+	}
+	if (dup2(t_exec->d_pipe->original_stdin, STDIN_FILENO) == -1)
+	{
+		perror("Error en dup2");
+		close(t_exec->d_pipe->original_stdin);
+		exit(EXIT_FAILURE);
+	}
+}
 
 int	ft_aux_abs(char *str)
 {

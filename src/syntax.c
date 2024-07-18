@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:58:34 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/16 13:49:40 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:37:04 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_is_space(char s)
 
 int	ft_syntax_2(t_token **tokens)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	temp = *tokens;
 	while (temp)
@@ -29,7 +29,7 @@ int	ft_syntax_2(t_token **tokens)
 		if (temp->tok == 4)
 		{
 			if (temp->next == NULL)
-			{	
+			{
 				ft_print_error(" syntax error near unexpected token `newline'\n");
 				ft_exit_status(2, 1);
 				return (1);
@@ -51,7 +51,7 @@ int	ft_syntax_2(t_token **tokens)
 
 int	ft_syntax_pipe(t_token **tokens)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	temp = *tokens;
 	if (temp->tok == 2)
@@ -80,7 +80,7 @@ int	ft_syntax_pipe(t_token **tokens)
 
 int	ft_syntax(t_token **tokens)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	temp = *tokens;
 	if (!(*tokens))
@@ -90,7 +90,7 @@ int	ft_syntax(t_token **tokens)
 		if (temp->tok == 3)
 		{
 			if (temp->next == NULL)
-			{	
+			{
 				ft_print_error(" syntax error near unexpected token `newline'\n");
 				ft_exit_status(2, 1);
 				return (1);
@@ -110,5 +110,4 @@ int	ft_syntax(t_token **tokens)
 	if (ft_syntax_pipe(tokens))
 		return (1);
 	return (0);
-
 }

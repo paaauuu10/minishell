@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/15 15:05:02 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:14:38 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,39 +50,6 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export,
 	else
 		ft_wait_one_child_process();
 	return (0); //revisar
-}
-
-int	ft_save_fd(t_executor *t_exec)
-{
-	t_exec->d_pipe->original_stdin = dup(STDIN_FILENO);
-	if (t_exec->d_pipe->original_stdin == -1)
-	{
-		perror("dup");
-		return (1);
-	}
-	t_exec->d_pipe->original_stdout = dup(STDOUT_FILENO);
-	if (t_exec->d_pipe->original_stdout == -1)
-	{
-		perror("dup");
-		return (1);
-	}
-	return (0);
-}
-
-void	ft_reset_fd(t_executor *t_exec)
-{
-	if (dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO) == -1)
-	{
-		perror("Error en dup2");
-		close(t_exec->d_pipe->original_stdout);
-		exit(EXIT_FAILURE);
-	}
-	if (dup2(t_exec->d_pipe->original_stdin, STDIN_FILENO) == -1)
-	{
-		perror("Error en dup2");
-		close(t_exec->d_pipe->original_stdin);
-		exit(EXIT_FAILURE);
-	}
 }
 
 /**********************************************************************

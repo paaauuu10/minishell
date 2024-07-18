@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/10 11:03:13 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:17:06 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 				cal revisar
 ********************************************/
 
-size_t	ft_strlen_s(const char *s)
+/*size_t	ft_strlen_s(const char *s)
 {
 	size_t	i;
 
@@ -93,7 +93,7 @@ char	**ft_copy_env(t_list **env)
 	}
 	new_env[i] = NULL;
 	return (new_env);
-}
+}*/
 
 /****************************************************************
 						FINS AQUI

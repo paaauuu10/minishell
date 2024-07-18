@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 11:49:46 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/21 10:08:58 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:04:55 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,42 @@ int	is_redirection(t_token **tokens)
 		temp = temp->next;
 	}
 	return (0);
+}
+
+void	ft_count_redirects(t_token **tokens, t_executor *t_exec)
+{
+	t_token	*temp;
+
+	temp = (*tokens);
+	t_exec->redir_out = 0;
+	t_exec->redir_in = 0;
+	while (temp->next)
+	{
+		if (temp->tok == 4 || temp->tok == 3)
+		{
+			if (temp->tok == 3)
+			{
+				t_exec->redir_in++;
+				t_exec->flag_red = LAST_GLB_IN;
+			}
+			else
+			{
+				t_exec->flag_red = LAST_GLB_OUT;
+				t_exec->redir_out++;
+			}
+			if (temp->next)
+			{
+				temp = temp->next;
+				if ((temp->tok == 4 || temp->tok == 3) && temp->next)
+					temp = temp->next;
+			}
+		}
+		if (temp->next)
+			temp = temp->next;
+	}
+	if (t_exec->redir_out > 0 && t_exec->redir_in > 0)
+	{
+		ft_find_last_in(tokens, t_exec);
+		ft_find_last_out(tokens, t_exec);
+	}
 }

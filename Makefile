@@ -6,7 +6,7 @@
 #    By: pbotargu <pbotargu@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/25 13:50:18 by pbotargu          #+#    #+#              #
-#    Updated: 2024/07/16 11:05:46 by pbotargu         ###   ########.fr        #
+#    Updated: 2024/07/18 13:17:52 by pbotargu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ READLINE = -L$(HOME)/.brew/opt/readline/lib -lreadline
 SRCDIR = src/
 OBJDIR = obj/
 
-SRC_L = wait/wait.c redirections/redirections.c redirections/redir_utils.c redirections/check_redir.c blt_cd.c blt_echo.c blt_env.c blt_exit.c blt_export.c blt_pwd.c blt_unset.c expansor.c get_tok.c main.c signals.c utils.c get_list.c quotes.c executor/executor.c executor/executor_utils.c builtins/builtins_utils.c exit_status.c errors.c blt_export_utils.c redirections/redir_heredoc.c redirections/redirs.c message/message.c executor/pipes.c executor/pipes_aux.c executor/executor_aux.c syntax.c
+SRC_L = wait/wait.c redirections/redirections.c redirections/redir_utils.c redirections/check_redir.c blt_cd.c blt_echo.c blt_env.c blt_exit.c blt_export.c blt_pwd.c blt_unset.c expansor.c get_tok.c main.c signals.c utils.c get_list.c quotes.c executor/executor.c executor/executor_utils.c builtins/builtins_utils.c exit_status.c errors.c blt_export_utils.c redirections/redir_heredoc.c redirections/redirs.c message/message.c executor/pipes.c executor/pipes_aux.c executor/executor_aux.c syntax.c redirections/redirs_aux.c executor/executor_utils_2.c
 
 SRC = $(addprefix $(SRCDIR), $(SRC_L))
 OBJECTS = $(addprefix $(OBJDIR), $(SRC:.c=.o))
