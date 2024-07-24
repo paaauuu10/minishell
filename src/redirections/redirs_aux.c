@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:39:11 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/18 12:41:31 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:58:33 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_new_list_exec(t_token **tokens, t_token **aux)
 		return ;
 	while ((*tokens) && (*tokens)->tok != 4 && (*tokens)->tok != 3)
 	{
-		add_token(aux, new_token((*tokens)->wrd));
+		add_token(aux, new_token((*tokens)->wrd, (*tokens)->hd_nbr));
 		(*tokens) = (*tokens)->next;
 	}
 }
@@ -29,13 +29,13 @@ void	ft_new_list_exec(t_token **tokens, t_token **aux)
 int	ft_red_in(t_token **tokens, t_list **env, t_list **export,
 	t_executor *t_exec)
 {
-	int		fd;
+	//int		fd;
 	t_token	**aux;
 
 	aux = malloc(sizeof(t_token));
 	*aux = NULL;
-	fd = 0;
-	if (t_exec->redir_type == REDIR_IN)
+	//fd = 0;
+	/*if (t_exec->redir_type == REDIR_IN)
 	{
 		fd = open(t_exec->filename, O_RDONLY);
 		if (fd == -1)
@@ -49,10 +49,10 @@ int	ft_red_in(t_token **tokens, t_list **env, t_list **export,
 	{
 		if (dup2(fd, STDIN_FILENO) == -1)
 			return (1);
-	}
+	}*/
 	ft_new_list_exec(tokens, aux);
 	ft_executor_2(aux, env, export, t_exec);
-	close(fd);
+	//close(fd);
 	dup2(t_exec->d_pipe->original_stdin, STDIN_FILENO);
 	free(aux); //free bucle
 	return (0);
@@ -61,13 +61,13 @@ int	ft_red_in(t_token **tokens, t_list **env, t_list **export,
 int	ft_red_out(t_token **tokens, t_list **env, t_list **export,
 	t_executor *t_exec)
 {
-	int		fd;
+	//int		fd;
 	t_token	**aux;
 
 	aux = malloc(sizeof(t_token));
 	*aux = NULL;
-	fd = 0;
-	if (t_exec->redir_type == REDIR_OUT_APPEND)
+	//fd = 0;
+	/*if (t_exec->redir_type == REDIR_OUT_APPEND)
 		fd = open(t_exec->filename, O_CREAT | O_WRONLY | O_APPEND, 0660);
 	else if (t_exec->redir_type == REDIR_OUT)
 		fd = open(t_exec->filename, O_CREAT | O_WRONLY | O_TRUNC, 0660);
@@ -79,10 +79,10 @@ int	ft_red_out(t_token **tokens, t_list **env, t_list **export,
 		return (1); // que s'ha de retornar? 
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
-		return (1);
+		return (1);*/
 	ft_new_list_exec(tokens, aux);
 	ft_executor_2(aux, env, export, t_exec);
-	close(fd);
+	//close(fd);
 	dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO);
 	free(aux);
 	return (0);

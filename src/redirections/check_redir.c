@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 11:49:46 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/18 13:04:55 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:37:32 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,58 @@ void	ft_count_redirects(t_token **tokens, t_executor *t_exec)
 		ft_find_last_in(tokens, t_exec);
 		ft_find_last_out(tokens, t_exec);
 	}
+}
+
+int		ft_heredoc_create(t_token **tokens, int hd_nbr, t_executor *t_exec)
+{
+	char	*tmp_dir;
+	int		fd_tmp;
+	char	*line;
+
+	while ((*tokens)->tok == 3)
+	{
+		if ((*tokens)->next)
+			(*tokens) = (*tokens)->next;
+		else
+			return (1);
+	}
+	(*tokens)->hd_nbr = hd_nbr;
+	tmp_dir = ft_strjoin("/tmp/heredoc", ft_itoa(hd_nbr));
+	fd_tmp = open(tmp_dir, O_CREAT | O_WRONLY | O_TRUNC, 0660);
+	line = readline("> ");
+	while (line && ft_strcmp(line, (*tokens)->wrd) == 0)
+	{
+		write(fd_tmp, line, ft_strlen(line));
+		write(fd_tmp, "\n", 1);
+		free(line);
+		line = readline("> ");
+	}
+	close(fd_tmp);
+	//free(line);
+	//free(redir->fname);
+	//redir->fname = ft_strdup(tmp_dir);
+	//free(tmp_dir);
+	(void)t_exec;
+	//set_signals(PARENT);
+	return (0);
+
+}
+
+int		heredoc_v2(t_token **tokens, t_executor *t_exec)
+{
+	int			hd_nbr;
+	t_token	*temp;
+
+	hd_nbr = 1;
+	temp = *tokens;
+	while (temp)
+	{
+		if (temp->tok == 3 && temp->next && temp->next->tok == 3)
+		{
+			ft_heredoc_create(&temp, hd_nbr, t_exec);
+			hd_nbr++;
+		}
+		temp = temp->next;
+	}
+	return (0);
 }

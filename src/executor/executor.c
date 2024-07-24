@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/18 13:14:38 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:28:47 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,12 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	ft_exit_status(0, 1);
 	ft_count_pipes(t_exec, tokens);
 	ft_save_fd(t_exec);
+	heredoc_v2(tokens, t_exec);
+	/*while (*tokens)
+	{
+		printf("Paraula: %s  HD_NBR:  %d\n", (*tokens)->wrd, (*tokens)->hd_nbr);
+		(*tokens) = (*tokens)->next;
+	}*/
 	if (t_exec->total_pipes == 0 && !is_redirection(tokens) && ft_is_builtin(tokens))
 		builtins(tokens, env, export);
 	else if (t_exec->total_pipes == 0 && !is_redirection(tokens))

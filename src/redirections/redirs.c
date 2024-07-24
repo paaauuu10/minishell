@@ -6,15 +6,16 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/18 13:05:40 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:48:54 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_aux_open(char *a, t_executor *t_exec)
+int	ft_aux_open(char *a, int hd, t_executor *t_exec)
 {
 	int	fd;
+	char *filename;
 
 	fd = 0;
 	if (t_exec->redir_type == REDIR_OUT_APPEND)
@@ -25,7 +26,8 @@ int	ft_aux_open(char *a, t_executor *t_exec)
 		fd = open(a, O_RDONLY);
 	else if (t_exec->redir_type == HEREDOC)
 	{
-		no_loop_heredoc(a);
+		filename = ft_strjoin("/tmp/heredoc", ft_itoa(hd));
+		fd = open(filename, O_RDONLY);
 	}
 	if (fd == -1)
 	{
@@ -33,8 +35,17 @@ int	ft_aux_open(char *a, t_executor *t_exec)
 		perror("Minishell");
 		return (0);
 	}
-	if (fd > 0)
-		close(fd);
+	if (t_exec->redir_type == REDIR_OUT_APPEND || t_exec->redir_type == REDIR_OUT)
+	{	
+		if (dup2(fd, STDOUT_FILENO) == -1)
+			return (1);
+	}
+	else
+	{
+		if (dup2(fd, STDIN_FILENO) == -1)
+			return (1);
+	}
+	close(fd);
 	return (1);
 }
 
@@ -76,7 +87,7 @@ int	ft_open(t_token **tokens, t_executor *t_exec)
 	total = t_exec->redir_in + t_exec->redir_out;
 	temp = (*tokens);
 	i = 0;
-	while (i < total - 1)
+	while (i < total)
 	{
 		while (temp->tok != 4 && temp->tok != 3)
 			temp = temp->next;
@@ -95,12 +106,12 @@ int	ft_open(t_token **tokens, t_executor *t_exec)
 		}
 		if (temp->flag == 0)
 		{
-			if (!(ft_aux_open(temp->wrd, t_exec)))
+			if (!(ft_aux_open(temp->wrd, temp->hd_nbr, t_exec)))
 				return (0);
 		}
 		i++;
 	}
-	ft_last_redir(&temp, t_exec);
+	//ft_last_redir(&temp, t_exec);
 	return (1);
 }
 

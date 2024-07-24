@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/18 13:19:35 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:53:05 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_token
 	char			*wrd;
 	int				tok;
 	int				flag;
+	int				hd_nbr;
 	struct s_token	*next;
 }	t_token;
 
@@ -133,7 +134,7 @@ int		ft_is_builtin(t_token **tokens);
 
 t_token	**get_tok(t_list **env, t_token **tokens, char *s);
 void	add_token(t_token **tokens, t_token	*node);
-t_token	*new_token(char *s);
+t_token	*new_token(char *s, int hd_nbr);
 int		change_tok(t_token **export, char *new_wrd);
 char	*ft_str_list(t_list **temp, char *s2);
 t_list	*new_node(char *s);
@@ -173,8 +174,8 @@ char	**ft_copy_env(t_list **env);
 void	ft_exec_absolut(t_token **tokens, t_executor *t_exec);
 int		ft_aux_abs(char *str);
 void	ft_reset_fd(t_executor *t_exec);
-int	ft_save_fd(t_executor *t_exec);
-
+int		ft_save_fd(t_executor *t_exec);
+int		heredoc_v2(t_token **tokens, t_executor *t_exec);
 /*----------------------- REDIRECTIONS ------------------------*/
 
 int		is_redirection(t_token **tokens);

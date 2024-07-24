@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/12 09:56:07 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:53:52 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	type_tok(char *s)
 	return (0);
 }
 
-t_token	*new_token(char *s)
+t_token	*new_token(char *s, int hd_nbr)
 {
 	t_token	*newtok;
 
@@ -38,6 +38,7 @@ t_token	*new_token(char *s)
 	newtok->tok = type_tok(s);
 	newtok->flag = 0;//revisar si fa falta
 	newtok->next = NULL;
+	newtok->hd_nbr = hd_nbr;
 	return (newtok);
 }
 
@@ -76,7 +77,7 @@ t_token	**get_tok(t_list **env, t_token **tokens, char *s)
 	if (!tokens)
 		exit(2);
 	while (matrix[i] && tokens)
-		add_token(tokens, new_token(matrix[i++]));
+		add_token(tokens, new_token(matrix[i++], 0));
 /*	while (*tokens)
 	{
 		printf("%s\n",(*tokens)->wrd);
