@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/10 11:41:42 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:37:46 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@ char	*ft_exit_status(int i, int j)
 	static char	*k;
 
 	if (j == 1)
+	{
+		if (k != NULL)
+		{
+			free(k);
+			k = NULL;
+		}
 		k = ft_itoa(i);
+	}
 	return (k);
 }

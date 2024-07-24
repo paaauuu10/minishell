@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/24 16:13:06 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:47:06 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ static int	ft_main_while(const char *s, t_list **env, t_list **export)
 	}
 	add_history(s);
 	ft_free_tokens(*tokens);
+	free(tokens);
+	free((char *)s);
 	return (0);
 }
 
@@ -90,10 +92,11 @@ int	main(int argc, char **argv, char **envp)
 	const char	*s;
 	t_list		**env;
 	t_list		**export;
+	char		*a;
 
 	error_checker(argc, argv, envp);
 	signals();
-	ft_exit_status(0, 1);
+	a = ft_exit_status(0, 1);
 	env = env_list(envp);
 	if (!env)
 		return (1);
@@ -105,5 +108,6 @@ int	main(int argc, char **argv, char **envp)
 	}
 	while (1)
 		ft_main_while(s, env, export);
+	free(a);
 	return (0);
 }
