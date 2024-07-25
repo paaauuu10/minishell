@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 11:49:46 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/24 15:37:32 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:35:38 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_count_redirects(t_token **tokens, t_executor *t_exec)
 	}
 }
 
-int		ft_heredoc_create(t_token **tokens, int hd_nbr, t_executor *t_exec)
+int	ft_heredoc_create(t_token **tokens, int hd_nbr, t_executor *t_exec)
 {
 	char	*tmp_dir;
 	int		fd_tmp;
@@ -99,13 +99,12 @@ int		ft_heredoc_create(t_token **tokens, int hd_nbr, t_executor *t_exec)
 	(void)t_exec;
 	//set_signals(PARENT);
 	return (0);
-
 }
 
-int		heredoc_v2(t_token **tokens, t_executor *t_exec)
+int	heredoc_v2(t_token **tokens, t_executor *t_exec)
 {
 	int			hd_nbr;
-	t_token	*temp;
+	t_token		*temp;
 
 	hd_nbr = 1;
 	temp = *tokens;

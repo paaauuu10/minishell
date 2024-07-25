@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/25 12:42:03 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:37:26 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,9 +200,9 @@ void	ft_new_list_exec(t_token **tokens, t_token **aux);
 void	ft_find_last_in(t_token **tokens, t_executor *t_exec);
 void	ft_find_last_out(t_token **tokens, t_executor *t_exec);
 int		ft_red_in(t_token **tokens, t_list **env, t_list **export,
-		t_executor *t_exec);
+			t_executor *t_exec);
 int		ft_red_out(t_token **tokens, t_list **env, t_list **export,
-		t_executor *t_exec);
+			t_executor *t_exec);
 void	ft_count_redirects(t_token **tokens, t_executor *t_exec);
 
 /*------------------------ WAIT --------------------------------*/

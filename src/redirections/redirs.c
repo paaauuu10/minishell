@@ -6,16 +6,39 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/24 17:32:09 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:33:43 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+int	ft_aux_v2(int fd, t_executor *t_exec)
+{
+	if (fd == -1)
+	{
+		ft_exit_status(1, 1);
+		perror("Minishell");
+		return (1);
+	}
+	if (t_exec->redir_type == REDIR_OUT_APPEND || \
+		t_exec->redir_type == REDIR_OUT)
+	{
+		if (dup2(fd, STDOUT_FILENO) == -1)
+			return (1);
+	}
+	else
+	{
+		if (dup2(fd, STDIN_FILENO) == -1)
+			return (1);
+	}
+	close(fd);
+	return (0);
+}
+
 int	ft_aux_open(char *a, int hd, t_executor *t_exec)
 {
-	int	fd;
-	char *filename;
+	int		fd;
+	char	*filename;
 
 	fd = 0;
 	if (t_exec->redir_type == REDIR_OUT_APPEND)
@@ -29,24 +52,9 @@ int	ft_aux_open(char *a, int hd, t_executor *t_exec)
 		filename = ft_strjoin("/tmp/heredoc", ft_itoa(hd));
 		fd = open(filename, O_RDONLY);
 	}
-	if (fd == -1)
-	{
-		ft_exit_status(1, 1);
-		perror("Minishell");
-		return (0);
-	}
-	if (t_exec->redir_type == REDIR_OUT_APPEND || t_exec->redir_type == REDIR_OUT)
-	{	
-		if (dup2(fd, STDOUT_FILENO) == -1)
-			return (1);
-	}
-	else
-	{
-		if (dup2(fd, STDIN_FILENO) == -1)
-			return (1);
-	}
-	close(fd);
-	return (1);
+	if (ft_aux_v2(fd, t_exec))
+		return (1);
+	return (0);
 }
 
 void	ft_last_redir(t_token **tokens, t_executor *t_exec)
@@ -106,13 +114,12 @@ int	ft_open(t_token **tokens, t_executor *t_exec)
 		}
 		if (temp->flag == 0)
 		{
-			if (!(ft_aux_open(temp->wrd, temp->hd_nbr, t_exec)))
-				return (0);
+			if ((ft_aux_open(temp->wrd, temp->hd_nbr, t_exec)))
+				return (1);
 		}
 		i++;
 	}
-	//ft_last_redir(&temp, t_exec);
-	return (1);
+	return (0);
 }
 
 int	ft_last_two(t_token **tokens, t_list **env, t_list **ex, t_executor *t_exec)
@@ -177,15 +184,16 @@ int	ft_redirs(t_token **tokens, t_list **env, t_list **export,
 
 	i = 0;
 	ft_count_redirects(tokens, t_exec);
-	if (!(ft_open(tokens, t_exec)))
+	if ((ft_open(tokens, t_exec)))
 		return (1);
 	if (t_exec->redir_in > 0 && t_exec->redir_out > 0)
 	{
 		if (ft_last_two(tokens, env, export, t_exec) > 0)
 			return (1);
 	}
-	else if (t_exec->redir_type == REDIR_OUT || t_exec->redir_type == REDIR_OUT_APPEND)
-	{	
+	else if (t_exec->redir_type == REDIR_OUT || \
+			t_exec->redir_type == REDIR_OUT_APPEND)
+	{
 		if (ft_red_out(tokens, env, export, t_exec) > 0)
 			return (1);
 	}
