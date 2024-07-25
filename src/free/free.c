@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 12:35:47 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/25 12:37:01 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:46:14 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 void	ft_free_env(t_list *head)
 {
-    t_list *tmp;
+	t_list	*tmp;
 
-    while (head != NULL)
-    {
-        tmp = head;
-        head = head->next;
-        if (tmp->title)
-            free(tmp->title);
-        if (tmp->def)
-            free(tmp->def);
-        free(tmp);
+	while (head != NULL)
+	{
+		tmp = head;
+		head = head->next;
+		if (tmp->title)
+			free(tmp->title);
+		if (tmp->def)
+			free(tmp->def);
+		free(tmp);
 	}
 }
 
@@ -58,4 +58,3 @@ void	free_tokens(t_token **tokens)
 	}
 	*tokens = NULL;
 }
-
