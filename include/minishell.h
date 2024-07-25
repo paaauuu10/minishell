@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/24 15:53:05 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:42:03 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,5 +213,11 @@ void	ft_wait_childs_process(int i, t_executor *t_exec);
 /*------------------------ MESSAGE -----------------------------*/
 
 void	ft_print_error(char *a);
+
+/*------------------------- FREE -------------------------------*/
+
+void	ft_free_env(t_list *head);
+void	ft_free_tokens(t_token *head);
+void	free_tokens(t_token **tokens);
 
 #endif
