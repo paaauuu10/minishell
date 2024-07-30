@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/25 13:33:43 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:54:43 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ int	ft_open(t_token **tokens, t_executor *t_exec)
 
 	total = t_exec->redir_in + t_exec->redir_out;
 	temp = (*tokens);
-	i = 0;
-	while (i < total)
+	i = 1;
+	while (i <= total)
 	{
-		while (temp->tok != 4 && temp->tok != 3)
+		while ((temp->tok != 4 && temp->tok != 3) && temp->next)
 			temp = temp->next;
 		if (temp->tok == 4)
 			t_exec->redir_type = REDIR_OUT;
@@ -122,7 +122,7 @@ int	ft_open(t_token **tokens, t_executor *t_exec)
 	return (0);
 }
 
-int	ft_last_two(t_token **tokens, t_list **env, t_list **ex, t_executor *t_exec)
+/*int	ft_last_two(t_token **tokens, t_list **env, t_list **ex, t_executor *t_exec)
 {
 	int		fd;
 	int		fd1;
@@ -175,7 +175,7 @@ int	ft_last_two(t_token **tokens, t_list **env, t_list **ex, t_executor *t_exec)
 	dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO);
 	free(aux);
 	return (0);
-}
+}*/
 
 int	ft_redirs(t_token **tokens, t_list **env, t_list **export,
 	t_executor *t_exec)
@@ -186,12 +186,12 @@ int	ft_redirs(t_token **tokens, t_list **env, t_list **export,
 	ft_count_redirects(tokens, t_exec);
 	if ((ft_open(tokens, t_exec)))
 		return (1);
-	if (t_exec->redir_in > 0 && t_exec->redir_out > 0)
+	/*if (t_exec->redir_in > 0 && t_exec->redir_out > 0)
 	{
 		if (ft_last_two(tokens, env, export, t_exec) > 0)
 			return (1);
-	}
-	else if (t_exec->redir_type == REDIR_OUT || \
+	} //veure si podem eliminar*/
+	if (t_exec->redir_type == REDIR_OUT || \
 			t_exec->redir_type == REDIR_OUT_APPEND)
 	{
 		if (ft_red_out(tokens, env, export, t_exec) > 0)

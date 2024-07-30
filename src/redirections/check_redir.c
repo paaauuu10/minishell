@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 11:49:46 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/25 13:35:38 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:43:30 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,9 @@ void	ft_count_redirects(t_token **tokens, t_executor *t_exec)
 		if (temp->tok == 4 || temp->tok == 3)
 		{
 			if (temp->tok == 3)
-			{
 				t_exec->redir_in++;
-				t_exec->flag_red = LAST_GLB_IN;
-			}
 			else
-			{
-				t_exec->flag_red = LAST_GLB_OUT;
 				t_exec->redir_out++;
-			}
 			if (temp->next)
 			{
 				temp = temp->next;
@@ -60,11 +54,11 @@ void	ft_count_redirects(t_token **tokens, t_executor *t_exec)
 		if (temp->next)
 			temp = temp->next;
 	}
-	if (t_exec->redir_out > 0 && t_exec->redir_in > 0)
+	/*if (t_exec->redir_out > 0 && t_exec->redir_in > 0)
 	{
 		ft_find_last_in(tokens, t_exec);
 		ft_find_last_out(tokens, t_exec);
-	}
+	}*/
 }
 
 int	ft_heredoc_create(t_token **tokens, int hd_nbr, t_executor *t_exec)
@@ -92,10 +86,10 @@ int	ft_heredoc_create(t_token **tokens, int hd_nbr, t_executor *t_exec)
 		line = readline("> ");
 	}
 	close(fd_tmp);
-	//free(line);
+	free(line);
 	//free(redir->fname);
 	//redir->fname = ft_strdup(tmp_dir);
-	//free(tmp_dir);
+	free(tmp_dir);
 	(void)t_exec;
 	//set_signals(PARENT);
 	return (0);

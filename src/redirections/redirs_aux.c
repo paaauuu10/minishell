@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:39:11 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/25 12:47:29 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:43:50 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_red_out(t_token **tokens, t_list **env, t_list **export,
 	return (0);
 }
 
-void	ft_find_last_in(t_token **tokens, t_executor *t_exec)
+/*void	ft_find_last_in(t_token **tokens, t_executor *t_exec)
 {
 	t_token	*temp;
 	int		i;
@@ -104,4 +104,4 @@ void	ft_find_last_out(t_token **tokens, t_executor *t_exec)
 		}
 	}
 	temp->flag = LAST_OUT;
-}
+}*/

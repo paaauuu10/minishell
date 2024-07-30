@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/18 13:17:06 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/29 13:13:35 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,12 +187,18 @@ int	ft_exec(t_token **tokens, t_list **env, t_executor *t_exec)
 	t_exec->cmd_argv[ft_list_size(*tokens)] = NULL;
 	while (*tokens)
 	{
+		/*if (((*tokens)->tok == 3 || (*tokens)->tok == 4) && (*tokens)->next && (*tokens)->next->next)
+		{		
+			(*tokens) = (*tokens)->next;
+			(*tokens) = (*tokens)->next;
+		}//REVISANT*/
 		t_exec->cmd_argv[i] = ft_strdup((*tokens)->wrd);
 		if (!t_exec->cmd[i])
 			return (1); /*revisar com tractem l'error, aixi segur que no*/
 		*tokens = (*tokens)->next;
 		i++;
 	}
+	/*t_exec->cmd_argv[i] = NULL;*/ //revisant
 	i = 0;
 //	while (t_exec->cmd_argv[i])
 //		printf("EXEC_utils:%s\n", t_exec->cmd_argv[i++]);

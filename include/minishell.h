@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/25 13:37:26 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:44:28 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_data
 typedef struct s_executor
 {
 	int		pid;
-	int		flag_red;
+	//int		flag_red;
 	int		redir_type;
 	int		total_pipes;
 	int		cmd_count;
@@ -87,8 +87,8 @@ typedef struct s_executor
 	char	**cmd_argv;
 	char	*last_redir_in;
 	char	*last_redir_out;
-	int		red_typ_4;
-	int		red_typ_3;
+	//int		red_typ_4;
+	//int		red_typ_3;
 	t_pipe	*d_pipe;
 }	t_executor;
 

@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:58:34 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/18 12:37:04 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:09:15 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_syntax_2(t_token **tokens)
 				ft_exit_status(2, 1);
 				return (1);
 			}
-			if (temp->next->tok == 4 && ((!(temp->next->next)) || temp->next->next->tok != 0))
+			if (temp->next->tok == 4 && ((!(temp->next->next)) || temp->next->next->tok > 1))
 			{
 				if (!(temp->next->next))
 					ft_print_error(" syntax error near unexpected token `newline'\n");
@@ -62,7 +62,13 @@ int	ft_syntax_pipe(t_token **tokens)
 	}
 	while (temp)
 	{
-		if (temp->tok == 2 && temp->next->tok != 0)
+		if (temp->tok == 2 && (!(temp->next)))
+		{
+			ft_print_error(" syntax error near unexpected token `|'\n");
+			ft_exit_status(2, 1);
+			return (1);
+		}
+		if (temp->tok == 2 && temp->next && temp->next->tok > 1)
 		{
 			if (temp->next->tok == 2)
 				ft_print_error(" syntax error near unexpected token `|'\n");

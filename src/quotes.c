@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/21 12:36:15 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:26:15 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	ft_count2(const char *s, t_parser *p)
 {
 	if (s[p->i] && (s[p->i] == '|' || s[p->i] == '<' || s[p->i] == '>'))
 	{
-		if (s[p->i - 1] && s[p->i - 1] != '|' && s[p->i - 1] != '<'
+		if (p->i > 0 && s[p->i - 1] && s[p->i - 1] != '|' && s[p->i - 1] != '<'
 			&& s[p->i - 1] != '>')
 			p->count++;
 		if (s[p->i] == '>' && s[p->i + 1] == '>')
@@ -150,7 +150,7 @@ char	**ft_quotes(const char *s, t_list **env)
 		return (NULL);
 	p->open = 0;
 	ft_count(s, p);
-	r = (char **)malloc(sizeof(char *) * (p->count + 1));
+	r = (char **)malloc(sizeof(char *) * (p->count + 2));
 	if (!r)
 		return (NULL);
 	p->i = 0;
