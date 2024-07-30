@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/30 11:30:54 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:37:32 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 	t_exec->total_pipes = 0;
 	while (temp)
 	{
-		if (ft_strcmp(temp->wrd, "|"))
+		if (temp->tok == 2)
 			t_exec->total_pipes++;
 		temp = temp->next;
 	}

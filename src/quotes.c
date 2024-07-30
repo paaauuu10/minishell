@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/30 13:04:58 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:19:32 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 		if ((s[temp + len] == '"' || s[temp + len] == '\'')
 			&& (p->quote == ' ' || p->open == 0))
 		{
-			p->quote = s[temp++ + len];
-		//	p->quote = s[temp + len];
+		//	p->quote = s[temp++ + len];
+			p->quote = s[temp + len++];
 			p->open = 1;
 		}
 		else
@@ -107,6 +107,7 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 {
 	p->j = 0;
+	p->open = 0;
 	while (s[p->i] && (s[p->i] != p->quote
 			|| (p->open == 0 && p->quote != ' ')))
 	{
@@ -116,8 +117,13 @@ static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 		if ((s[p->i] == '"' || s[p->i] == '\'')
 			&& (p->quote == ' ' || p->open == 0))
 		{
-			p->quote = s[p->i++];
+			p->quote = s[p->i]; //i++
 			p->open = 1;
+			if (s[p->i + 1] && (s[p->i + 1] == '|' || s[p->i + 1] == '>' ||
+				s[p->i + 1] == '<') && s[p->i + 2] == p->quote)
+				r[p->k][p->j++] = s[p->i++];
+			else
+				p->i++;
 		}
 		else
 			r[p->k][p->j++] = s[p->i++];
