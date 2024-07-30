@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/21 11:45:01 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:04:58 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	ft_count2(const char *s, t_parser *p)
 {
 	if (s[p->i] && (s[p->i] == '|' || s[p->i] == '<' || s[p->i] == '>'))
 	{
-		if (s[p->i - 1] && s[p->i - 1] != '|' && s[p->i - 1] != '<'
+		if (p->i > 0 && s[p->i - 1] && s[p->i - 1] != '|' && s[p->i - 1] != '<'
 			&& s[p->i - 1] != '>')
 			p->count++;
 		if (s[p->i] == '>' && s[p->i + 1] == '>')
@@ -83,6 +83,7 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 			&& (p->quote == ' ' || p->open == 0))
 		{
 			p->quote = s[temp++ + len];
+		//	p->quote = s[temp + len];
 			p->open = 1;
 		}
 		else
@@ -90,7 +91,7 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 		if (p->quote != ' ' && s[temp + len] && s[temp + len] == p->quote
 			&& (s[temp + len] == '"' || s[temp + len] == '\''))
 		{
-			temp++;
+			//temp++;
 			p->open = 0;
 		}
 		if (p->open == 0 && p->quote != ' ')
@@ -130,7 +131,7 @@ static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 			p->quote = ' ';
 	}
 	if (s[p->i] && p->j == 0 && (s[p->i] == '>' || s[p->i] == '<'
-			|| s[p->i] == '|'))
+			|| s[p->i] == '|'))// || s[p->i] == '"'))
 		r[p->k][p->j++] = s[p->i++];
 	r[p->k][p->j] = '\0';
 	if (p->quote != '\'')
@@ -150,7 +151,7 @@ char	**ft_quotes(const char *s, t_list **env)
 		return (NULL);
 	p->open = 0;
 	ft_count(s, p);
-	r = (char **)malloc(sizeof(char *) * (p->count + 1));
+	r = (char **)malloc(sizeof(char *) * (p->count + 2));
 	if (!r)
 		return (NULL);
 	p->i = 0;
