@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 12:35:47 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/25 12:46:14 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:58:38 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,21 @@ void	ft_free_env(t_list *head)
 	}
 }
 
+/*void	ft_free_tokens(t_token *head)
+{
+	t_token	*temp;
+
+	while (head != NULL)
+	{
+		temp = head;
+		head = head->next;
+		if (temp->wrd)
+			free(temp->wrd);
+		temp = NULL;
+		free(temp);
+	}
+}*/
+
 void	ft_free_tokens(t_token *head)
 {
 	t_token	*current;
@@ -39,6 +54,7 @@ void	ft_free_tokens(t_token *head)
 		next = current->next;
 		free(current->wrd);
 		free(current);
+		current = NULL;
 		current = next;
 	}
 	free(current);

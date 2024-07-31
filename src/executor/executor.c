@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/30 11:30:54 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:10:31 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ int	ft_executor_2(t_token **tokens, t_list **env, t_list **export,
 	t_executor *t_exec)
 {
 	if (ft_is_builtin(tokens))
-		builtins(tokens, env, export);
+		builtins(tokens, env, export, t_exec);
 	else
 		ft_only_cmd(tokens, env, export, t_exec);
+	//ft_free_tokens(*tokens);
+	//free(tokens);
 	return (0);
 }
 
@@ -80,7 +82,9 @@ void	ft_free_mini(t_executor *t_exec)
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
+	t_token		*temp;
 
+	temp = *tokens;
 	t_exec = malloc(sizeof(t_executor));
 	if (!t_exec)
 		exit(1); //revisar
@@ -103,7 +107,7 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 		(*tokens) = (*tokens)->next;
 	}*/
 	if (t_exec->total_pipes == 0 && !is_redirection(tokens) && ft_is_builtin(tokens))
-		builtins(tokens, env, export);
+		builtins(tokens, env, export, t_exec);
 	else if (t_exec->total_pipes == 0 && !is_redirection(tokens))
 		ft_only_cmd(tokens, env, export, t_exec);
 	else if (t_exec->total_pipes == 0 && ft_redirect(tokens, t_exec))
@@ -112,5 +116,6 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 		ft_pipes(tokens, env, export, t_exec);
 	ft_reset_fd(t_exec);
 	ft_free_mini(t_exec);
+	*tokens = temp;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/29 14:44:28 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:24:10 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_executor
 	char	**cmd_argv;
 	char	*last_redir_in;
 	char	*last_redir_out;
+	char	*k;
 	//int		red_typ_4;
 	//int		red_typ_3;
 	t_pipe	*d_pipe;
@@ -120,10 +121,10 @@ typedef struct s_parser
 
 /*---------------------- BUILTINGS ----------------------------*/
 
-int		builtins(t_token **tokens, t_list **export, t_list **env);
+int		builtins(t_token **tokens, t_list **export, t_list **env, t_executor *t_exec);
 int		ft_pwd(void);
 int		ft_cd(t_token	**tokens, t_list **export, t_list	**env);
-void	ft_exit(t_token **tokens);
+void	ft_exit(t_token **tokens, t_list **export, t_list **env, t_executor *t_exec);
 int		ft_echo(t_token **s);
 t_list	**ft_export(t_token **tokens, t_list **export, t_list **env);
 void	ft_unset(t_list **export, char *wrd);
@@ -219,5 +220,6 @@ void	ft_print_error(char *a);
 void	ft_free_env(t_list *head);
 void	ft_free_tokens(t_token *head);
 void	free_tokens(t_token **tokens);
+void	ft_free_mini(t_executor *t_exec);
 
 #endif

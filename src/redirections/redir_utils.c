@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:15:28 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/15 14:24:40 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:27:28 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_token	*ft_lstnew(char *word, int tokk)
 	new_node = malloc(sizeof(t_token));
 	if (!new_node)
 		return (NULL);
-	new_node->wrd = word;
+	new_node->wrd = ft_strdup(word);
 	new_node->tok = tokk;
 	new_node->next = NULL;
 	return (new_node);

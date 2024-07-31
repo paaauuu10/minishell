@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:47:47 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/15 14:38:01 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:32:11 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_is_builtin(t_token **tokens)
 	return (0);
 }
 
-int	builtins(t_token **tokens, t_list **export, t_list **env)
+int	builtins(t_token **tokens, t_list **export, t_list **env, t_executor *t_exec)
 {
 	t_token	**temp;
 	int		i;
@@ -43,7 +43,7 @@ int	builtins(t_token **tokens, t_list **export, t_list **env)
 		else if (ft_strcmp((*temp)->wrd, "pwd"))
 			i = ft_pwd();
 		else if (ft_strcmp((*temp)->wrd, "exit"))
-			ft_exit(tokens);
+			ft_exit(tokens, export, env, t_exec);
 		else if (ft_strcmp((*temp)->wrd, "export"))
 			ft_export(tokens, export, env);
 		else if (ft_strcmp((*temp)->wrd, "cd"))
