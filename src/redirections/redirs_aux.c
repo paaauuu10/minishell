@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:39:11 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/31 14:48:54 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/01 14:35:01 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	ft_new_list_exec(t_token **tokens, t_token **aux)
 {
+	t_token *temp;
+
+	temp = *tokens; //revisar
 	(*aux) = new_token((*tokens)->wrd, (*tokens)->tok);
 	if ((*tokens)->next)
 		(*tokens) = (*tokens)->next;
@@ -24,6 +27,7 @@ void	ft_new_list_exec(t_token **tokens, t_token **aux)
 		add_token(aux, new_token((*tokens)->wrd, (*tokens)->hd_nbr));
 		(*tokens) = (*tokens)->next;
 	}
+	*tokens = temp; //revisar
 }
 
 int	ft_red_in(t_token **tokens, t_list **env, t_list **export,
