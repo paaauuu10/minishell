@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/30 15:19:32 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/01 09:06:16 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 
 	temp = p->i;
 	len = 0;
+	p->exp = 0;
 	while (s[temp + len] && (s[temp + len] != p->quote
 			|| (p->open == 0 && p->quote != ' ')))
 	{
@@ -85,6 +86,8 @@ static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 		//	p->quote = s[temp++ + len];
 			p->quote = s[temp + len++];
 			p->open = 1;
+			if (p->quote == '\'')
+				p->exp = 1;
 		}
 		else
 			len++;
@@ -140,7 +143,7 @@ static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 			|| s[p->i] == '|'))// || s[p->i] == '"'))
 		r[p->k][p->j++] = s[p->i++];
 	r[p->k][p->j] = '\0';
-	if (p->quote != '\'')
+	if (p->exp != 1)
 		r[p->k] = ft_expansor(env, r[p->k]);
 	p->k++;
 	if (s[p->i] == p->quote)

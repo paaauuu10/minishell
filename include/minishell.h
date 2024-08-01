@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/29 14:44:28 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/01 09:03:06 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_parser
 	char	quote;
 	int		count;
 	int		open;
+	int		exp;
 }	t_parser;
 
 # define IN 0

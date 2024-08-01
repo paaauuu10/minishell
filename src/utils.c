@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:23:42 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/10 13:19:45 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/07/31 10:40:49 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ char	*ft_strcat(char *temp_wrd, char *exp, int i)
 	}
 	while (exp[k])
 		s[j++] = exp[k++];
+	free(temp_wrd);
 	s[j] = '\0';
 	return (s);
 }

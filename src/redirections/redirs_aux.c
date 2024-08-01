@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:39:11 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/29 14:43:50 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:48:54 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_new_list_exec(t_token **tokens, t_token **aux)
 {
-	(*aux) = ft_lstnew((*tokens)->wrd, (*tokens)->tok);
+	(*aux) = new_token((*tokens)->wrd, (*tokens)->tok);
 	if ((*tokens)->next)
 		(*tokens) = (*tokens)->next;
 	if ((*tokens)->tok == 4 || (*tokens)->tok == 3)
@@ -36,7 +36,9 @@ int	ft_red_in(t_token **tokens, t_list **env, t_list **export,
 	ft_new_list_exec(tokens, aux);
 	ft_executor_2(aux, env, export, t_exec);
 	dup2(t_exec->d_pipe->original_stdin, STDIN_FILENO);
+	ft_free_tokens(*aux);
 	free(aux); //free bucle
+	aux = NULL;
 	return (0);
 }
 
@@ -50,7 +52,9 @@ int	ft_red_out(t_token **tokens, t_list **env, t_list **export,
 	ft_new_list_exec(tokens, aux);
 	ft_executor_2(aux, env, export, t_exec);
 	dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO);
+	ft_free_tokens(*aux);
 	free(aux);
+	aux = NULL;
 	return (0);
 }
 

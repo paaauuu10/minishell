@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/14 10:56:12 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:47:48 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_list	**env_list(char **envp)
 			add_node(env, node);
 		else
 		{
-			free(env);
+			ft_free_env(*env);
 			return (NULL);
 		}
 		i++;

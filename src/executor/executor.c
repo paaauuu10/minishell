@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/30 14:37:32 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:10:55 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	ft_free_mini(t_executor *t_exec)
 	int	i;
 
 	i = 0;
-	free (t_exec->d_pipe);
+	free(t_exec->d_pipe);
 	while (t_exec->new_envp[i])
 		free(t_exec->new_envp[i++]);
 	free(t_exec->new_envp);

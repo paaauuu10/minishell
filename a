@@ -1,0 +1,7 @@
+a
+include
+Makefile
+minishell
+minishell_tester
+obj
+src
