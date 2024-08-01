@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/01 09:03:06 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/01 10:42:04 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_parser
 	int		count;
 	int		open;
 	int		exp;
+	int		len;
 }	t_parser;
 
 # define IN 0
@@ -153,10 +154,14 @@ char	**ft_copy_env(t_list **env);
 void	signals(void);
 int		ft_strcmp(char *s1, char *s2);
 char	**ft_quotes(const char *s, t_list **env);
+int		ft_quotes2_aux(t_parser *p, int temp, const char *s);
+void	ft_quotes3_aux(t_parser *p, char **r, const char *s);
+int		ft_count_aux(const char *s, t_parser *p);
+void	ft_count2(const char *s, t_parser *p);
 int		ft_quote_error(const char *s);
 char	*ft_expansor(t_list **env, char *s);
 char	*ft_strcat(char *temp_wrd, char *exp, int i);
-char	*ft_exit_status(int i, int j);
+int		ft_exit_status(int i, int j);
 int		ft_errors(const char *s);
 int		ft_syntax(t_token **tokens);
 

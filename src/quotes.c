@@ -6,13 +6,13 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/01 09:06:16 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/01 10:15:43 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_count2(const char *s, t_parser *p)
+void	ft_count2(const char *s, t_parser *p)
 {
 	if (s[p->i] && (s[p->i] == '|' || s[p->i] == '<' || s[p->i] == '>'))
 	{
@@ -35,75 +35,36 @@ static void	ft_count2(const char *s, t_parser *p)
 
 static void	ft_count(const char *s, t_parser *p)
 {
+	int	j;
+
+	if (!p)
+		return ;
 	p->i = 0;
 	p->count = 0;
 	p->quote = ' ';
 	while (s[p->i])
 	{
-		while (s[p->i] && s[p->i] == ' ')
-			p->i++;
-		while (s[p->i] && s[p->i] != ' ' && s[p->i] != '"' && s[p->i] != '\''
-			&& s[p->i] != '|' && s[p->i] != '<' && s[p->i] != '>')
-			p->i++;
-		if (s[p->i] && (s[p->i] == '"' || s[p->i] == '\''))
-		{
-			p->quote = s[p->i++];
-			while (s[p->i] && s[p->i] != p->quote)
-				p->i++;
-			if (s[p->i] && s[p->i] == p->quote)
-				p->i++;
-			if (!s[p->i])
-			{
-				p->count++;
-				break ;
-			}
-			if (s[p->i] != ' ' && p->quote != ' ')
-				continue ;
-		}
-		else
-			ft_count2(s, p);
+		j = ft_count_aux(s, p);
+		if (j == 1)
+			break ;
+		else if (j == 2)
+			continue ;
 		p->count++;
 	}
 }
 
 static char	*ft_quotes2(t_parser *p, char **r, const char *s)
 {
-	int	len;
 	int	temp;
 
 	temp = p->i;
-	len = 0;
+	p->len = 0;
 	p->exp = 0;
-	while (s[temp + len] && (s[temp + len] != p->quote
-			|| (p->open == 0 && p->quote != ' ')))
-	{
-		if ((s[temp + len] == '>' || s[temp + len] == '<'
-				|| s[temp + len] == '|') && p->quote == ' ')
-			break ;
-		if ((s[temp + len] == '"' || s[temp + len] == '\'')
-			&& (p->quote == ' ' || p->open == 0))
-		{
-		//	p->quote = s[temp++ + len];
-			p->quote = s[temp + len++];
-			p->open = 1;
-			if (p->quote == '\'')
-				p->exp = 1;
-		}
-		else
-			len++;
-		if (p->quote != ' ' && s[temp + len] && s[temp + len] == p->quote
-			&& (s[temp + len] == '"' || s[temp + len] == '\''))
-		{
-			//temp++;
-			p->open = 0;
-		}
-		if (p->open == 0 && p->quote != ' ')
-			p->quote = ' ';
-	}
-	if (s[temp + len] && len == 0 && (s[temp + len] == '>'
-			|| s[temp + len] == '<' || s[temp + len] == '|'))
-		len++;
-	r[p->k] = (char *)malloc(sizeof(char) * (len + 1));
+	temp = ft_quotes2_aux(p, temp, s);
+	if (s[temp + p->len] && p->len == 0 && (s[temp + p->len] == '>'
+			|| s[temp + p->len] == '<' || s[temp + p->len] == '|'))
+		p->len++;
+	r[p->k] = (char *)malloc(sizeof(char) * (p->len + 1));
 	return (r[p->k]);
 }
 
@@ -117,30 +78,10 @@ static void	ft_quotes3(t_parser *p, char **r, const char *s, t_list **env)
 		if ((s[p->i] == '>' || s[p->i] == '<'
 				|| s[p->i] == '|') && p->quote == ' ')
 			break ;
-		if ((s[p->i] == '"' || s[p->i] == '\'')
-			&& (p->quote == ' ' || p->open == 0))
-		{
-			p->quote = s[p->i]; //i++
-			p->open = 1;
-			if (s[p->i + 1] && (s[p->i + 1] == '|' || s[p->i + 1] == '>' ||
-				s[p->i + 1] == '<') && s[p->i + 2] == p->quote)
-				r[p->k][p->j++] = s[p->i++];
-			else
-				p->i++;
-		}
-		else
-			r[p->k][p->j++] = s[p->i++];
-		if (p->quote != ' ' && s[p->i] && s[p->i] == p->quote
-			&& (s[p->i] == '"' || s[p->i] == '\''))
-		{
-			p->i++;
-			p->open = 0;
-		}
-		if (p->open == 0 && p->quote != ' ')
-			p->quote = ' ';
+		ft_quotes3_aux(p, r, s);
 	}
 	if (s[p->i] && p->j == 0 && (s[p->i] == '>' || s[p->i] == '<'
-			|| s[p->i] == '|'))// || s[p->i] == '"'))
+			|| s[p->i] == '|'))
 		r[p->k][p->j++] = s[p->i++];
 	r[p->k][p->j] = '\0';
 	if (p->exp != 1)
@@ -156,12 +97,9 @@ char	**ft_quotes(const char *s, t_list **env)
 	t_parser	*p;
 
 	p = (t_parser *)malloc(sizeof(t_parser));
-	if (!p)
-		return (NULL);
-	p->open = 0;
 	ft_count(s, p);
 	r = (char **)malloc(sizeof(char *) * (p->count + 2));
-	if (!r)
+	if (!p || !r)
 		return (NULL);
 	p->i = 0;
 	p->k = 0;

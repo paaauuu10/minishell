@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:11:00 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/31 11:40:10 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/01 10:43:21 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_exit(t_token **tokens)
 {
 	int	n;
 
-	n = ft_atoi(ft_exit_status(0, 0));
+	n = ft_exit_status(0, 0);
 	if ((*tokens)->next && ft_strcmp((*tokens)->next->wrd, "--"))
 	{
 		write(1, "exit\n", 5);
