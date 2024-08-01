@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:12 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/01 11:00:28 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:03:54 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,7 @@ t_token	**get_tok(t_list **env, t_token **tokens, char *s)
 	if (matrix == NULL)
 		exit(1);
 	while (matrix[i])
-	{
-		free(matrix[i]);
-		i++;
-	}
+		free(matrix[i++]);
 	if (matrix)
 	{
 		free(matrix);
