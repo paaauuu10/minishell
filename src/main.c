@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/02 09:24:16 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/02 12:24:07 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,12 @@ static int	ft_main_while(const char *s, t_list **env, t_list **export)
 	{
 		tokens = get_tok(env, tokens, (char *)s);
 		if (ft_syntax(tokens))
+		{	
+			ft_free_tokens(*tokens);
+			free(tokens);
+			free((char *)s);
 			return (1);
+		}
 		ft_executor(tokens, env, export);
 	}
 	add_history(s);

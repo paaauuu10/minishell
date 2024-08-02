@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/02 10:23:04 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/02 12:43:50 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,9 @@ int	ft_exec_cmd(t_executor **t_exec)
 int	ft_exec(t_token **tokens, t_list **env, t_executor *t_exec)
 {
 	int	i;
+	t_token *temp;
 
+	temp = *tokens;
 	i = 0;
 	if (ft_path(tokens, env, &t_exec) != 0)
 		return (1);
@@ -209,5 +211,6 @@ int	ft_exec(t_token **tokens, t_list **env, t_executor *t_exec)
 //		printf("EXEC_utils:%s\n", t_exec->cmd_argv[i++]);
 	if (ft_exec_cmd(&t_exec))
 		execve(t_exec->absolute_path, t_exec->cmd_argv, t_exec->new_envp);
+	*tokens = temp;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:39:11 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/01 14:35:01 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/02 12:10:03 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ int	ft_red_in(t_token **tokens, t_list **env, t_list **export,
 	t_executor *t_exec)
 {
 	t_token	**aux;
+	t_token	*temp;
 
+	temp = *tokens;
 	aux = malloc(sizeof(t_token));
 	*aux = NULL;
 	ft_new_list_exec(tokens, aux);
@@ -43,6 +45,7 @@ int	ft_red_in(t_token **tokens, t_list **env, t_list **export,
 	ft_free_tokens(*aux);
 	free(aux); //free bucle
 	aux = NULL;
+	*tokens = temp;
 	return (0);
 }
 
@@ -50,7 +53,9 @@ int	ft_red_out(t_token **tokens, t_list **env, t_list **export,
 	t_executor *t_exec)
 {
 	t_token	**aux;
+	t_token *temp;
 
+	temp = *tokens;
 	aux = malloc(sizeof(t_token));
 	*aux = NULL;
 	ft_new_list_exec(tokens, aux);
@@ -59,6 +64,7 @@ int	ft_red_out(t_token **tokens, t_list **env, t_list **export,
 	ft_free_tokens(*aux);
 	free(aux);
 	aux = NULL;
+	*tokens = temp;
 	return (0);
 }
 

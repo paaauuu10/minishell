@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/31 11:47:48 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:36:37 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_env(t_list	**env)
 	t_list	*temp;
 
 	temp = *env;
-	while (temp->next)
+	while (temp)
 	{
 		printf("%s=%s\n", temp->title, temp->def);
 		temp = temp->next;

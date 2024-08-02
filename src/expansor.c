@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:50:06 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/01 10:44:31 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/02 12:48:42 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ char	*ft_expansor(t_list **env, char *s)
 
 	i = 0;
 	if (ft_strcmp(s, "$?"))
+	{
+		free(s);
 		s = ft_itoa(ft_exit_status(0, 0));
+	}
 	s = ft_expansor_while(s, i, env);
 	return (s);
 }

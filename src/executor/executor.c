@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/31 15:10:55 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/02 12:39:28 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	ft_count_pipes(t_executor *t_exec, t_token **tokens)
 int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export,
 	t_executor *t_exec)
 {
-	char	*aux;
+	t_token	*aux;
 
-	aux = (*tokens)->wrd;
+	aux = *tokens;
 	(void)export;
 	t_exec->pid = fork();
 	if (t_exec->pid == 0)
@@ -43,7 +43,8 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export,
 			ft_exec_absolut(tokens, t_exec);
 		else
 			ft_exec(tokens, env, t_exec);
-		ft_print_error(aux);
+		ft_print_error(aux->wrd);
+		*tokens = aux;
 		write(2, ": command not found\n", 20);
 		exit(127);
 	}
