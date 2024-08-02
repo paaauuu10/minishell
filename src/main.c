@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/01 14:14:24 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/02 09:24:16 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ static int	ft_main_while(const char *s, t_list **env, t_list **export)
 		ft_executor(tokens, env, export);
 	}
 	add_history(s);
-	/*if (*tokens)
+	if (*tokens)
 		ft_free_tokens(*tokens);
 	if (tokens)
-		free(tokens);*/
+		free(tokens);
 	free((char *)s);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:47:47 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/01 14:22:05 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/02 09:38:48 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	builtins(t_token **tokens, t_list **export, t_list **env)
 		else if (ft_strcmp((*temp)->wrd, "pwd"))
 			i = ft_pwd();
 		else if (ft_strcmp((*temp)->wrd, "exit"))
-			ft_exit(tokens);
+			ft_exit(tokens, env, export);
 		else if (ft_strcmp((*temp)->wrd, "export"))
 			ft_export(tokens, export, env);
 		else if (ft_strcmp((*temp)->wrd, "cd"))

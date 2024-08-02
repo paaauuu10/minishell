@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/15 14:30:44 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/02 10:47:09 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,9 @@ int	ft_pipes(t_token **tokens, t_list **env, t_list **export, \
 	t_executor *t_exec)
 {
 	t_data	*data;
+	t_token *temp;
 
+	temp = *tokens;
 	data = malloc(sizeof(t_data));
 	data->i = 0;
 	data->prev_fd = -1;
@@ -118,5 +120,6 @@ int	ft_pipes(t_token **tokens, t_list **env, t_list **export, \
 		close(data->prev_fd);
 	ft_wait_childs_process(t_exec->cmd_count, t_exec);
 	free(data);
+	*tokens = temp;
 	return (0);
 }
