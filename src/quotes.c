@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/01 10:15:43 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/02 14:31:58 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char	**ft_quotes(const char *s, t_list **env)
 		return (NULL);
 	p->i = 0;
 	p->k = 0;
+	p->open = 0;
 	while (s[p->i])
 	{
 		p->quote = ' ';
