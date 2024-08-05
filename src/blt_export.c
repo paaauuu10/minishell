@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/07 13:17:43 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/05 11:32:07 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	change_node_condi(char *new, t_list *t, int i)
 {
 	if (new[i] && new[i] == '=' && !t->title[i])
 	{
+		if (t->def)
+			free(t->def); //revisar
 		t->def = ft_def(new);
 		return (0);
 	}
@@ -24,6 +26,8 @@ static int	change_node_condi(char *new, t_list *t, int i)
 	if (new[i] && new[i + 1] && new[i] == '+'
 		&& new[i + 1] == '=' && !t->title[i])
 	{
+		if (t->def)
+			free(t->def); // revisar
 		t->def = ft_strcat(t->def, ft_def(new),
 				ft_strlen(t->def) + ft_strlen(new));
 		return (0);
