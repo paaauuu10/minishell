@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/06 11:39:50 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:55:37 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static t_list	**ft_nxt(t_token *temp, int i, t_list **export, t_list **env)
 	while (temp->next)
 	{
 		temp = temp->next;
+		i = 0;
 		while (temp->wrd[i] && (temp->wrd[i] != '=' || (temp->wrd[i + 1]
 					&& (temp->wrd[i] == '+' && temp->wrd[i + 1] != '='))))
 			i++;
@@ -74,8 +75,8 @@ static t_list	**ft_nxt(t_token *temp, int i, t_list **export, t_list **env)
 				add_node(export, new_node(temp->wrd));
 			if (change_node(env, temp->wrd))
 			{
-				put_env(env, temp->wrd);
 				add_node(env, new_node(temp->wrd));
+				//put_env(env, temp->wrd);
 			}
 		}
 	}
@@ -109,13 +110,13 @@ t_list	**ft_export(t_token **tokens, t_list **export, t_list **env)
 			|| temp->next->wrd[i] == '='))
 		i++;
 	if (temp->next && (temp->next->wrd[i] || ft_strcmp(temp->next->wrd, "=")
-			|| !ft_isalpha(temp->next->wrd[0])) && temp->next->wrd[0] != '_')
+			|| !ft_isalpha(temp->next->wrd[0])) && temp->next->wrd[0] != '_') //Revisar export HELLO="123 A-"
 	{
 		write(2, " not a valid identifier\n", 24);
 		ft_exit_status(1, 1);
 		return (export);
 	}
-	i = 0;
+	//i = 0;
 	export = ft_nxt(temp, i, &temp2, env);
 	return (export);
 }

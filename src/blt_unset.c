@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:14:15 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/21 10:13:22 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:35:31 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ void	ft_unset(t_list **export, char *wrd)
 				*export = temp->next;
 			else
 				prev->next = temp->next;
+			free(temp->title);
+			free(temp->def);
+			free(temp);
 			return ;
 		}
 		prev = temp;

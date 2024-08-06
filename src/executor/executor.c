@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/06 12:43:48 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:09:04 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,16 @@ void	ft_free_mini(t_executor *t_exec)
 int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 {
 	t_executor	*t_exec;
+	t_list		*temp;
 
+	temp = *env;
+	/*while (*env)
+	{
+		printf("%s", (*env)->title);
+		printf("%s\n", (*env)->def);
+		(*env) = (*env)->next; 
+	}*/
+	*env = temp;
 	t_exec = malloc(sizeof(t_executor));
 	if (!t_exec)
 		exit(1); //revisar
@@ -116,6 +125,12 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 		ft_redirs(tokens, env, export, t_exec);
 	else
 		ft_pipes(tokens, env, export, t_exec);
+	/*while (*env)
+	{
+		printf("%s", (*env)->title);
+		printf("%s\n", (*env)->def);
+		(*env) = (*env)->next; 
+	}*/
 	ft_reset_fd(t_exec);
 	ft_free_mini(t_exec);
 	return (0);
