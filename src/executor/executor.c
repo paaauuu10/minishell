@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/06 11:06:50 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:43:48 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export,
 	if (t_exec->pid == 0)
 	{
 		signals();
-		if ((*tokens)->wrd[0] == '/')
+		if ((*tokens)->wrd[0] == '/' || (*tokens)->wrd[0] == '.')
 			ft_exec_absolut(tokens, t_exec);
 		else
 			ft_exec(tokens, env, t_exec);

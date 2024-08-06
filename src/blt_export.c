@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/05 11:32:07 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/06 11:39:50 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,6 @@ t_list	**ft_export(t_token **tokens, t_list **export, t_list **env)
 		return (export);
 	}
 	i = 0;
-	export = ft_nxt(temp, i, export, env);
+	export = ft_nxt(temp, i, &temp2, env);
 	return (export);
 }
