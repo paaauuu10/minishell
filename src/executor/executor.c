@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/02 12:39:28 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/06 11:02:38 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,11 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 		printf("Paraula: %s  HD_NBR:  %d\n", (*tokens)->wrd, (*tokens)->hd_nbr);
 		(*tokens) = (*tokens)->next;
 	}*/
+	if ((*tokens)->wrd[0] == '$')
+	{	
+		ft_free_mini(t_exec);
+		return (1);
+	}
 	if (t_exec->total_pipes == 0 && !is_redirection(tokens) && ft_is_builtin(tokens))
 		builtins(tokens, env, export);
 	else if (t_exec->total_pipes == 0 && !is_redirection(tokens))
