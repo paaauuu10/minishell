@@ -6,11 +6,23 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:23:42 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/01 14:11:51 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/06 10:30:45 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static size_t	ft_strlen_r(const char *str)
+{
+	size_t	count;
+
+	count = 0;
+	if (!str)
+		return (count);
+	while (str[count] != '\0')
+		count ++;
+	return (count);
+}
 
 int	ft_strcmp(char	*s1, char *s2)
 {
@@ -26,24 +38,45 @@ int	ft_strcmp(char	*s1, char *s2)
 
 char	*ft_str_list2(t_list *temp2, char *s2)
 {
-	int	i;
+	int		i;
+	char	*a;
+	char	*b;
+	char	*z;
+	int		s;
 
 	i = 0;
+	a = ft_itoa(ft_exit_status(0, 0));
+	b = NULL;
+	z = NULL;
 	if (s2[i] && s2[i + 1] && s2[i + 2] && s2[i] == '$' && s2[i + 1] == '?')
 	{
-		s2 = ft_strcat(ft_itoa(ft_exit_status(0, 0)), &s2[i + 2],
-				(ft_strlen(ft_itoa(ft_exit_status(0, 0)))
-					+ ft_strlen(&s2[i + 2]) - i));
+		s2 = ft_strcat(a, &s2[i + 2],
+				(ft_strlen_r(a)+ ft_strlen_r(&s2[i + 2])));
 		return (s2);
 	}
+	else if (s2[i] && s2[i + 1] && s2[i] == '$' && s2[i + 1] == '?')
+	{
+	//	s2 = ft_strcat(a, &s2[i + 2],
+	//			(ft_strlen_r(a)+ ft_strlen_r(&s2[i + 2])));
+		return (a);
+	}
+
+	free(a);
 	while (s2[i + 1] && temp2->title[i] && (temp2->title[i] == s2[i + 1]))
 	{
 		i++;
 		if ((!s2[i + 1] && !temp2->title[i]))
-			return (temp2->def);
+		{	
+			z = ft_strdup(temp2->def);
+			return (z);
+		}
 		if ((s2[i + 1] == '$' || s2[i + 1] == ' ') && !temp2->title[i])
-			return (ft_strcat(temp2->def, &s2[i + 1],
-					(ft_strlen(temp2->def) + ft_strlen(&s2[i + 2]) - i)));
+		{
+			z = ft_strdup(temp2->def);
+			s = ft_strlen_r(z) + ft_strlen_r(&s2[i + 1]);
+			b = ft_strcat(z, &s2[i + 1], s);
+			return (b);
+		}
 	}
 	return (NULL);
 }
@@ -75,46 +108,6 @@ char	*ft_str_list(t_list **env, char *s2)
 	}
 	return (NULL);
 }
-/*
-char	*ft_str_list(t_list **env, char *s2)
-{
-	int		i;
-	t_list	*temp2;
-
-	temp2 = *env;
-	i = 0;
-	while (temp2)
-	{
-		if (s2[i] && s2[i + 1] && s2[i + 2] && s2[i] == '$' && s2[i + 1] == '?')
-		{
-			s2 = ft_strcat(ft_exit_status(0, 0), &s2[i + 2],
-				(ft_strlen(ft_exit_status(0, 0)) + ft_strlen(&s2[i + 2]) - i));
-			return (s2);
-		}
-		while (s2[i + 1] && temp2->title[i] && (temp2->title[i] == s2[i + 1]))
-		{
-			i++;
-			if ((!s2[i + 1] && !temp2->title[i]))
-				return (temp2->def);
-			if ((s2[i + 1] == '$' || s2[i + 1] == ' ') && !temp2->title[i])
-				return (ft_strcat(temp2->def, &s2[i + 1],
-						(ft_strlen(temp2->def) + ft_strlen(&s2[i + 2]) - i)));
-		}
-		i = 0;
-		if (temp2->next)
-			temp2 = temp2->next;
-		else
-		{
-			while (s2[i + 1] && s2[i + 1] != '$')
-				i++;
-			if (s2[i])
-				return (s2);
-			else
-				return (NULL);
-		}
-	}
-	return (NULL);
-}*/
 
 int	ft_quote_error(const char *s)
 {
