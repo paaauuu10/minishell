@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/06 14:55:37 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 09:56:51 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,18 +100,25 @@ t_list	**ft_export(t_token **tokens, t_list **export, t_list **env)
 	t_token	*temp;
 	t_list	*temp2;
 	int		i;
+	int		k;
 
 	i = 0;
+	k = 0;
 	temp2 = *export;
 	temp = *tokens;
 	if (!(temp->next))
 		ft_print_exp(temp2);
 	while (temp->next && temp->next->wrd[i] && (ft_isalnum(temp->next->wrd[i])
 			|| temp->next->wrd[i] == '='))
+	{
+		if (temp->next->wrd[i] == '=')
+			k = 1;
 		i++;
-	if (temp->next && (temp->next->wrd[i] || ft_strcmp(temp->next->wrd, "=")
+	}
+	if (temp->next && ((temp->next->wrd[i] && k == 0) ||ft_strcmp(temp->next->wrd, "=")
 			|| !ft_isalpha(temp->next->wrd[0])) && temp->next->wrd[0] != '_') //Revisar export HELLO="123 A-"
 	{
+
 		write(2, " not a valid identifier\n", 24);
 		ft_exit_status(1, 1);
 		return (export);
