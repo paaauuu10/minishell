@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/07 14:23:17 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:01:57 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,11 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export,
 	aux = *tokens;
 	(void)export;
 	if ((*tokens)->tok > 0)
-	{	
-		/*ft_free_tokens(*tokens);
-		free(tokens);
-		tokens = NULL;*/
 		return (1);
-	}
 	t_exec->pid = fork();
 	if (t_exec->pid == 0)
 	{
 		signals();
-		if ((*tokens)->tok > 0)
-		{	
-			ft_free_tokens(*tokens);
-			free(tokens);
-			tokens = NULL;
-			exit (0);
-		}
-
 		if ((*tokens)->wrd[0] == '/' || (*tokens)->wrd[0] == '.')
 			ft_exec_absolut(tokens, t_exec);
 		else
@@ -65,7 +52,7 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export,
 	}
 	else
 		ft_wait_one_child_process();
-	return (0); //revisar
+	return (0);
 }
 
 /**********************************************************************
@@ -99,19 +86,13 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	t_list		*temp;
 
 	temp = *env;
-	/*while (*env)
-	{
-		printf("%s", (*env)->title);
-		printf("%s\n", (*env)->def);
-		(*env) = (*env)->next; 
-	}*/
 	*env = temp;
 	t_exec = malloc(sizeof(t_executor));
 	if (!t_exec)
-		exit(1); //revisar
+		exit(1);
 	t_exec->d_pipe = malloc(sizeof(t_pipe));
 	if (!t_exec->d_pipe)
-		exit(1); //revisar
+		exit(1);
 	if (!tokens || !*tokens)
 	{
 		free(t_exec);
@@ -122,17 +103,13 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 	ft_count_pipes(t_exec, tokens);
 	ft_save_fd(t_exec);
 	heredoc_v2(tokens, t_exec);
-	/*while (*tokens)
-	{
-		printf("Paraula: %s  HD_NBR:  %d\n", (*tokens)->wrd, (*tokens)->hd_nbr);
-		(*tokens) = (*tokens)->next;
-	}*/
 	if ((*tokens)->wrd[0] == '$' && (*tokens)->wrd[1])
-	{	
+	{
 		ft_free_mini(t_exec);
 		return (1);
 	}
-	if (t_exec->total_pipes == 0 && !is_redirection(tokens) && ft_is_builtin(tokens))
+	if (t_exec->total_pipes == 0 && !is_redirection(tokens) \
+		&& ft_is_builtin(tokens))
 		builtins(tokens, env, export);
 	else if (t_exec->total_pipes == 0 && !is_redirection(tokens))
 		ft_only_cmd(tokens, env, export, t_exec);
@@ -140,12 +117,6 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 		ft_redirs(tokens, env, export, t_exec);
 	else
 		ft_pipes(tokens, env, export, t_exec);
-	/*while (*env)
-	{
-		printf("%s", (*env)->title);
-		printf("%s\n", (*env)->def);
-		(*env) = (*env)->next; 
-	}*/
 	ft_reset_fd(t_exec);
 	ft_free_mini(t_exec);
 	return (0);

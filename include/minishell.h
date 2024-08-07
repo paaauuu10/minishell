@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/07 11:51:03 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:51:24 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,11 @@ int		ft_aux_abs(char *str);
 void	ft_reset_fd(t_executor *t_exec);
 int		ft_save_fd(t_executor *t_exec);
 int		heredoc_v2(t_token **tokens, t_executor *t_exec);
+void	ft_dupv1(t_data *data);
+void	loop_pipes(t_data *data, t_token **tokens, t_list **env, \
+		t_list **export);
+void	ft_fork(t_data *data, t_list **env, t_list **export, t_token **tokens);
+
 /*----------------------- REDIRECTIONS ------------------------*/
 
 int		is_redirection(t_token **tokens);

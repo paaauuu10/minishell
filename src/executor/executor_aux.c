@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:45:39 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/18 13:12:57 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:52:39 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	ft_aux_exec_absolut(char **cmd_argv, t_token **tokens)
 			ft_aux_abs((*tokens)->wrd), ft_strlen((*tokens)->wrd));
 			if (!cmd_argv[i])
 				exit(1);
-			//ft_error_system(MALLOC_ERROR);
 			*tokens = (*tokens)->next;
 			if (!*tokens || (*tokens)->tok == 2 || (*tokens)->tok == 3 || \
 				(*tokens)->tok == 4)
@@ -86,7 +85,6 @@ void	ft_aux_exec_absolut(char **cmd_argv, t_token **tokens)
 		cmd_argv[i] = ft_strdup((*tokens)->wrd);
 		if (!cmd_argv[i])
 			exit (1);
-		//ft_error_system(MALLOC_ERROR);
 		*tokens = (*tokens)->next;
 		i++;
 	}
@@ -99,10 +97,8 @@ void	ft_exec_absolut(t_token **tokens, t_executor *t_exec)
 	(ft_list_size(*tokens) + 1));
 	if (!t_exec->cmd_argv)
 		exit(1);
-	//ft_error_system(MALLOC_ERROR);
 	if (access(t_exec->absolute_path, F_OK) != 0)
 	{
-		//ft_error_cmd(d_exec->absolute_path, 2);
 		perror("Minishell: ");
 		exit(127);
 	}
@@ -112,10 +108,8 @@ void	ft_exec_absolut(t_token **tokens, t_executor *t_exec)
 		execve(t_exec->absolute_path, t_exec->cmd_argv, t_exec->new_envp);
 	else
 	{
-		//ft_error_cmd(d_exec->cmd_argv[0], 3);
 		perror ("Minishell: ");
 		exit(126);
 	}
-	//ft_error_cmd(t_exec->cmd_argv[0], 1);
 	exit(127);
 }
