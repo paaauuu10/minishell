@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 11:49:46 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/07 12:36:23 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:50:07 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ int	ft_heredoc_create(t_token **tokens, int hd_nbr, t_executor *t_exec)
 	char	*tmp_dir;
 	int		fd_tmp;
 	char	*line;
+	char	*it; //ultima modificaci'o
 
+	it = ft_itoa(hd_nbr);
 	while ((*tokens)->tok == 3)
 	{
 		if ((*tokens)->next)
@@ -82,7 +84,8 @@ int	ft_heredoc_create(t_token **tokens, int hd_nbr, t_executor *t_exec)
 			return (1);
 	}
 	(*tokens)->hd_nbr = hd_nbr;
-	tmp_dir = ft_strjoin("/tmp/heredoc", ft_itoa(hd_nbr));
+	tmp_dir = ft_strjoin("/tmp/heredoc", it);
+	free(it);
 	fd_tmp = open(tmp_dir, O_CREAT | O_WRONLY | O_TRUNC, 0660);
 	line = readline("> ");
 	while (line && ft_strcmp(line, (*tokens)->wrd) == 0)

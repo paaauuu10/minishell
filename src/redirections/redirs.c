@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/07 12:40:50 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:52:32 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ int	ft_aux_open(char *a, int hd, t_executor *t_exec)
 {
 	int		fd;
 	char	*filename;
+	char	*it;
 
+	it = ft_itoa(hd);
 	fd = 0;
 	if (t_exec->redir_type == REDIR_OUT_APPEND)
 		fd = open(a, O_CREAT | O_WRONLY | O_APPEND, 0660);
@@ -49,9 +51,11 @@ int	ft_aux_open(char *a, int hd, t_executor *t_exec)
 		fd = open(a, O_RDONLY);
 	else if (t_exec->redir_type == HEREDOC)
 	{
-		filename = ft_strjoin("/tmp/heredoc", ft_itoa(hd));
+		filename = ft_strjoin("/tmp/heredoc", it);
 		fd = open(filename, O_RDONLY);
+		free(filename);
 	}
+	free(it);
 	if (ft_aux_v2(fd, t_exec))
 		return (1);
 	return (0);
