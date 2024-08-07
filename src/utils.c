@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:23:42 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/06 10:52:13 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 10:26:55 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*ft_str_list2(t_list *temp2, char *s2)
 	if (s2[i] && s2[i + 1] && s2[i + 2] && s2[i] == '$' && s2[i + 1] == '?')
 	{
 		s2 = ft_strcat(a, &s2[i + 2],
-				(ft_strlen_r(a)+ ft_strlen_r(&s2[i + 2])));
+				(ft_strlen_r(a) + ft_strlen_r(&s2[i + 2])));
 		return (s2);
 	}
 	else if (s2[i] && s2[i + 1] && s2[i] == '$' && s2[i + 1] == '?')
@@ -61,7 +61,7 @@ char	*ft_str_list2(t_list *temp2, char *s2)
 	{
 		i++;
 		if ((!s2[i + 1] && !temp2->title[i]))
-		{	
+		{
 			z = ft_strdup(temp2->def);
 			return (z);
 		}
@@ -102,34 +102,6 @@ char	*ft_str_list(t_list **env, char *s2)
 		}
 	}
 	return (NULL);
-}
-
-int	ft_quote_error(const char *s)
-{
-	int		i;
-	char	quote;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == '\'' || s[i] == '"')
-		{
-			quote = s[i];
-			i += 1;
-			while (s[i] && s[i] != quote)
-				i++;
-			if (!s[i])
-			{
-				if (quote == '\'')
-					perror("Single quote unfinished");
-				else
-					perror("Double quote unfinished");
-				exit(1);
-			}
-		}
-		i++;
-	}
-	return (0);
 }
 
 char	*ft_strcat(char *temp_wrd, char *exp, int i)

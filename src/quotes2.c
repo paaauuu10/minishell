@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 09:16:32 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/02 14:31:31 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 10:26:17 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,32 @@ void	ft_quotes3_aux(t_parser *p, char **r, const char *s)
 	}
 	if (p->open == 0 && p->quote != ' ')
 		p->quote = ' ';
+}
+
+int	ft_quote_error(const char *s)
+{
+	int		i;
+	char	quote;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '\'' || s[i] == '"')
+		{
+			quote = s[i];
+			i += 1;
+			while (s[i] && s[i] != quote)
+				i++;
+			if (!s[i])
+			{
+				if (quote == '\'')
+					perror("Single quote unfinished");
+				else
+					perror("Double quote unfinished");
+				exit(1);
+			}
+		}
+		i++;
+	}
+	return (0);
 }

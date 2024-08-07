@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/06 11:57:44 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 10:47:50 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ static int	ft_main_while(const char *s, t_list **env, t_list **export)
 	if (!ft_errors(s))
 	{
 		tokens = get_tok(env, tokens, (char *)s);
+		if (tokens && *tokens && (*tokens)->wrd && (*tokens)->wrd[0] == '\0')
+			return (1);
 		if (ft_syntax(tokens))
 		{	
 			ft_free_tokens(*tokens);

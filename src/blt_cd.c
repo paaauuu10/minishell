@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:33:55 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/06 11:12:13 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 09:59:57 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_change_env(char *oldpwd, t_list **env)
 	while (temp)
 	{
 		if (ft_strcmp(temp->title, "PWD"))
-		{	
+		{
 			if (temp->def) //potser no cal if
 				free(temp->def); // calia fer free
 			temp->def = getcwd(NULL, 0);
@@ -31,7 +31,7 @@ void	ft_change_env(char *oldpwd, t_list **env)
 	while (temp)
 	{
 		if (ft_strcmp(temp->title, "OLDPWD"))
-		{	
+		{
 			if (temp->def) //potser no cal if
 				free(temp->def); // calia fer free
 			temp->def = oldpwd;
@@ -88,7 +88,7 @@ int	ft_cd(t_token	**tokens, t_list **export, t_list **env)
 		exit(43);
 	newpwd = ft_cd_condi(env, newpwd, tokens);
 	if (!newpwd)
-	{	
+	{
 		free(oldpwd);
 		return (1);
 	}
