@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 11:49:46 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/29 14:43:30 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:36:23 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	ft_count_redirects(t_token **tokens, t_executor *t_exec)
 	temp = (*tokens);
 	t_exec->redir_out = 0;
 	t_exec->redir_in = 0;
-	while (temp->next)
+	t_exec->n_redir = -1;
+	while (temp) //temp->next
 	{
 		if (temp->tok == 4 || temp->tok == 3)
 		{
@@ -49,10 +50,16 @@ void	ft_count_redirects(t_token **tokens, t_executor *t_exec)
 				temp = temp->next;
 				if ((temp->tok == 4 || temp->tok == 3) && temp->next)
 					temp = temp->next;
+				//if (temp->next)
+				temp = temp->next;
 			}
 		}
-		if (temp->next)
+		else
+		{
+			t_exec->n_redir++;
+			temp->tok = -1; //
 			temp = temp->next;
+		}
 	}
 	/*if (t_exec->redir_out > 0 && t_exec->redir_in > 0)
 	{

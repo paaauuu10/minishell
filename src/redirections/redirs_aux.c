@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:39:11 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/31 15:01:43 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:38:54 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,43 @@
 
 void	ft_new_list_exec(t_token **tokens, t_token **aux)
 {
-	t_token	*temp;
+	t_token *temp;
 
-	temp = *tokens;
+	temp = *tokens; //revisar
 	(*aux) = new_token((*tokens)->wrd, (*tokens)->tok);
 	if ((*tokens)->next)
 		(*tokens) = (*tokens)->next;
-	if ((*tokens)->tok == 4 || (*tokens)->tok == 3)
-		return ;
-	while ((*tokens) && (*tokens)->tok != 4 && (*tokens)->tok != 3)
+	/*if ((*tokens)->tok == 4 || (*tokens)->tok == 3)
+		return ;*/
+	while ((*tokens)) //&& (*tokens)->tok != 4 && (*tokens)->tok != 3)
 	{
-		add_token(aux, new_token((*tokens)->wrd, (*tokens)->hd_nbr));
-		(*tokens) = (*tokens)->next;
+		while ((*tokens) && (*tokens)->tok != -1)
+			(*tokens) = (*tokens)->next;
+		if (*tokens)
+		{
+			add_token(aux, new_token((*tokens)->wrd, (*tokens)->hd_nbr));
+			(*tokens) = (*tokens)->next;
+		}
 	}
-	*tokens = temp;
+	*tokens = temp; //revisar
 }
 
 int	ft_red_in(t_token **tokens, t_list **env, t_list **export,
 	t_executor *t_exec)
 {
 	t_token	**aux;
+	t_token	*temp;
 
+	temp = *tokens;
 	aux = malloc(sizeof(t_token));
-	if (!aux)
-		return (1); //revisar
 	*aux = NULL;
 	ft_new_list_exec(tokens, aux);
-	//ft_free_tokens(*tokens);
-	//free(tokens);
 	ft_executor_2(aux, env, export, t_exec);
 	dup2(t_exec->d_pipe->original_stdin, STDIN_FILENO);
-	if(*aux) 
-		ft_free_tokens(*aux); //free buclen
-	if (aux)
-	free(aux);
+	ft_free_tokens(*aux);
+	free(aux); //free bucle
+	aux = NULL;
+	*tokens = temp;
 	return (0);
 }
 
@@ -55,17 +58,18 @@ int	ft_red_out(t_token **tokens, t_list **env, t_list **export,
 	t_executor *t_exec)
 {
 	t_token	**aux;
+	t_token *temp;
 
+	temp = *tokens;
 	aux = malloc(sizeof(t_token));
 	*aux = NULL;
 	ft_new_list_exec(tokens, aux);
-	//ft_free_tokens(*tokens);
-	//free(tokens);
 	ft_executor_2(aux, env, export, t_exec);
 	dup2(t_exec->d_pipe->original_stdout, STDOUT_FILENO);
 	ft_free_tokens(*aux);
 	free(aux);
 	aux = NULL;
+	*tokens = temp;
 	return (0);
 }
 

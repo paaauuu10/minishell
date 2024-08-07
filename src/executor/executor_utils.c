@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/29 13:13:35 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/02 12:43:50 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,9 @@ int	ft_list_size(t_token *token)
 
 int	ft_path(t_token **tokens, t_list **env, t_executor **t_exec)
 {
+	t_list *temp;
+
+	temp = *env;
 	while (ft_strncmp("PATH", (*env)->title, 4) != 0)
 	{
 		*env = (*env)->next;
@@ -133,11 +136,13 @@ int	ft_path(t_token **tokens, t_list **env, t_executor **t_exec)
 		}
 	}
 	(*t_exec)->path = ft_split((*env)->def, ':');
+	*env = temp;
 	if (!(*t_exec)->path)
 		return (1); /*revisar com tractem l'error, aixi segur que no*/
 	(*t_exec)->cmd = ft_strjoin("/", (*tokens)->wrd);
 	if (!(*t_exec)->cmd)
 		return (1); /*revisar com tractem l'error, aixi segur que no*/
+	//*env = temp;
 	return (0);
 }
 
@@ -177,7 +182,9 @@ int	ft_exec_cmd(t_executor **t_exec)
 int	ft_exec(t_token **tokens, t_list **env, t_executor *t_exec)
 {
 	int	i;
+	t_token *temp;
 
+	temp = *tokens;
 	i = 0;
 	if (ft_path(tokens, env, &t_exec) != 0)
 		return (1);
@@ -204,5 +211,6 @@ int	ft_exec(t_token **tokens, t_list **env, t_executor *t_exec)
 //		printf("EXEC_utils:%s\n", t_exec->cmd_argv[i++]);
 	if (ft_exec_cmd(&t_exec))
 		execve(t_exec->absolute_path, t_exec->cmd_argv, t_exec->new_envp);
+	*tokens = temp;
 	return (0);
 }

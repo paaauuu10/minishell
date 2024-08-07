@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/31 14:33:59 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/02 10:47:09 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_cmd_exec(t_token **tokens, t_list **env, t_list **export, \
 	if (ft_redirect(tokens, t_exec) != 0)
 		exit(ft_redirs(tokens, env, export, t_exec));
 	else if (ft_is_builtin(tokens))
-		exit(builtins(tokens, env, export, t_exec));
+		exit(builtins(tokens, env, export));
 	else
 	{
 		ft_exec(tokens, env, t_exec);
@@ -96,7 +96,9 @@ int	ft_pipes(t_token **tokens, t_list **env, t_list **export, \
 	t_executor *t_exec)
 {
 	t_data	*data;
+	t_token *temp;
 
+	temp = *tokens;
 	data = malloc(sizeof(t_data));
 	data->i = 0;
 	data->prev_fd = -1;
@@ -118,5 +120,6 @@ int	ft_pipes(t_token **tokens, t_list **env, t_list **export, \
 		close(data->prev_fd);
 	ft_wait_childs_process(t_exec->cmd_count, t_exec);
 	free(data);
+	*tokens = temp;
 	return (0);
 }

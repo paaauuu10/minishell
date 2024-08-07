@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:14:15 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/21 10:13:22 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 10:17:06 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ void	ft_unset(t_list **export, char *wrd)
 	t_list	*prev;
 	int		i;
 
-	i = 0;
 	temp = *export;
 	prev = NULL;
 	while (temp)
 	{
+		i = 0;
 		while (temp->title[i] && wrd[i] && temp->title[i] == wrd[i])
 			i++;
 		if (!wrd[i] && !temp->title[i])
@@ -44,10 +44,12 @@ void	ft_unset(t_list **export, char *wrd)
 				*export = temp->next;
 			else
 				prev->next = temp->next;
+			free(temp->title);
+			free(temp->def);
+			free(temp);
 			return ;
 		}
 		prev = temp;
 		temp = temp->next;
-		i = 0;
 	}
 }

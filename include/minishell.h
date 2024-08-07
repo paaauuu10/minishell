@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/31 17:24:10 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:51:03 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_executor
 	int		cmd_count;
 	int		redir_in;
 	int		redir_out;
+	int		n_redir;
 	char	*filename;
 	char	*absolute_path;
 	char	**path;
@@ -87,7 +88,6 @@ typedef struct s_executor
 	char	**cmd_argv;
 	char	*last_redir_in;
 	char	*last_redir_out;
-	char	*k;
 	//int		red_typ_4;
 	//int		red_typ_3;
 	t_pipe	*d_pipe;
@@ -101,6 +101,8 @@ typedef struct s_parser
 	char	quote;
 	int		count;
 	int		open;
+	int		exp;
+	int		len;
 }	t_parser;
 
 # define IN 0
@@ -121,10 +123,10 @@ typedef struct s_parser
 
 /*---------------------- BUILTINGS ----------------------------*/
 
-int		builtins(t_token **tokens, t_list **export, t_list **env, t_executor *t_exec);
+int		builtins(t_token **tokens, t_list **export, t_list **env);
 int		ft_pwd(void);
 int		ft_cd(t_token	**tokens, t_list **export, t_list	**env);
-void	ft_exit(t_token **tokens, t_list **export, t_list **env, t_executor *t_exec);
+void	ft_exit(t_token **tokens, t_list **env, t_list **export);
 int		ft_echo(t_token **s);
 t_list	**ft_export(t_token **tokens, t_list **export, t_list **env);
 void	ft_unset(t_list **export, char *wrd);
@@ -153,10 +155,14 @@ char	**ft_copy_env(t_list **env);
 void	signals(void);
 int		ft_strcmp(char *s1, char *s2);
 char	**ft_quotes(const char *s, t_list **env);
+int		ft_quotes2_aux(t_parser *p, int temp, const char *s);
+void	ft_quotes3_aux(t_parser *p, char **r, const char *s);
+int		ft_count_aux(const char *s, t_parser *p);
+void	ft_count2(const char *s, t_parser *p);
 int		ft_quote_error(const char *s);
 char	*ft_expansor(t_list **env, char *s);
 char	*ft_strcat(char *temp_wrd, char *exp, int i);
-char	*ft_exit_status(int i, int j);
+int		ft_exit_status(int i, int j);
 int		ft_errors(const char *s);
 int		ft_syntax(t_token **tokens);
 
@@ -220,6 +226,5 @@ void	ft_print_error(char *a);
 void	ft_free_env(t_list *head);
 void	ft_free_tokens(t_token *head);
 void	free_tokens(t_token **tokens);
-void	ft_free_mini(t_executor *t_exec);
 
 #endif

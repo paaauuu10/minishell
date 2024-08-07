@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 12:14:56 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/31 16:27:40 by pbotargu         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:58:55 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static unsigned int	ft_num_count(int n)
 	return (len);
 }
 
-static char	*ft_itoas(int n)
+static char	*ft_itoa(int n)
 {
 	char			*r;
 	size_t			i;
@@ -61,7 +61,7 @@ int	ft_printf_i(int n)
 	char			*r;
 	unsigned int	i;
 
-	r = ft_itoas(n);
+	r = ft_itoa(n);
 	if (r == 0)
 		return (-1);
 	i = ft_printf_s(r);

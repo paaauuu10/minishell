@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 13:39:30 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/29 14:54:43 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:40:50 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,14 +185,15 @@ int	ft_redirs(t_token **tokens, t_list **env, t_list **export,
 	i = 0;
 	ft_count_redirects(tokens, t_exec);
 	if ((ft_open(tokens, t_exec)))
-		return (1);
+			return (1);
+	
 	/*if (t_exec->redir_in > 0 && t_exec->redir_out > 0)
 	{
 		if (ft_last_two(tokens, env, export, t_exec) > 0)
 			return (1);
 	} //veure si podem eliminar*/
 	if (t_exec->redir_type == REDIR_OUT || \
-			t_exec->redir_type == REDIR_OUT_APPEND)
+		t_exec->redir_type == REDIR_OUT_APPEND)
 	{
 		if (ft_red_out(tokens, env, export, t_exec) > 0)
 			return (1);

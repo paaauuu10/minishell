@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:11:00 by pborrull          #+#    #+#             */
-/*   Updated: 2024/07/31 14:40:27 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:13:33 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@ static void	cond(t_token **tokens)
 	}
 }
 
-void	ft_exit(t_token **tokens, t_list **export, t_list **env, t_executor *t_exec)
+void	ft_exit(t_token **tokens, t_list **env, t_list **export)
 {
 	int	n;
 
-	n = ft_atoi(ft_exit_status(0, 0));
+	n = ft_exit_status(0, 0);
+/*	ft_free_env(*env);
+	free(env);
+	ft_free_env(*export);
+	free(export);*/
 	if ((*tokens)->next && ft_strcmp((*tokens)->next->wrd, "--"))
 	{
 		write(1, "exit\n", 5);
@@ -47,13 +51,7 @@ void	ft_exit(t_token **tokens, t_list **export, t_list **env, t_executor *t_exec
 		cond(tokens);
 	else if ((*tokens) && !(*tokens)->next)
 		write(1, "exit\n", 5);
-	/*ft_free_env(*env);
-	ft_free_env(*export);
-	free(env);
-	free(export);
-	ft_free_mini(t_exec);*/
-	(void)env;
 	(void)export;
-	(void)t_exec;
+	(void)env;
 	exit(n);
 }

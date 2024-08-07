@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:52:19 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/21 10:09:22 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:30:10 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@ void	signals(void)
 
 	ft_memset(&sa, 0, sizeof(sa));
 	sa.sa_handler = ctrlc;
-	ft_memset(&sa, 0, sizeof(sa));
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	if (sigaction(SIGINT, &sa, NULL) < 0)
 		exit(56);
+	ft_memset(&sa, 0, sizeof(sa));
 	sa.sa_handler = ctrls;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
 	if (sigaction(SIGQUIT, &sa, NULL) < 0)
 		exit(57);
 	rl_catch_signals = 0;

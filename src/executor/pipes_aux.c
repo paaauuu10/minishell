@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 17:38:07 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/24 15:56:08 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/02 10:39:50 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 t_token	*ft_aux_lst(t_token **tokens, t_token *aux_head)
 {
+	//t_token	*aux;
+
+	//aux = *tokens;
 	aux_head = ft_lstnew((*tokens)->wrd, (*tokens)->tok);
 	if ((*tokens)->next)
 	{
@@ -27,5 +30,6 @@ t_token	*ft_aux_lst(t_token **tokens, t_token *aux_head)
 				break ;
 		}
 	}
+	//*tokens = aux;
 	return (aux_head);
 }
