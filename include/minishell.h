@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/02 09:38:14 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:22:13 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/stat.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <termios.h>
 # include <readline/readline.h>
 # include "readline/history.h"
 # include "libft/libft.h"
@@ -33,6 +34,8 @@
 # define MAGENTA "\x1b[35m"
 # define CYAN    "\x1b[36m"
 # define WHITE   "\x1b[0m"
+
+extern int	g_signal;
 
 typedef struct s_list
 {
@@ -151,7 +154,7 @@ char	**ft_copy_env(t_list **env);
 
 /*------------------------ OTHER ------------------------------*/
 
-void	signals(void);
+void	signals(int i);
 int		ft_strcmp(char *s1, char *s2);
 char	**ft_quotes(const char *s, t_list **env);
 int		ft_quotes2_aux(t_parser *p, int temp, const char *s);

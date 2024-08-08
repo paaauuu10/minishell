@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/07 10:47:50 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:17:10 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,59 +26,17 @@ static void	error_checker(int argc, char **argv, char **envp)
 		exit(1);
 	}
 }
-/*
-static int	ft_main_while(const char *s, t_list **env, t_list **export)
+
+static int	ft_main_aux(const char *s, t_list **env, t_list **export,
+				t_token **tokens)
 {
-	t_token	**tokens;
-
-	tokens = (t_token **)malloc(sizeof(t_token *));
-	if (!tokens)
-		exit(1);
-	*tokens = NULL;
-	s = readline(GREEN "Minishell> " WHITE);
-	if (s == NULL)
-	{
-		printf("exit\n");
-		exit(1);
-	}
-	ft_quote_error(s);
-	if (!ft_errors(s))
-	{
-		tokens = get_tok(env, tokens, (char *)s);
-		if (ft_syntax(tokens))
-			return (1);
-		ft_executor(tokens, env, export);
-	}
-	add_history(s);
-	ft_free_tokens(*tokens);
-	free(tokens);
-	tokens = NULL;
-	free((char *)s);
-	return (0);
-}*/
-
-static int	ft_main_while(const char *s, t_list **env, t_list **export)
-{
-	t_token	**tokens;
-
-	tokens = (t_token **)malloc(sizeof(t_token *));
-	if (!tokens)
-		exit(1);
-	*tokens = NULL;
-	s = readline(GREEN "Minishell> " WHITE);
-	if (s == NULL)
-	{
-		printf("exit\n");
-		exit(1);
-	}
-	ft_quote_error(s);
 	if (!ft_errors(s))
 	{
 		tokens = get_tok(env, tokens, (char *)s);
 		if (tokens && *tokens && (*tokens)->wrd && (*tokens)->wrd[0] == '\0')
 			return (1);
 		if (ft_syntax(tokens))
-		{	
+		{
 			ft_free_tokens(*tokens);
 			free(tokens);
 			free((char *)s);
@@ -86,6 +44,26 @@ static int	ft_main_while(const char *s, t_list **env, t_list **export)
 		}
 		ft_executor(tokens, env, export);
 	}
+	return (0);
+}
+
+static int	ft_main_while(const char *s, t_list **env, t_list **export)
+{
+	t_token	**tokens;
+
+	tokens = (t_token **)malloc(sizeof(t_token *));
+	if (!tokens)
+		exit(1);
+	*tokens = NULL;
+	s = readline(GREEN "Minishell> " WHITE);
+	if (s == NULL)
+	{
+		printf("exit\n");
+		exit(1);
+	}
+	ft_quote_error(s);
+	if (ft_main_aux(s, env, export, tokens) == 1)
+		return (1);
 	add_history(s);
 	if (*tokens)
 		ft_free_tokens(*tokens);
@@ -102,8 +80,8 @@ int	main(int argc, char **argv, char **envp)
 	t_list		**export;
 
 	error_checker(argc, argv, envp);
-	signals();
 	ft_exit_status(0, 1);
+	signals(1);
 	env = env_list(envp);
 	if (!env)
 		return (1);
@@ -116,9 +94,5 @@ int	main(int argc, char **argv, char **envp)
 	}
 	while (1)
 		ft_main_while(s, env, export);
-//	ft_free_env(*env);
-//	ft_free_env(*export);
-//	free(env);
-//	free(export);
 	return (0);
 }

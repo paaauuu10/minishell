@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/02 10:47:09 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:00:26 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	ft_fork(t_data *data, t_list **env, t_list **export, t_token **tokens)
 	}
 	if (data->pid == 0)
 	{
-		signals();
+		//signals();
 		//if (ft_redir_here(&aux)) //caldra eliminar si no funciona
 		//	exit(0);
 		if (data->prev_fd != -1)

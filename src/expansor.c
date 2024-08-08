@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:50:06 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/06 10:44:25 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/08 09:54:10 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ static char	*ft_expansor_while(char *temp, int i, t_list **env)
 {
 	int		j;
 	char	*r;
-
-	j = 0;
+	//j = 0;
 	while (temp[i])
 	{
 		while (temp[i] && temp[i] != '$')

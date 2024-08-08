@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/07 10:13:14 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:20:23 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	change_node_condi(char *new, t_list *t, int i)
 	if (new[i] && new[i] == '=' && !t->title[i])
 	{
 		if (t->def)
-			free(t->def); //revisar
+			free(t->def);
 		t->def = ft_def(new);
 		return (0);
 	}
@@ -27,7 +27,7 @@ static int	change_node_condi(char *new, t_list *t, int i)
 		&& new[i + 1] == '=' && !t->title[i])
 	{
 		if (t->def)
-			free(t->def); // revisar
+			free(t->def);
 		t->def = ft_strcat(t->def, ft_def(new),
 				ft_strlen(t->def) + ft_strlen(new));
 		return (0);
@@ -74,10 +74,7 @@ static t_list	**ft_nxt(t_token *temp, int i, t_list **export, t_list **env)
 			if (change_node(export, temp->wrd))
 				add_node(export, new_node(temp->wrd));
 			if (change_node(env, temp->wrd))
-			{
 				add_node(env, new_node(temp->wrd));
-				//put_env(env, temp->wrd);
-			}
 		}
 	}
 	return (export);
