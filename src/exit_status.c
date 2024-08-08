@@ -6,17 +6,17 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:05:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/21 10:12:45 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/01 10:41:21 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_exit_status(int i, int j)
+int	ft_exit_status(int i, int j)
 {
-	static char	*k;
+	static int	k;
 
 	if (j == 1)
-		k = ft_itoa(i);
+		k = i;
 	return (k);
 }

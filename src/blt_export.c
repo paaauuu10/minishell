@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:06:03 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/07 13:17:43 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:20:23 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	change_node_condi(char *new, t_list *t, int i)
 {
 	if (new[i] && new[i] == '=' && !t->title[i])
 	{
+		if (t->def)
+			free(t->def);
 		t->def = ft_def(new);
 		return (0);
 	}
@@ -24,6 +26,8 @@ static int	change_node_condi(char *new, t_list *t, int i)
 	if (new[i] && new[i + 1] && new[i] == '+'
 		&& new[i + 1] == '=' && !t->title[i])
 	{
+		if (t->def)
+			free(t->def);
 		t->def = ft_strcat(t->def, ft_def(new),
 				ft_strlen(t->def) + ft_strlen(new));
 		return (0);
@@ -56,6 +60,7 @@ static t_list	**ft_nxt(t_token *temp, int i, t_list **export, t_list **env)
 	while (temp->next)
 	{
 		temp = temp->next;
+		i = 0;
 		while (temp->wrd[i] && (temp->wrd[i] != '=' || (temp->wrd[i + 1]
 					&& (temp->wrd[i] == '+' && temp->wrd[i + 1] != '='))))
 			i++;
@@ -69,17 +74,17 @@ static t_list	**ft_nxt(t_token *temp, int i, t_list **export, t_list **env)
 			if (change_node(export, temp->wrd))
 				add_node(export, new_node(temp->wrd));
 			if (change_node(env, temp->wrd))
-			{
-				put_env(env, temp->wrd);
 				add_node(env, new_node(temp->wrd));
-			}
 		}
 	}
 	return (export);
 }
 
-static void	ft_print_exp(t_list *temp2)
+static void	ft_print_exp(t_list **export)
 {
+	t_list	*temp2;
+
+	temp2 = *export;
 	while (temp2)
 	{
 		if (!temp2->def)
@@ -93,25 +98,28 @@ static void	ft_print_exp(t_list *temp2)
 t_list	**ft_export(t_token **tokens, t_list **export, t_list **env)
 {
 	t_token	*temp;
-	t_list	*temp2;
 	int		i;
+	int		k;
 
 	i = 0;
-	temp2 = *export;
+	k = 0;
 	temp = *tokens;
 	if (!(temp->next))
-		ft_print_exp(temp2);
+		ft_print_exp(export);
 	while (temp->next && temp->next->wrd[i] && (ft_isalnum(temp->next->wrd[i])
 			|| temp->next->wrd[i] == '='))
-		i++;
-	if (temp->next && (temp->next->wrd[i] || ft_strcmp(temp->next->wrd, "=")
+	{
+		if (temp->next->wrd[i++] == '=')
+			k = 1;
+	}
+	if (temp->next && ((temp->next->wrd[i] && k == 0)
+			|| ft_strcmp(temp->next->wrd, "=")
 			|| !ft_isalpha(temp->next->wrd[0])) && temp->next->wrd[0] != '_')
 	{
 		write(2, " not a valid identifier\n", 24);
 		ft_exit_status(1, 1);
 		return (export);
 	}
-	i = 0;
-	export = ft_nxt(temp, i, export, env);
+	ft_nxt(temp, i, export, env);
 	return (export);
 }

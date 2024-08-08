@@ -6,46 +6,32 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:09:41 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/06/21 10:08:30 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:33:49 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_redirect(t_token **tokens, t_list **env, t_list **export, t_executor *t_exec)
+int	ft_redirect(t_token **tokens, t_executor *t_exec)
 {
 	t_token	*temp;
-	char	*filename;
-	
-	(void)env;
-	(void)export;
+
 	temp = *tokens;
 	while (temp)
 	{
 		if (ft_strcmp(temp->wrd, ">"))
 		{
 			if (temp->next && temp->next->wrd[0] == '>')
-			{	
-				t_exec->redir_type = REDIR_OUT_APPEND;
-				return (REDIR_OUT_APPEND);
-			}
+				return (t_exec->redir_type = REDIR_OUT_APPEND);
 			else
-			{
-				t_exec->redir_type = REDIR_OUT;
-				return (REDIR_OUT);
-			}
-			return (0); //revisar que ha de retornar
+				return (t_exec->redir_type = REDIR_OUT);
 		}
 		else if (ft_strcmp(temp->wrd, "<") == 1)
 		{
 			if (temp->next && temp->next->wrd[0] == '<')
-				ft_redir_here(tokens);
+				return (t_exec->redir_type = HEREDOC);
 			else
-			{
-				filename = (*tokens)->next->next->wrd;
-				ft_redir_in(filename, t_exec);
-			}
-			return (0); //revisar que ha de retornar
+				return (t_exec->redir_type = REDIR_IN);
 		}
 		temp = temp->next;
 	}

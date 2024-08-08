@@ -6,25 +6,11 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/21 10:05:24 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:17:10 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_tokens(t_token **tokens)
-{
-	t_token	*temp;
-
-	while (*tokens)
-	{
-		temp = (*tokens)->next;
-		free((*tokens)->wrd);
-		free(*tokens);
-		*tokens = temp;
-	}
-	*tokens = NULL;
-}
 
 static void	error_checker(int argc, char **argv, char **envp)
 {
@@ -39,6 +25,26 @@ static void	error_checker(int argc, char **argv, char **envp)
 		printf("Minishell only need minishell, no more.\n");
 		exit(1);
 	}
+}
+
+static int	ft_main_aux(const char *s, t_list **env, t_list **export,
+				t_token **tokens)
+{
+	if (!ft_errors(s))
+	{
+		tokens = get_tok(env, tokens, (char *)s);
+		if (tokens && *tokens && (*tokens)->wrd && (*tokens)->wrd[0] == '\0')
+			return (1);
+		if (ft_syntax(tokens))
+		{
+			ft_free_tokens(*tokens);
+			free(tokens);
+			free((char *)s);
+			return (1);
+		}
+		ft_executor(tokens, env, export);
+	}
+	return (0);
 }
 
 static int	ft_main_while(const char *s, t_list **env, t_list **export)
@@ -56,14 +62,14 @@ static int	ft_main_while(const char *s, t_list **env, t_list **export)
 		exit(1);
 	}
 	ft_quote_error(s);
-	if (!ft_errors(s))
-	{
-		tokens = get_tok(env, tokens, (char *)s);
-		if (tokens && *tokens && ft_strcmp((*tokens)->wrd, "exit") == 1)
-			ft_exit(tokens);
-		ft_executor(tokens, env, export);
-	}
+	if (ft_main_aux(s, env, export, tokens) == 1)
+		return (1);
 	add_history(s);
+	if (*tokens)
+		ft_free_tokens(*tokens);
+	if (tokens)
+		free(tokens);
+	free((char *)s);
 	return (0);
 }
 
@@ -74,14 +80,15 @@ int	main(int argc, char **argv, char **envp)
 	t_list		**export;
 
 	error_checker(argc, argv, envp);
-	signals();
 	ft_exit_status(0, 1);
+	signals(1);
 	env = env_list(envp);
 	if (!env)
 		return (1);
 	export = env_list(envp);
 	if (!export)
 	{
+		ft_free_env(*env);
 		free(env);
 		return (1);
 	}

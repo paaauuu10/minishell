@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:33:55 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/14 11:09:11 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:18:40 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,22 @@ void	ft_change_env(char *oldpwd, t_list **env)
 	while (temp)
 	{
 		if (ft_strcmp(temp->title, "PWD"))
+		{
+			if (temp->def)
+				free(temp->def);
 			temp->def = getcwd(NULL, 0);
+		}
 		temp = temp->next;
 	}
 	temp = *env;
 	while (temp)
 	{
 		if (ft_strcmp(temp->title, "OLDPWD"))
+		{
+			if (temp->def)
+				free(temp->def);
 			temp->def = oldpwd;
+		}
 		temp = temp->next;
 	}
 }
@@ -50,7 +58,7 @@ static char	*ft_cd_condi(t_list **env, char *newpwd, t_token **tokens)
 {
 	if (*tokens && (*tokens)->next && (*tokens)->next->next)
 	{
-		write(2, "Minishell: cd: too many arguments", 33);
+		write(2, "Minishell: cd: too many arguments\n", 34);
 		ft_exit_status(1, 1);
 		return (NULL);
 	}
@@ -80,10 +88,14 @@ int	ft_cd(t_token	**tokens, t_list **export, t_list **env)
 		exit(43);
 	newpwd = ft_cd_condi(env, newpwd, tokens);
 	if (!newpwd)
+	{
+		free(oldpwd);
 		return (1);
+	}
 	if (chdir(newpwd))
 	{
 		write(2, "Minishell: ", 11);
+		free(oldpwd);
 		perror(newpwd);
 		ft_exit_status(1, 1);
 		return (1);

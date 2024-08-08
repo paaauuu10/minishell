@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:09:51 by pborrull          #+#    #+#             */
-/*   Updated: 2024/06/10 09:20:29 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:17:50 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,12 @@ t_list	*new_node(char *s)
 		return (NULL);
 	}
 	newtok->title = ft_title(s);
-	if (!newtok->title)
+	newtok->def = ft_def(s);
+	if (!newtok->title) // || !newtok->def)
 	{
 		free(newtok);
 		return (NULL);
 	}
-	newtok->def = ft_def(s);
 	newtok->next = NULL;
 	return (newtok);
 }
