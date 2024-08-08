@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 11:16:25 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/07 12:00:26 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:50:20 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	ft_parent(t_data *data, t_token **tokens, t_executor *t_exec)
 
 void	ft_fork(t_data *data, t_list **env, t_list **export, t_token **tokens)
 {
-	t_token *aux;
-	
+	t_token	*aux;
+
 	aux = *tokens;
 	data->pid = fork();
 	if (data->pid == -1)
@@ -70,21 +70,8 @@ void	ft_fork(t_data *data, t_list **env, t_list **export, t_token **tokens)
 	}
 	if (data->pid == 0)
 	{
-		//signals();
-		//if (ft_redir_here(&aux)) //caldra eliminar si no funciona
-		//	exit(0);
-		if (data->prev_fd != -1)
-		{
-			dup2(data->prev_fd, STDIN_FILENO);
-			close(data->prev_fd);
-		}
-		if (data->i < data->exec->cmd_count - 1)
-		{
-			dup2(data->pipe_fd[1], STDOUT_FILENO);
-			close(data->pipe_fd[0]);
-			close(data->pipe_fd[1]);
-		}
-		//ft_redir_here(&aux);
+		signals();
+		ft_dupv1(data);
 		data->aux_head = ft_aux_lst(tokens, data->aux_head);
 		ft_cmd_exec(&(data->aux_head), env, export, data->exec);
 	}
@@ -96,7 +83,7 @@ int	ft_pipes(t_token **tokens, t_list **env, t_list **export, \
 	t_executor *t_exec)
 {
 	t_data	*data;
-	t_token *temp;
+	t_token	*temp;
 
 	temp = *tokens;
 	data = malloc(sizeof(t_data));
@@ -104,18 +91,7 @@ int	ft_pipes(t_token **tokens, t_list **env, t_list **export, \
 	data->prev_fd = -1;
 	data->aux_head = (*tokens);
 	data->exec = t_exec;
-	while (data->i < t_exec->cmd_count)
-	{
-		if (data->i < t_exec->cmd_count - 1)
-		{
-			if (pipe(data->pipe_fd) == -1)
-			{
-				perror("pipe");
-				exit(EXIT_FAILURE);
-			}
-		}
-		ft_fork(data, env, export, tokens);
-	}
+	loop_pipes(data, tokens, env, export);
 	if (data->prev_fd != -1)
 		close(data->prev_fd);
 	ft_wait_childs_process(t_exec->cmd_count, t_exec);

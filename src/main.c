@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:13:31 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/08 10:17:10 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/08 11:28:06 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	main(int argc, char **argv, char **envp)
 
 	error_checker(argc, argv, envp);
 	ft_exit_status(0, 1);
-	signals(1);
+	signals();
 	env = env_list(envp);
 	if (!env)
 		return (1);

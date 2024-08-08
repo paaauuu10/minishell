@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:15:02 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/07 12:30:34 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/07/24 13:54:14 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	bucle_heredoc(int fd, char *str)
 	int		fd1;
 
 	(void)fd;
-//	signals();
+	signals();
 	fd1 = open(".temp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	while (42)
 	{

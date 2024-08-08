@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:22:27 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/07 15:22:13 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/08 11:29:52 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <sys/stat.h>
 # include <signal.h>
 # include <fcntl.h>
-# include <termios.h>
 # include <readline/readline.h>
 # include "readline/history.h"
 # include "libft/libft.h"
@@ -34,8 +33,6 @@
 # define MAGENTA "\x1b[35m"
 # define CYAN    "\x1b[36m"
 # define WHITE   "\x1b[0m"
-
-extern int	g_signal;
 
 typedef struct s_list
 {
@@ -82,6 +79,7 @@ typedef struct s_executor
 	int		cmd_count;
 	int		redir_in;
 	int		redir_out;
+	int		n_redir;
 	char	*filename;
 	char	*absolute_path;
 	char	**path;
@@ -154,7 +152,7 @@ char	**ft_copy_env(t_list **env);
 
 /*------------------------ OTHER ------------------------------*/
 
-void	signals(int i);
+void	signals(void);
 int		ft_strcmp(char *s1, char *s2);
 char	**ft_quotes(const char *s, t_list **env);
 int		ft_quotes2_aux(t_parser *p, int temp, const char *s);
@@ -184,7 +182,16 @@ void	ft_exec_absolut(t_token **tokens, t_executor *t_exec);
 int		ft_aux_abs(char *str);
 void	ft_reset_fd(t_executor *t_exec);
 int		ft_save_fd(t_executor *t_exec);
-int		heredoc_v2(t_token **tokens, t_executor *t_exec);
+int		heredoc_v2(t_token **tokens);
+void	ft_dupv1(t_data *data);
+void	loop_pipes(t_data *data, t_token **tokens, t_list **env, \
+		t_list **export);
+void	ft_fork(t_data *data, t_list **env, t_list **export, t_token **tokens);
+void	set_exec(t_token **tokens, t_list **e, t_executor *t_exec);
+void	run_exec(t_token **tokens, t_list **env, \
+		t_list **export, t_executor *t_exec);
+void	ft_count_pipes(t_executor *t_exec, t_token **tokens);
+
 /*----------------------- REDIRECTIONS ------------------------*/
 
 int		is_redirection(t_token **tokens);
@@ -213,6 +220,8 @@ int		ft_red_in(t_token **tokens, t_list **env, t_list **export,
 int		ft_red_out(t_token **tokens, t_list **env, t_list **export,
 			t_executor *t_exec);
 void	ft_count_redirects(t_token **tokens, t_executor *t_exec);
+int		determine_redirection_type(t_token **temp, t_executor *t_exec);
+void	help_count(t_token **temp, t_executor *t_exec);
 
 /*------------------------ WAIT --------------------------------*/
 
@@ -222,11 +231,17 @@ void	ft_wait_childs_process(int i, t_executor *t_exec);
 /*------------------------ MESSAGE -----------------------------*/
 
 void	ft_print_error(char *a);
+void	ft_err(void);
 
 /*------------------------- FREE -------------------------------*/
 
 void	ft_free_env(t_list *head);
 void	ft_free_tokens(t_token *head);
 void	free_tokens(t_token **tokens);
+
+/*------------------------ SYNTAX ------------------------------*/
+int		syntax_aux(t_token *temp);
+int		ft_syntax_pipe_aux(t_token *temp);
+int		ft_syntax_2_aux(t_token *temp);
 
 #endif

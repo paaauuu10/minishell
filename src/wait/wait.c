@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:31:39 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/31 10:44:34 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:35:22 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ void	ft_wait_childs_process(int num_children, t_executor *t_exec)
 	int		status;
 	pid_t	pid;
 	int		j;
+	int		k;
 
 	j = 0;
+	k = 0;
 	while (j < num_children)
 	{
 		pid = wait(&status);
@@ -62,7 +64,7 @@ void	ft_wait_childs_process(int num_children, t_executor *t_exec)
 			return ;
 		}
 		if (WIFEXITED(status))
-			ft_exit_status(WEXITSTATUS(status), 1);
+			k = ft_exit_status(WEXITSTATUS(status), 1);
 		else if (WIFSIGNALED(status))
 			ft_aux_wait(status);
 		j++;

@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 12:35:47 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/02 10:15:49 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/08 09:14:32 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,16 @@ void	ft_free_env(t_list *head)
 
 	while (head != NULL)
 	{
-	//	tmp = head;
-	//	head = head->next;
 		tmp = head->next;
 		if (head->title)
 			free(head->title);
 		if (head->def)
 			free(head->def);
-		//free(tmp);
-		head->title= NULL;
+		head->title = NULL;
 		head->def = NULL;
 		free(head);
 		head = tmp;
 	}
-	//free(head);
 	head = NULL;
 }
 
