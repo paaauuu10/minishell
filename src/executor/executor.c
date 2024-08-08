@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/08 09:06:15 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:00:45 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,6 @@ int	ft_only_cmd(t_token **tokens, t_list **env, t_list **export,
 	return (0);
 }
 
-/**********************************************************************
-				TRYING NEW EXECUTOR
-**********************************************************************/
 int	ft_executor_2(t_token **tokens, t_list **env, t_list **export,
 	t_executor *t_exec)
 {

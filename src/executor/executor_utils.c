@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:09 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/07 15:57:53 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:47:27 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int	ft_path(t_token **tokens, t_list **env, t_executor **t_exec)
 	t_list	*temp;
 
 	temp = *env;
-	while (ft_strncmp("PATH", (*env)->title, 4) != 0)
+	while ((*env) && ft_strncmp("PATH", (*env)->title, 4) != 0)
 	{
 		*env = (*env)->next;
-		if (!env)
+		if (!(*env))
 			return (127);
 	}
 	(*t_exec)->path = ft_split((*env)->def, ':');
@@ -82,7 +82,7 @@ int	ft_exec(t_token **tokens, t_list **env, t_executor *t_exec)
 	while (*tokens)
 	{
 		t_exec->cmd_argv[i] = ft_strdup((*tokens)->wrd);
-		if (!t_exec->cmd[i])
+		if (!t_exec->cmd_argv[i])
 			return (1);
 		*tokens = (*tokens)->next;
 		i++;

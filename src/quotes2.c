@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 09:16:32 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/07 10:26:17 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:23:45 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,9 @@ int	ft_quote_error(const char *s)
 			if (!s[i])
 			{
 				if (quote == '\'')
-					perror("Single quote unfinished");
+					ft_print_error("Single quote unfinished\n");
 				else
-					perror("Double quote unfinished");
+					ft_print_error("Double quote unfinished\n");
 				exit(1);
 			}
 		}

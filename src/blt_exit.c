@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:11:00 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/08 10:19:30 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:58:36 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,8 @@ void	ft_exit(t_token **tokens, t_list **env, t_list **export)
 	}
 	else if ((*tokens)->next && n == 255)
 		cond(tokens);
-	else if ((*tokens) && !(*tokens)->next)
-		write(1, "exit\n", 5);
 	(void)export;
 	(void)env;
+	write(1, "exit\n", 5);
 	exit(n);
 }

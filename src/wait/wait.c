@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:31:39 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/08 11:43:13 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:17:24 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_wait_one_child_process(void)
 		else if (WTERMSIG(status) == SIGQUIT)
 		{
 			ft_exit_status(131, 1);
-			ft_putstr_fd("Quit: 3\n", 1);
+			ft_putstr_fd("Quit (core dumped)\n", 1);
 		}
 	}
 	signals();

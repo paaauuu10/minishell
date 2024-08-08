@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:33:55 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/08 10:18:40 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:57:15 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_change_env(char *oldpwd, t_list **env)
 		{
 			if (temp->def)
 				free(temp->def);
-			temp->def = oldpwd;
+			temp->def = ft_strdup(oldpwd);
 		}
 		temp = temp->next;
 	}
@@ -102,5 +102,6 @@ int	ft_cd(t_token	**tokens, t_list **export, t_list **env)
 	}
 	ft_change_env(oldpwd, env);
 	ft_change_env(oldpwd, export);
+	free(oldpwd);
 	return (0);
 }

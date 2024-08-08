@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:15:02 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/07/24 13:54:14 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:02:20 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,3 @@ int	ft_redir_here(t_token **tokens)
 	}
 	return (0);
 }
-
-/*int	open_heredoc(t_token **tokens, t_executor *t_exec)
-{
-	int	fd;
-}*/
