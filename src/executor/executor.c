@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:55:29 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/07 16:01:57 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/08 09:06:15 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	ft_free_mini(t_executor *t_exec)
 	int	i;
 
 	i = 0;
+	ft_reset_fd(t_exec);
 	free(t_exec->d_pipe);
 	while (t_exec->new_envp[i])
 		free(t_exec->new_envp[i++]);
@@ -87,36 +88,21 @@ int	ft_executor(t_token **tokens, t_list **env, t_list **export)
 
 	temp = *env;
 	*env = temp;
+	if (!tokens || !*tokens)
+		exit(1);
 	t_exec = malloc(sizeof(t_executor));
 	if (!t_exec)
 		exit(1);
 	t_exec->d_pipe = malloc(sizeof(t_pipe));
 	if (!t_exec->d_pipe)
 		exit(1);
-	if (!tokens || !*tokens)
-	{
-		free(t_exec);
-		return (0);
-	}
-	t_exec->new_envp = ft_copy_env(env);
-	ft_exit_status(0, 1);
-	ft_count_pipes(t_exec, tokens);
-	ft_save_fd(t_exec);
-	heredoc_v2(tokens, t_exec);
+	set_exec(tokens, env, t_exec);
 	if ((*tokens)->wrd[0] == '$' && (*tokens)->wrd[1])
 	{
 		ft_free_mini(t_exec);
 		return (1);
 	}
-	if (t_exec->total_pipes == 0 && !is_redirection(tokens) \
-		&& ft_is_builtin(tokens))
-		builtins(tokens, env, export);
-	else if (t_exec->total_pipes == 0 && !is_redirection(tokens))
-		ft_only_cmd(tokens, env, export, t_exec);
-	else if (t_exec->total_pipes == 0 && ft_redirect(tokens, t_exec))
-		ft_redirs(tokens, env, export, t_exec);
-	else
-		ft_pipes(tokens, env, export, t_exec);
+	run_exec(tokens, env, export, t_exec);
 	ft_reset_fd(t_exec);
 	ft_free_mini(t_exec);
 	return (0);

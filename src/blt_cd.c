@@ -6,7 +6,7 @@
 /*   By: pborrull <pborrull@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:33:55 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/07 09:59:57 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/08 09:13:19 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,5 @@ int	ft_cd(t_token	**tokens, t_list **export, t_list **env)
 	}
 	ft_change_env(oldpwd, env);
 	ft_change_env(oldpwd, export);
-	free(oldpwd);
 	return (0);
 }
