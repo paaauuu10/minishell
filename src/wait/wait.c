@@ -6,16 +6,31 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:31:39 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/08/07 14:35:22 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/08 11:43:13 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+void	ignore_signals(void)
+{
+	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
+	{
+		perror("Error ignoring SIGINT");
+		exit(EXIT_FAILURE);
+	}
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+	{
+		perror("Error ignoring SIGQUIT");
+		exit(EXIT_FAILURE);
+	}
+}
+
 void	ft_wait_one_child_process(void)
 {
 	int	status;
 
+	ignore_signals();
 	wait(&status);
 	if (WIFEXITED(status))
 	{
@@ -31,6 +46,7 @@ void	ft_wait_one_child_process(void)
 			ft_putstr_fd("Quit: 3\n", 1);
 		}
 	}
+	signals();
 }
 
 void	ft_aux_wait(int status)
