@@ -1,4 +1,4 @@
-# Minishell - 42 Project | Simple Bash Clone
+# Minishell - 42 Project | Bash Clone
 
 ## PROJECT DESCRIPTION
 Implementation of a minimal Unix shell in C with basic command execution, pipes, redirections, and environment variable handling.
